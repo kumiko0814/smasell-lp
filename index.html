@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>メルカリ4日間集中夏期講習 | Merone</title>
+  <meta name="description" content="先着100名さま限定。7/15〜7/18の4日間、メルカリでこの夏＋10万円を目指す集中講習。通常9,800円が0円。">
+  <style>
+    /* ============================================================
+       CSS VARIABLES — Re:che Color System (maintained)
+    ============================================================ */
+    :root {
+      --white:          #ffffff;
+      --bg-soft:        #f9f9fc;
+      --bg-section-alt: #f4f7fb;
+      --bg-pink-light:  #fff0f6;
+      --green-main:     #5FA85A;
+      --green-light:    #8CC152;
+      --green-text:     #4a8c45;
+      --blue-accent:    #4A90D2;
+      --blue-light:     #e8f2fc;
+      --pink-main:      #F5A6C8;
+      --pink-light:     #fce4f0;
+      --pink-deep:      #e07aaa;
+      --purple-main:    #9B5DE5;
+      --purple-deep:    #6A2C9A;
+      --purple-light:   #f0e6ff;
+      --text-dark:      #2d2d2d;
+      --text-mid:       #555555;
+      --text-light:     #888888;
+      --border-light:   #e8e8e8;
+    }
+
+    /* ============================================================
+       BASE RESET & TYPOGRAPHY
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: "Yu Gothic", "游ゴシック", "YuGothic", "ヒラギノ角ゴ Pro", sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    .f-mincho {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+    }
+    .wrap {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    @media (min-width: 640px) { .wrap { max-width: 640px; } }
+    @media (min-width: 900px) { .wrap { max-width: 760px; } }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .blue   { color: var(--blue-accent); }
+    .pink   { color: var(--pink-deep); }
+    .green  { color: var(--green-text); }
+    .purple { color: var(--purple-deep); }
+
+    /* 虹色グラデアンダーライン */
+    .rainbow-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .rainbow-underline::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg,
+        #e07aaa 0%,
+        #F5A6C8 20%,
+        #9B5DE5 40%,
+        #4A90D2 60%,
+        #8CC152 80%,
+        #5FA85A 100%
+      );
+    }
+
+    /* ============================================================
+       CTA BUTTON
+    ============================================================ */
+    .btn-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--green-light) 0%, var(--green-main) 100%);
+      color: #fff;
+      font-family: "Yu Gothic", "游ゴシック", sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 16px 28px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(95, 168, 90, 0.35);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      width: 100%;
+      text-align: center;
+      letter-spacing: 0.03em;
+    }
+    /* CTAボタン左にメルカリ実ロゴ */
+    .btn-cta::before {
+      content: "";
+      width: 30px;
+      height: 34px;
+      flex: none;
+      background: url('https://drive.google.com/thumbnail?id=1irM2RoaC7NgZR-7hMkHoT8F_rYSgOrXd&sz=w120') center/contain no-repeat;
+    }
+    .btn-cta:hover {
+      transform: translateY(2px);
+      box-shadow: 0 2px 10px rgba(95, 168, 90, 0.25);
+    }
+    .btn-cta .arrow-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .btn-cta-purple {
+      background: linear-gradient(135deg, var(--pink-main) 0%, var(--purple-main) 100%);
+      box-shadow: 0 4px 18px rgba(155,93,229,0.3);
+    }
+    .btn-cta-purple:hover {
+      box-shadow: 0 2px 10px rgba(155,93,229,0.2);
+    }
+
+    /* ============================================================
+       SECTION COMMON
+    ============================================================ */
+    section { padding: 56px 0; }
+    section + section { border-top: 1px solid var(--border-light); }
+
+    /* 吹き出し型小見出し */
+    .fukidashi {
+      display: inline-block;
+      background: var(--white);
+      border: 2px solid var(--pink-main);
+      border-radius: 50px;
+      padding: 7px 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--pink-deep);
+      margin-bottom: 14px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(245,166,200,0.2);
+    }
+    .fukidashi::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 28px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 10px 8px 0 8px;
+      border-color: var(--pink-main) transparent transparent transparent;
+    }
+    .fukidashi-purple {
+      border-color: var(--purple-main);
+      color: var(--purple-deep);
+    }
+    .fukidashi-purple::after {
+      border-color: var(--purple-main) transparent transparent transparent;
+    }
+    .fukidashi-blue {
+      border-color: var(--blue-accent);
+      color: var(--blue-accent);
+    }
+    .fukidashi-blue::after {
+      border-color: var(--blue-accent) transparent transparent transparent;
+    }
+    .fukidashi-green {
+      border-color: var(--green-main);
+      color: var(--green-text);
+    }
+    .fukidashi-green::after {
+      border-color: var(--green-main) transparent transparent transparent;
+    }
+
+    /* 英字大見出し */
+    .sec-en-title {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-dark);
+      margin: 20px 0 24px;
+      line-height: 1.1;
+    }
+
+    /* Placeholder */
+    .img-placeholder {
+      background: #e8edf3;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      color: #9aa;
+      font-size: 0.78rem;
+      text-align: center;
+      padding: 20px;
+      border: 2px dashed #c8d4e0;
+    }
+    .img-placeholder svg { opacity: 0.5; }
+
+    /* ============================================================
+       1. HEADER
+    ============================================================ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 10px 0;
+    }
+    .site-header .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .site-logo {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+    }
+    .site-logo .logo-sub {
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--text-light);
+      display: block;
+      font-family: "Yu Gothic", sans-serif;
+    }
+    .header-cta {
+      font-size: 0.72rem;
+      padding: 9px 14px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--green-light), var(--green-main));
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+      box-shadow: 0 3px 12px rgba(95,168,90,0.3);
+      transition: transform 0.18s, box-shadow 0.18s;
+      flex-shrink: 0;
+    }
+    .header-cta:hover { transform: translateY(1px); box-shadow: 0 2px 8px rgba(95,168,90,0.2); }
+
+    /* ============================================================
+       2. HERO
+    ============================================================ */
+    .hero {
+      background: var(--white);
+      padding: 0;
+      border-top: none;
+    }
+
+    /* メルカリ赤六角ロゴ風アイコン */
+    .mercari-hex {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+
+    .hero-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 5/6;
+      background: linear-gradient(135deg, #f9e8f0 0%, #ece6f8 100%);
+      overflow: hidden;
+    }
+    .hero-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 22%;
+      display: block;
+    }
+    /* 写真下端を背景へなめらかにフェード（境界線をなくす） */
+    .hero-img-wrap::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 34%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 55%, #ffffff 100%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: var(--white);
+      border: 2px solid var(--pink-main);
+      border-radius: 50%;
+      width: 84px;
+      height: 84px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4px;
+      box-shadow: 0 3px 12px rgba(245,166,200,0.4);
+      z-index: 10;
+    }
+    .hero-badge .badge-num {
+      font-family: "Yu Gothic","YuGothic","游ゴシック",sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--pink-deep);
+    }
+    .hero-badge .badge-text {
+      font-size: 0.56rem;
+      color: var(--text-mid);
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+    .hero-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      color: #99a;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 20px;
+    }
+    /* HERO PHOTO: くみこ提供のメガネをかけ階段で本を持つ女性写真を差し替える */
+
+    .hero-body {
+      padding: 14px 20px 40px;
+      background: #fff;
+      position: relative;
+      margin-top: -1px;
+      text-align: center;
+    }
+    .hero-partner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--pink-light), var(--purple-light));
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--purple-deep);
+      margin-bottom: 16px;
+      letter-spacing: 0.04em;
+    }
+    .hero-partner-badge .sep {
+      opacity: 0.5;
+      font-weight: 400;
+    }
+
+    .hero-headline {
+      font-size: 2.5rem;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    @media (max-width: 380px) { .hero-headline { font-size: 2.1rem; } }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-mid);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .hero-partner-line {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-bottom: 22px;
+      letter-spacing: 0.04em;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .hero-tag {
+      background: var(--blue-light);
+      color: var(--blue-accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 50px;
+      border: 1px solid #c4dcf5;
+    }
+    .hero-tag-pink {
+      background: var(--pink-light);
+      color: var(--pink-deep);
+      border-color: var(--pink-main);
+    }
+    .hero-note {
+      font-size: 0.68rem;
+      color: var(--text-light);
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* ============================================================
+       3. WORRIES
+    ============================================================ */
+    .sec-worries { background: var(--bg-soft); }
+
+    .worries-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 28px 0 24px;
+    }
+    .worries-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--white);
+      border-radius: 12px;
+      padding: 13px 16px;
+      border-left: 3px solid var(--pink-main);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .worries-list li .prob-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--pink-main);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .worries-closing {
+      background: linear-gradient(135deg, var(--pink-light), var(--purple-light));
+      border-radius: 16px;
+      padding: 20px 18px;
+      margin: 8px 0 28px;
+      text-align: center;
+    }
+    .worries-closing p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 10px;
+    }
+    .worries-closing .accent {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--purple-deep);
+      line-height: 1.6;
+      display: block;
+    }
+
+    /* ============================================================
+       4. MERIT
+    ============================================================ */
+    .sec-merit { background: var(--white); }
+
+    .merit-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 24px 0 20px;
+    }
+    .merit-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .merit-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-light), var(--green-main));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .merit-check svg { display: block; }
+
+    .merit-campaign-box {
+      background: var(--bg-soft);
+      border-radius: 16px;
+      padding: 20px 18px;
+      margin: 20px 0;
+      border: 1px solid var(--border-light);
+    }
+    .merit-campaign-box .camp-title {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--pink-deep);
+      margin-bottom: 10px;
+    }
+    .merit-campaign-box p {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    .merit-circles {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .merit-circle {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .merit-circle-1 {
+      background: linear-gradient(135deg, var(--pink-light), var(--pink-main));
+      color: var(--pink-deep);
+      border: 2px solid var(--pink-main);
+    }
+    .merit-circle-2 {
+      background: linear-gradient(135deg, var(--purple-light), #d8b8f8);
+      color: var(--purple-deep);
+      border: 2px solid var(--purple-main);
+    }
+    .merit-days {
+      text-align: center;
+      margin: 8px 0 28px;
+    }
+    .merit-days .days-num {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--pink-deep), var(--purple-main));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+    .merit-days .days-sub {
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       5. PRESENT (新設)
+    ============================================================ */
+    .sec-present {
+      background: var(--bg-section-alt);
+      background-image:
+        linear-gradient(rgba(155,93,229,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155,93,229,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .present-title-sub {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    .present-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 4px 0 28px;
+    }
+    .present-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 20px 18px;
+      box-shadow: 0 3px 16px rgba(0,0,0,0.06);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .present-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .present-card:nth-child(1) .present-num {
+      background: linear-gradient(135deg, var(--pink-main), var(--pink-deep));
+    }
+    .present-card:nth-child(2) .present-num {
+      background: linear-gradient(135deg, #a0c8f5, var(--blue-accent));
+    }
+    .present-card:nth-child(3) .present-num {
+      background: linear-gradient(135deg, var(--green-light), var(--green-main));
+    }
+    .present-card:nth-child(4) .present-num {
+      background: linear-gradient(135deg, var(--purple-main), var(--purple-deep));
+    }
+    .present-body h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      line-height: 1.45;
+    }
+    .present-body p {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       6. 半額仕入れ体験
+    ============================================================ */
+    .sec-purchase { background: var(--white); }
+
+    .purchase-lead {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1.05rem;
+      text-align: center;
+      color: var(--text-dark);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .purchase-lead .accent-pink {
+      color: var(--pink-deep);
+      font-size: 1.15rem;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .product-card {
+      background: var(--bg-soft);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      position: relative;
+    }
+    .product-img {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #e0e6ef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      color: #9aa;
+      text-align: center;
+      padding: 8px;
+      flex-direction: column;
+      gap: 4px;
+    }
+    /* 商品画像プレースホルダー — 差し替え時はimgタグに変更 */
+    .sold-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #e74c3c;
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .product-info {
+      padding: 8px 10px 10px;
+    }
+    .product-brand {
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--text-light);
+      letter-spacing: 0.06em;
+      margin-bottom: 2px;
+    }
+    .product-name {
+      font-size: 0.75rem;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .product-price {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--pink-deep);
+    }
+
+    .purchase-examples {
+      background: linear-gradient(135deg, var(--pink-light), var(--purple-light));
+      border-radius: 16px;
+      padding: 18px;
+      margin: 16px 0 20px;
+      text-align: center;
+    }
+    .purchase-examples p {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--purple-deep);
+      line-height: 1.8;
+    }
+    .purchase-examples .ex-sub {
+      font-family: "Yu Gothic", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--text-mid);
+      margin-top: 8px;
+      line-height: 1.7;
+    }
+
+    .prize-box {
+      border: 2px solid var(--pink-main);
+      border-radius: 16px;
+      padding: 18px;
+      margin: 16px 0 24px;
+      text-align: center;
+    }
+    .prize-box .prize-label {
+      display: inline-block;
+      background: var(--pink-main);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 50px;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+    .prize-box p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+    .prize-box .prize-num {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--pink-deep);
+      display: block;
+      margin: 6px 0;
+    }
+    /* PRIZE PHOTO: 現金写真プレースホルダー */
+    .prize-photo-placeholder {
+      width: 100%;
+      height: 120px;
+      margin: 14px 0 0;
+    }
+
+    /* ============================================================
+       7. SUPPORT
+    ============================================================ */
+    .sec-support { background: var(--bg-soft); }
+
+    .support-items {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 28px 0 28px;
+    }
+    .support-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .support-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+    .support-item:nth-child(1) .support-num { background: linear-gradient(135deg, var(--pink-main), var(--pink-deep)); }
+    .support-item:nth-child(2) .support-num { background: linear-gradient(135deg, var(--green-light), var(--green-main)); }
+    .support-item:nth-child(3) .support-num { background: linear-gradient(135deg, var(--blue-accent), #2c6fad); }
+    .support-item:nth-child(4) .support-num { background: linear-gradient(135deg, var(--purple-main), var(--purple-deep)); }
+    .support-body p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       8. OVERVIEW
+    ============================================================ */
+    .sec-overview { background: var(--white); }
+
+    .overview-box {
+      background: linear-gradient(135deg, var(--pink-light), var(--purple-light));
+      border-radius: 16px;
+      padding: 22px 20px;
+      margin: 24px 0 20px;
+    }
+    .overview-box .ov-date {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--purple-deep);
+      margin-bottom: 8px;
+    }
+    .overview-box .ov-desc {
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .schedule-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .schedule-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+    }
+    .sched-date {
+      font-weight: 700;
+      color: var(--purple-deep);
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      padding-top: 1px;
+    }
+    .sched-content {
+      color: var(--text-mid);
+    }
+
+    .overview-limit-box {
+      text-align: center;
+      background: var(--white);
+      border: 2px solid var(--pink-main);
+      border-radius: 16px;
+      padding: 22px 18px;
+      margin: 20px 0 28px;
+    }
+    .overview-limit-box .limit-label {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+    .overview-limit-box .limit-price {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      margin-bottom: 6px;
+    }
+    .overview-limit-box .limit-price .original {
+      font-size: 0.88rem;
+      color: var(--text-light);
+      text-decoration: line-through;
+      margin-right: 8px;
+    }
+    .overview-limit-box .limit-price .sale {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--pink-deep);
+    }
+    .overview-limit-box .limit-tag {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--pink-main), var(--purple-main));
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 50px;
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       9. SPEAKERS
+    ============================================================ */
+    .sec-speakers { background: var(--bg-soft); }
+
+    .speakers-lead {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .speaker-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .speaker-card {
+      display: flex;
+      gap: 14px;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 16px;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .speaker-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #dde4ee;
+      flex-shrink: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: #8899aa;
+      text-align: center;
+      border: 2px solid var(--pink-light);
+    }
+    /* SPEAKER PHOTO PLACEHOLDER — 差し替え時はimgタグに変更 72×72px */
+    .speaker-info h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .speaker-info .speaker-title {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+    .speaker-info p {
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       10. QUESTION
+    ============================================================ */
+    .sec-question { background: var(--white); }
+
+    .qa-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 24px 0 28px;
+    }
+    .qa-item {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+    }
+    .qa-q {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 15px 16px;
+      background: var(--bg-soft);
+      cursor: pointer;
+      user-select: none;
+    }
+    .qa-q:hover { background: var(--bg-section-alt); }
+    .qa-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+    .qa-icon-q {
+      background: linear-gradient(135deg, var(--pink-main), var(--pink-deep));
+      color: #fff;
+    }
+    .qa-icon-a {
+      background: linear-gradient(135deg, var(--green-light), var(--green-main));
+      color: #fff;
+    }
+    .qa-q-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.55;
+      flex: 1;
+      padding-top: 2px;
+    }
+    .qa-a {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--white);
+      border-top: 1px solid var(--border-light);
+    }
+    .qa-a-text {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      flex: 1;
+      padding-top: 3px;
+    }
+
+    /* ============================================================
+       11. VOICE
+    ============================================================ */
+    .sec-voice { background: var(--bg-pink-light); }
+
+    .voice-names {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .voice-name-tag {
+      background: var(--white);
+      border: 1px solid var(--pink-main);
+      color: var(--pink-deep);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 50px;
+      box-shadow: 0 2px 6px rgba(245,166,200,0.2);
+    }
+
+    .voice-heading-sub {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-mid);
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .line-bubbles {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 0 0 28px;
+    }
+    .line-bubble-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .line-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.58rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      /* VOICE PHOTO PLACEHOLDER — 受講生写真差し替え用。38×38px */
+    }
+    .line-avatar-1 { background: linear-gradient(135deg, var(--pink-main), var(--pink-deep)); }
+    .line-avatar-2 { background: linear-gradient(135deg, #a0c8f5, var(--blue-accent)); }
+    .line-avatar-3 { background: linear-gradient(135deg, var(--green-light), var(--green-main)); }
+    .line-bubble {
+      background: var(--white);
+      border-radius: 18px 18px 18px 4px;
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+      max-width: calc(100% - 52px);
+      position: relative;
+    }
+    .line-bubble-name {
+      font-size: 0.68rem;
+      color: var(--text-light);
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+    /* VOICE SCREENSHOT PLACEHOLDER — LINEトーク風スクショ差し替え箇所 */
+    .voice-screenshot-placeholder {
+      width: 100%;
+      min-height: 100px;
+    }
+
+    /* ============================================================
+       12. FINAL CTA
+    ============================================================ */
+    .sec-final-cta {
+      background: linear-gradient(135deg, #f0faf0 0%, #e8f0ff 50%, #fde8f5 100%);
+      text-align: center;
+      padding: 64px 0;
+      border-top: none;
+    }
+    .sec-final-cta .cta-title {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1.3rem;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .sec-final-cta .cta-sub {
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      margin-bottom: 28px;
+      line-height: 1.65;
+    }
+    .cta-wrap {
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       13. COMPANY
+    ============================================================ */
+    .sec-company {
+      background: var(--bg-soft);
+      padding: 40px 0 20px;
+      border-top: 1px solid var(--border-light);
+    }
+    .company-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 16px;
+    }
+    .company-table tr { border-bottom: 1px solid var(--border-light); }
+    .company-table td { padding: 10px 0; vertical-align: top; }
+    .company-table td:first-child {
+      color: var(--text-light);
+      width: 80px;
+      font-size: 0.75rem;
+      padding-right: 12px;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .site-footer {
+      background: var(--text-dark);
+      color: rgba(255,255,255,0.6);
+      padding: 28px 0 20px;
+      text-align: center;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .footer-logo .logo-text {
+      font-family: "Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.85);
+      font-weight: 700;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.72rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.8); }
+    .footer-copy {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ============================================================
+       ORNAMENT & ANIMATION
+    ============================================================ */
+    .ornament {
+      text-align: center;
+      color: var(--pink-main);
+      font-size: 1.2rem;
+      margin: 4px 0 20px;
+      letter-spacing: 8px;
+      opacity: 0.5;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-body { animation: fadeUp 0.7s ease both; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     1. HEADER
+============================================================ -->
+<header class="site-header">
+  <div class="wrap">
+    <a href="#" class="site-logo">
+      Merone
+      <span class="logo-sub">先着100名さま限定プログラムのご案内</span>
+    </a>
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="header-cta">夏季講習に参加する</a>
+  </div>
+</header>
+
+
+<!-- ============================================================
+     2. HERO
+============================================================ -->
+<section class="hero">
+
+  <!-- HERO IMAGE WRAP -->
+  <div class="hero-img-wrap">
+    <div class="hero-badge">
+      <div class="badge-num">先着<br>100名</div>
+      <div class="badge-text">さま<br>限定</div>
+    </div>
+    <!-- HERO PHOTO: Driveのヘッダー.JPG をサムネイルURLで表示（自動web圧縮） -->
+    <img class="hero-photo" src="https://drive.google.com/thumbnail?id=1jR_iBs-qrGrvropFWANQerbDMyqKnSHe&sz=w1600"
+         alt="メイン写真" loading="eager"
+         onerror="this.style.display='none';document.getElementById('hero-img-fallback').style.display='flex';">
+    <div id="hero-img-fallback" class="hero-img-placeholder" style="display:none;">
+      <span style="line-height:1.6; font-size:0.8rem">ヘッダー写真<br>（Driveフォルダを「リンクを知っている全員が閲覧可」に設定すると表示されます）</span>
+    </div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-partner-badge">
+      <img src="https://drive.google.com/thumbnail?id=1irM2RoaC7NgZR-7hMkHoT8F_rYSgOrXd&sz=w80"
+           alt="メルカリ" style="width:20px;height:20px;object-fit:contain;" loading="lazy">
+      Merone
+    </div>
+
+    <h1 class="sec-title f-mincho hero-headline">
+おとな女子の<br><span class="rainbow-underline">4日間集中・物販講習</span>
+    </h1>
+    <p class="hero-sub">〜この夏メルカリで＋10万円〜</p>
+
+    <div class="hero-tags">
+      <span class="hero-tag">7/15〜7/18</span>
+      <span class="hero-tag">毎日21:00〜22:00</span>
+      <span class="hero-tag hero-tag-pink">先着100名様</span>
+      <span class="hero-tag">無料（通常9,800円）</span>
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+    <p class="hero-note">※先着100名さま限定 0円</p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     3. WORRIES
+============================================================ -->
+<section class="sec-worries">
+  <div class="wrap reveal">
+    <!-- 吹き出し -->
+    <div class="fukidashi">こんなお悩みありませんか？</div>
+
+    <div class="sec-en-title">
+      <span class="rainbow-underline">WORRIES</span>
+    </div>
+
+    <ul class="worries-list">
+      <li>
+        <span class="prob-dot"></span>
+        <span>不用品は売ったことがあるけど、その先がわからない</span>
+      </li>
+      <li>
+        <span class="prob-dot"></span>
+        <span>一度スクールに通ったけれど、うまくいかなかった</span>
+      </li>
+      <li>
+        <span class="prob-dot"></span>
+        <span>自分でもできそうな気はするけど、良質な仕入れ先がない</span>
+      </li>
+      <li>
+        <span class="prob-dot"></span>
+        <span>一人だと続かない。信頼できる相談相手がほしい</span>
+      </li>
+      <li>
+        <span class="prob-dot"></span>
+        <span>在宅で、子どもとの時間も大切にしながら働きたい</span>
+      </li>
+      <li>
+        <span class="prob-dot"></span>
+        <span>1年前と、暮らしも貯金も変わっていない</span>
+      </li>
+    </ul>
+
+    <div class="worries-closing">
+      <p>1個でも当てはまれば続きを見てください。</p>
+      <span class="accent">
+そんなあなたにこそ、<br>
+        この4日間がぴったりです！<br>
+        良質な仕入れ先と、信頼できる仲間と<br>今度こそ結果につなげましょう🔥
+      </span>
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     4. MERIT
+============================================================ -->
+<section class="sec-merit">
+  <div class="wrap reveal">
+    <div class="fukidashi fukidashi-purple">こんな人におすすめ！こんなメリットが得られます!!</div>
+
+    <div class="sec-en-title">
+      <span class="rainbow-underline">MERIT</span>
+    </div>
+
+    <ul class="merit-list">
+      <li>
+        <div class="merit-check">
+          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span>物価の高さに焦っている</span>
+      </li>
+      <li>
+        <div class="merit-check">
+          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span>可愛いブランド品をお得に買って扱いたい</span>
+      </li>
+      <li>
+        <div class="merit-check">
+          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span>お金に怯えず生活したい</span>
+      </li>
+      <li>
+        <div class="merit-check">
+          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span>副業禁止でも取り組める副業を探している</span>
+      </li>
+      <li>
+        <div class="merit-check">
+          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span>投資と副業だけで生活したい</span>
+      </li>
+    </ul>
+
+    <div class="merit-campaign-box">
+      <div class="camp-title">この夏、はじめてお届けする特別企画です。</div>
+      <p>
+        4日間の集中講義と添削サポートで<strong>＋2万円を作る体験ができる</strong>無料集中講義です！<br><br>
+        なんと今回は素敵なブランド品を実際に仕入れることができる体験もできます。
+      </p>
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--text-mid); line-height:1.75; margin-bottom:16px">
+      人は自分だけではどうしてもダラダラしてしまうもの。
+    </p>
+
+    <div class="merit-circles">
+      <div class="merit-circle merit-circle-1">短期的にスキルをつけたい方や</div>
+      <div class="merit-circle merit-circle-2">素敵な仲間とマインドアップしながら</div>
+    </div>
+
+    <div class="merit-days">
+      <span class="days-num">4日間＋3日間</span>
+      <p class="days-sub">集中講義＋フォローアップ計7日間を一緒に過ごせます！</p>
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     5. PRESENT（特典セクション・新設）
+============================================================ -->
+<section class="sec-present">
+  <div class="wrap reveal">
+    <div class="fukidashi fukidashi-blue">無料夏期講習でもらえる特典</div>
+
+    <div class="sec-en-title">
+      <span class="rainbow-underline">PRESENT</span>
+    </div>
+
+    <p class="present-title-sub">4つの特典があなたを後押しします</p>
+
+    <div class="present-cards">
+
+      <!-- 特典① -->
+      <div class="present-card">
+        <div class="present-num">1</div>
+        <div class="present-body">
+          <h4>弊社特製のAIで作った<br>出品サポートツール</h4>
+          <p>写真を撮るだけでタイトル・説明文・価格まで1分でサポート。出品の手間がぐっと減ります。</p>
+        </div>
+      </div>
+
+      <!-- 特典② -->
+      <div class="present-card">
+        <div class="present-num">2</div>
+        <div class="present-body">
+          <h4>出品した商品ページの<br>添削サポート</h4>
+          <p>プロが直接フィードバック。どこを直せば売れるかが一目でわかります。</p>
+        </div>
+      </div>
+
+      <!-- 特典③ -->
+      <div class="present-card">
+        <div class="present-num">3</div>
+        <div class="present-body">
+          <h4>一緒に参加している<br>仲間同士の交流</h4>
+          <p>横のつながりが3日坊主を解消。同じ目標を持つ仲間と励まし合いながら進めます。</p>
+        </div>
+      </div>
+
+      <!-- 特典④ -->
+      <div class="present-card">
+        <div class="present-num">4</div>
+        <div class="present-body">
+          <h4>結果を出している方からの<br>アドバイス・サポート環境</h4>
+          <p>月利20〜50万を達成している講師に直接質問できる環境がつきます。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     6. 半額仕入れ体験
+============================================================ -->
+<section class="sec-purchase">
+  <div class="wrap reveal">
+    <div class="fukidashi">半額仕入れ体験</div>
+
+    <p class="purchase-lead">
+      こんな可愛いお品たちが…<br>
+      <span class="accent-pink">なんと半額で買えちゃいます</span>
+    </p>
+
+    <!-- 商品グリッド: Driveの「こんな可愛いお品がのブランド品の写真」を掲載 -->
+    <img src="https://drive.google.com/thumbnail?id=1opM32PzApdalxKis3yCjI70ZP0iGbYqt&sz=w1000"
+         alt="ブランド品の仕入れ例（8点・すべて売り切れ）" loading="lazy"
+         style="width:100%;height:auto;border-radius:14px;display:block;margin:20px 0;box-shadow:0 4px 18px rgba(0,0,0,.06);"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="img-placeholder" style="display:none;margin:20px 0;">
+      <span>ブランド品グリッド画像<br>（Driveフォルダを「リンクを知っている全員が閲覧可」にすると表示されます）</span>
+    </div>
+
+    <div class="purchase-examples">
+      <p>
+        COACHのバッグが3,000円！<br>
+        CHANELのブーツが10,000円！
+      </p>
+      <p class="ex-sub">など自分へのプレゼントとしても<br>仕入れ体験としても楽しんでいただけます</p>
+    </div>
+
+    <div class="prize-box">
+      <div class="prize-label">豪華景品もご用意！</div>
+      <p>
+        課題提出コンプリートした方には<br>
+        <span class="prize-num">総額30万円</span>
+        のキャッシュバック企画も…!
+      </p>
+      <!-- 現金（キャッシュバック景品）イメージ：扇状の一万円札イラスト -->
+      <div style="display:flex;justify-content:center;padding:6px 0 2px;">
+        <svg width="300" height="140" viewBox="0 0 300 140" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="現金イメージ">
+          <defs>
+            <linearGradient id="bill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f3ecd2"/><stop offset="1" stop-color="#e3d8ad"/>
+            </linearGradient>
+          </defs>
+          <g>
+            <g transform="rotate(-22 150 150)"><rect x="78" y="44" width="144" height="66" rx="7" fill="url(#bill)" stroke="#c9b676" stroke-width="1.3"/><circle cx="195" cy="77" r="15" fill="none" stroke="#bfa85f" stroke-width="1.2"/><text x="104" y="84" font-family="Yu Gothic,sans-serif" font-size="19" font-weight="700" fill="#9c8740">¥10000</text></g>
+            <g transform="rotate(-11 150 150)"><rect x="78" y="40" width="144" height="66" rx="7" fill="url(#bill)" stroke="#c9b676" stroke-width="1.3"/><circle cx="195" cy="73" r="15" fill="none" stroke="#bfa85f" stroke-width="1.2"/><text x="104" y="80" font-family="Yu Gothic,sans-serif" font-size="19" font-weight="700" fill="#9c8740">¥10000</text></g>
+            <g><rect x="78" y="38" width="144" height="66" rx="7" fill="url(#bill)" stroke="#c9b676" stroke-width="1.3"/><circle cx="195" cy="71" r="15" fill="none" stroke="#bfa85f" stroke-width="1.2"/><text x="104" y="78" font-family="Yu Gothic,sans-serif" font-size="19" font-weight="700" fill="#9c8740">¥10000</text></g>
+            <g transform="rotate(11 150 150)"><rect x="78" y="40" width="144" height="66" rx="7" fill="url(#bill)" stroke="#c9b676" stroke-width="1.3"/><circle cx="195" cy="73" r="15" fill="none" stroke="#bfa85f" stroke-width="1.2"/><text x="104" y="80" font-family="Yu Gothic,sans-serif" font-size="19" font-weight="700" fill="#9c8740">¥10000</text></g>
+            <g transform="rotate(22 150 150)"><rect x="78" y="44" width="144" height="66" rx="7" fill="url(#bill)" stroke="#c9b676" stroke-width="1.3"/><circle cx="195" cy="77" r="15" fill="none" stroke="#bfa85f" stroke-width="1.2"/><text x="104" y="84" font-family="Yu Gothic,sans-serif" font-size="19" font-weight="700" fill="#9c8740">¥10000</text></g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     7. SUPPORT
+============================================================ -->
+<section class="sec-support">
+  <div class="wrap reveal">
+    <div class="fukidashi fukidashi-green">サポート体制</div>
+
+    <div class="sec-en-title">
+      <span class="rainbow-underline">SUPPORT</span>
+    </div>
+
+    <div class="support-items">
+
+      <div class="support-item">
+        <div class="support-num">SUPPORT<br>01</div>
+        <div class="support-body">
+          <p>専用のオープンチャットで課題提出いただき<strong>複数人の講師と修了生が添削</strong></p>
+        </div>
+      </div>
+
+      <div class="support-item">
+        <div class="support-num">SUPPORT<br>02</div>
+        <div class="support-body">
+          <p>同じ参加者との<strong>横の繋がりができる</strong>ので3日坊主解消！</p>
+        </div>
+      </div>
+
+      <div class="support-item">
+        <div class="support-num">SUPPORT<br>03</div>
+        <div class="support-body">
+          <p>専用のLINEで<strong>不安なことや疑問点</strong>も解消が可能</p>
+        </div>
+      </div>
+
+      <div class="support-item">
+        <div class="support-num">SUPPORT<br>04</div>
+        <div class="support-body">
+          <p><strong>アーカイブも24時間残る</strong>のでいつでも復習可能</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     8. OVERVIEW
+============================================================ -->
+<section class="sec-overview">
+  <div class="wrap reveal">
+    <div class="fukidashi">概要</div>
+
+    <div class="sec-en-title">
+      <span class="rainbow-underline">OVERVIEW</span>
+    </div>
+
+    <div class="overview-box">
+      <div class="ov-date">7/15〜7/18 毎日Zoomで配信（アーカイブあり）</div>
+      <p class="ov-desc">
+        毎日Zoomにてレクチャーを受け、間に合わない方は録画で視聴。<br>
+        専用のオープンチャットで課題提出を行います。
+      </p>
+
+      <ul class="schedule-list">
+        <li>
+          <span class="sched-date">7/15（水）<br>21:00〜22:00</span>
+          <span class="sched-content">リアルタイム集中講義</span>
+        </li>
+        <li>
+          <span class="sched-date">7/16（木）<br>21:00〜22:00</span>
+          <span class="sched-content">リアルタイム集中講義</span>
+        </li>
+        <li>
+          <span class="sched-date">7/17（金）<br>21:00〜22:00</span>
+          <span class="sched-content">買付け体験Live</span>
+        </li>
+        <li>
+          <span class="sched-date">7/18（土）<br>21:00〜22:00</span>
+          <span class="sched-content">プレゼント発表＆コンプリートベスト3発表</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="overview-limit-box">
+      <div class="limit-label">トータル10万円分の内容が</div>
+      <div class="limit-price">
+        <span class="original">通常 9,800円</span>
+        <span class="sale">0円</span>
+      </div>
+      <div class="limit-tag">先着100名さま限定</div>
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     9. SPEAKERS
+============================================================ -->
+<section class="sec-speakers">
+  <div class="wrap reveal">
+    <div class="fukidashi fukidashi-purple">チャレンジ企画からメルカリをスタートした方々が登壇します！</div>
+
+    <div class="sec-en-title">
+      <span class="rainbow-underline">SPEAKERS</span>
+    </div>
+
+    <p class="speakers-lead">
+      皆初心者でありながらきちんと成果を出しているので<br>
+      その秘密を講義で伝授いただきます！
+    </p>
+
+    <div class="speaker-cards">
+
+      <!-- SPEAKER 1 -->
+      <!-- SPEAKER PHOTO PLACEHOLDER: 森川くみこの写真 72×72px に差し替え -->
+      <div class="speaker-card">
+        <div class="speaker-avatar">
+          <img src="https://drive.google.com/thumbnail?id=1jR_iBs-qrGrvropFWANQerbDMyqKnSHe&sz=w200"
+               alt="森川くみこ" loading="lazy"
+               style="width:100%;height:100%;object-fit:cover;object-position:center 20%;">
+        </div>
+        <div class="speaker-info">
+          <h4>森川くみこ</h4>
+          <div class="speaker-title">株式会社Merone 代表取締役CEO</div>
+          <p>在宅型物販スクールRe:che創設者。全国1,500名の生徒を輩出。ブックオフとの事業提携など社会×収入の両立を実現。</p>
+        </div>
+      </div>
+
+      <!-- SPEAKER 2 -->
+      <!-- SPEAKER PHOTO PLACEHOLDER: 登壇者写真 72×72px に差し替え -->
+      <div class="speaker-card">
+        <div class="speaker-avatar">
+          <span style="font-size:0.58rem; line-height:1.4">登壇者<br>写真<br>72×72</span>
+        </div>
+        <div class="speaker-info">
+          <h4>登壇者（調整中）</h4>
+          <div class="speaker-title">Re:che修了生</div>
+          <p>初心者からスタートし、きちんと成果を出している先輩が当日その秘密を語ります。</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     10. QUESTION
+============================================================ -->
+<section class="sec-question">
+  <div class="wrap reveal">
+    <div class="fukidashi fukidashi-blue">よくある質問</div>
+
+    <div class="sec-en-title">
+      <span class="rainbow-underline">QUESTION</span>
+    </div>
+
+    <div class="qa-list">
+
+      <div class="qa-item">
+        <div class="qa-q">
+          <div class="qa-icon qa-icon-q">Q</div>
+          <div class="qa-q-text">初心者でもできますか？</div>
+        </div>
+        <div class="qa-a">
+          <div class="qa-icon qa-icon-a">A</div>
+          <div class="qa-a-text">はい、もちろんです！インストールはご自身でお願いをしておりますが丁寧にLINEでサポートさせていただきます。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">
+          <div class="qa-icon qa-icon-q">Q</div>
+          <div class="qa-q-text">21:00のリアルタイム参加ができないかもしれません？</div>
+        </div>
+        <div class="qa-a">
+          <div class="qa-icon qa-icon-a">A</div>
+          <div class="qa-a-text">安心してください!! <strong>アーカイブは残ります。</strong>ご予定があっても録画をご覧いただけるのでご安心ください。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">
+          <div class="qa-icon qa-icon-q">Q</div>
+          <div class="qa-q-text">リアルタイム参加せず、アーカイブを確認してから課題を出しても大丈夫ですか？</div>
+        </div>
+        <div class="qa-a">
+          <div class="qa-icon qa-icon-a">A</div>
+          <div class="qa-a-text">もちろんです！！録画の動画は何回でも繰り返しご覧いただけます。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">
+          <div class="qa-icon qa-icon-q">Q</div>
+          <div class="qa-q-text">どのくらいの結果が出るのか？</div>
+        </div>
+        <div class="qa-a">
+          <div class="qa-icon qa-icon-a">A</div>
+          <div class="qa-a-text">過去のチャレンジでは、4日間で最高7万円の利益を出した方がいました。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">
+          <div class="qa-icon qa-icon-q">Q</div>
+          <div class="qa-q-text">すでに仕入れを自分で行っているが、それでも学びになりますか？</div>
+        </div>
+        <div class="qa-a">
+          <div class="qa-icon qa-icon-a">A</div>
+          <div class="qa-a-text">なります。仕入れで20〜50万の利益を出している講師にも質問できるのでかなり学びになります。</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     11. VOICE
+============================================================ -->
+<section class="sec-voice">
+  <div class="wrap reveal">
+    <div class="fukidashi">チャレンジ参加者の声</div>
+
+    <div class="sec-en-title">
+      <span class="rainbow-underline">VOICE</span>
+    </div>
+
+    <p class="voice-heading-sub f-mincho">
+      「同じプラットホームで販売するライバルが、仲間。」
+    </p>
+
+
+    <!-- LINEトーク風吹き出し -->
+    <!-- VOICE SCREENSHOT: 下記各吹き出しを受講生の実際のLINEトークスクショに差し替え可能 -->
+    <!-- VOICE: Driveのお客様の声スクショ3枚をそのまま掲載（自動web圧縮） -->
+    <div class="voice-shots" style="display:flex;flex-direction:column;gap:16px;max-width:380px;margin:0 auto;">
+      <img src="https://drive.google.com/thumbnail?id=1Mg2yuuOstUqEIH3o6h-czEisyQco5xmf&sz=w800"
+           alt="お客様の声1" loading="lazy"
+           style="width:100%;height:auto;border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,.08);display:block;">
+      <img src="https://drive.google.com/thumbnail?id=1dRyZqEqBf1ghOARrhANZxQh1BrEE_MMa&sz=w800"
+           alt="お客様の声2" loading="lazy"
+           style="width:100%;height:auto;border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,.08);display:block;">
+      <img src="https://drive.google.com/thumbnail?id=1X-1ykY6ilY5BG30kwu-rYl4LQcy_iQ5n&sz=w800"
+           alt="お客様の声3" loading="lazy"
+           style="width:100%;height:auto;border-radius:14px;box-shadow:0 4px 18px rgba(0,0,0,.08);display:block;">
+    </div>
+    <p style="text-align:center;font-size:0.72rem;color:var(--text-light);margin-top:10px;">
+      ※スクショが表示されない場合は、Driveフォルダを「リンクを知っている全員が閲覧可」に設定してください
+    </p>
+
+    <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+    <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta btn-cta-purple" style="margin-top:4px">
+      夏季講習に参加する!!
+      <span class="arrow-circle">&#9654;</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     12. FINAL CTA
+============================================================ -->
+<section class="sec-final-cta" id="cta-final">
+  <div class="wrap reveal">
+    <div class="ornament">- - -</div>
+    <h2 class="cta-title f-mincho">
+      この夏、メルカリで<br>
+      <span style="background:linear-gradient(90deg,var(--pink-deep),var(--purple-main));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">一緒に結果を出しましょう。</span>
+    </h2>
+    <p class="cta-sub">
+      先着100名さま限定 0円<br>
+      通常9,800円のプログラムです。
+    </p>
+    <div class="cta-wrap">
+      <!-- CTA LINK: 差し替え先 = 夏期講習オープンチャットURL -->
+      <!-- 差し替え先: オープンチャットのURL -->
+      <a href="https://line.me/ti/g2/NX-4GOo7ocLueKV0R5oG90Nd0b71ouqWTIMY6g?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener" class="btn-cta" style="font-size:1.05rem; padding:18px 28px;">
+        夏季講習に参加する!!
+        <span class="arrow-circle">&#9654;</span>
+      </a>
+      <p style="font-size:0.72rem; color:var(--text-light); margin-top:14px; line-height:1.6">
+        参加費無料（先着100名さま限定）<br>
+        アーカイブあり / スマホ参加OK
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     13. COMPANY INFO
+============================================================ -->
+<section class="sec-company">
+  <div class="wrap reveal">
+    <h3 class="f-mincho" style="font-size:1rem; margin-bottom:4px">会社概要</h3>
+    <table class="company-table">
+      <tr>
+        <td>社名</td>
+        <td>株式会社Merone</td>
+      </tr>
+      <tr>
+        <td>代表</td>
+        <td>代表取締役CEO 森川くみこ</td>
+      </tr>
+      <tr>
+        <td>設立</td>
+        <td>2019年6月</td>
+      </tr>
+      <tr>
+        <td>所在地</td>
+        <td>〒150-0012 東京都渋谷区広尾5-4-16 EAT PLAY WORKS 3階</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-logo">
+      <svg width="22" height="22" viewBox="0 0 36 36" fill="none">
+        <defs>
+          <linearGradient id="crownFooter" x1="0" y1="0" x2="36" y2="36">
+            <stop offset="0%" stop-color="#F5A6C8"/>
+            <stop offset="100%" stop-color="#9B5DE5"/>
+          </linearGradient>
+        </defs>
+        <path d="M6 26 L6 14 L10 20 L18 8 L26 20 L30 14 L30 26 Z" fill="url(#crownFooter)"/>
+        <rect x="6" y="26" width="24" height="4" rx="2" fill="url(#crownFooter)"/>
+        <circle cx="18" cy="8" r="2.5" fill="url(#crownFooter)"/>
+        <circle cx="6" cy="14" r="2" fill="url(#crownFooter)"/>
+        <circle cx="30" cy="14" r="2" fill="url(#crownFooter)"/>
+      </svg>
+      <span class="logo-text">Merone</span>
+    </div>
+    <div class="footer-links">
+      <!-- LINK: 特定商取引法ページURLに差し替え -->
+      <a href="#">特定商取引法及び古物営業法に基づく表記</a>
+      <!-- LINK: プライバシーポリシーページURLに差し替え -->
+      <a href="#">プライバシーポリシー</a>
+    </div>
+    <p class="footer-copy">&copy; Merone, inc. All rights reserved.</p>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     JAVASCRIPT — Scroll reveal
+============================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  // Intersection Observer for reveal animations
+  var observer = new IntersectionObserver(
+    function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+  );
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    observer.observe(el);
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href === '#') return; // CTAプレースホルダはスキップ
+      var target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
