@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>メルカリ4日間チャレンジ｜スタンプクエスト（プロトタイプ）</title>
+<style>
+  :root{
+    --bg:#eaf3fa; --bg2:#f1f7fb; --pinkbg:#fbeef1; --paper:#ffffff;
+    --navy:#26405f; --navy2:#1d3149; --pink:#cf8f9c; --pinkd:#bd7886;
+    --blue:#7fb0d2; --ink:#4a4446; --sub:#7d8794; --line:#dce7f0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--bg);color:var(--ink);
+    font-family:"Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN",sans-serif;
+    display:flex;justify-content:center;line-height:1.7;}
+  .app{width:100%;max-width:430px;min-height:100vh;background:var(--bg);position:relative;overflow:hidden;
+    box-shadow:0 0 40px rgba(38,64,95,.12);}
+  .screen{display:none;padding:0 0 92px;}
+  .screen.active{display:block;animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  svg{display:block;}
+
+  .hud{display:flex;align-items:center;gap:8px;padding:15px 18px;background:var(--paper);
+    border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;}
+  .hud .logo{font-size:15px;font-weight:800;color:var(--pinkd);letter-spacing:.03em;}
+  .hud .logo small{color:var(--sub);font-weight:500;font-size:10.5px;margin-left:6px;letter-spacing:.06em;}
+  .hud .prog{margin-left:auto;font-size:12px;color:var(--sub);}
+  .hud .prog b{color:var(--pinkd);font-size:16px;}
+
+  .btn{display:block;width:100%;border:none;cursor:pointer;padding:15px;border-radius:14px;
+    font-size:15.5px;font-weight:800;letter-spacing:.03em;transition:transform .08s,box-shadow .08s;}
+  .btn.pink{background:linear-gradient(135deg,var(--pink),var(--pinkd));color:#fff;box-shadow:0 3px 0 #a76673;}
+  .btn.pink:active{transform:translateY(3px);box-shadow:0 0 0 #a76673;}
+  .btn.navy{background:var(--navy);color:#fff;box-shadow:0 3px 0 var(--navy2);}
+  .btn.navy:active{transform:translateY(3px);box-shadow:0 0 0 var(--navy2);}
+  .btn.ghost{background:transparent;color:var(--sub);box-shadow:none;font-size:13px;padding:10px;}
+  .pad{padding:22px 20px;}
+
+  /* Title */
+  .hero{padding:46px 26px 30px;text-align:center;background:linear-gradient(180deg,#f3f9fd,#e6f0f9);}
+  .hero .kick{font-size:12px;letter-spacing:.18em;color:var(--pinkd);margin-bottom:12px;}
+  .hero h1{margin:0;font-size:25px;line-height:1.5;color:var(--navy);font-weight:800;}
+  .hero .lead{margin:14px 0 0;font-size:13px;color:var(--sub);line-height:1.9;}
+  .crest{width:70px;height:70px;margin:16px auto 4px;}
+  .field{margin:22px 0 8px;}
+  .field input{width:100%;padding:14px 16px;border:2px solid var(--line);border-radius:12px;
+    font-size:15px;text-align:center;color:var(--navy);}
+  .field input:focus{outline:none;border-color:var(--blue);}
+
+  /* Stamp card */
+  .cardwrap{padding:18px 18px 6px;}
+  .stampcard{background:var(--paper);border-radius:20px;padding:20px 18px;border:1px solid var(--line);
+    box-shadow:0 6px 22px rgba(38,64,95,.06);}
+  .stampcard h3{font-size:14px;color:var(--navy);text-align:center;margin-bottom:4px;font-weight:800;}
+  .stampcard .cnt{text-align:center;font-size:12px;color:var(--sub);margin-bottom:16px;}
+  .stampcard .cnt b{color:var(--pinkd);font-size:15px;}
+  .stamps{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .stamp{aspect-ratio:1.35;border-radius:16px;border:2px dashed var(--line);background:var(--bg2);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;
+    color:var(--sub);}
+  .stamp .d{font-size:11px;letter-spacing:.08em;}
+  .stamp .dt{font-size:12px;color:var(--sub);}
+  .stamp.done{border:2px solid var(--pink);background:var(--pinkbg);}
+  .stamp .seal{width:52px;height:52px;opacity:.22;}
+  .stamp.done .seal{opacity:1;animation:pop .5s cubic-bezier(.2,1.4,.5,1);}
+  @keyframes pop{0%{transform:scale(0) rotate(-20deg);}100%{transform:scale(1) rotate(-8deg);}}
+  .stamp .lbl{font-size:11px;font-weight:800;}
+  .stamp.done .lbl{color:var(--pinkd);}
+  .stamp.today::after{content:"今日";position:absolute;top:-8px;right:-6px;background:var(--pink);color:#fff;
+    font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;box-shadow:0 2px 5px rgba(0,0,0,.15);}
+
+  .todaybox{margin:16px 18px 0;background:var(--navy);color:#fff;border-radius:18px;padding:18px;}
+  .todaybox .t{font-size:11px;letter-spacing:.1em;color:#a9c2dd;}
+  .todaybox h4{font-size:17px;margin:4px 0 6px;}
+  .todaybox p{font-size:12.5px;opacity:.9;line-height:1.6;margin-bottom:14px;}
+
+  .sec-title{font-size:13px;color:var(--navy);font-weight:800;margin:22px 20px 10px;letter-spacing:.04em;}
+
+  /* Day modal */
+  .modal{position:fixed;inset:0;background:rgba(29,49,73,.55);display:none;align-items:flex-end;justify-content:center;z-index:30;}
+  .modal.active{display:flex;animation:fade .25s;}
+  .sheet{width:100%;max-width:430px;background:var(--bg);border-radius:22px 22px 0 0;padding:8px 0 24px;max-height:92vh;overflow:auto;animation:up .3s ease;}
+  @keyframes up{from{transform:translateY(40px);}to{transform:none;}}
+  .grab{width:42px;height:5px;background:var(--line);border-radius:99px;margin:8px auto 8px;}
+  .mhd{padding:2px 20px 0;}
+  .mhd .d{font-size:11px;letter-spacing:.14em;color:var(--pinkd);font-weight:800;}
+  .mhd h2{font-size:20px;color:var(--navy);margin-top:3px;}
+  .video{margin:14px 20px;aspect-ratio:16/9;border-radius:14px;background:var(--navy2);
+    display:flex;align-items:center;justify-content:center;position:relative;color:#fff;}
+  .video .play{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;}
+  .video .tag{position:absolute;top:10px;left:10px;font-size:11px;background:var(--pink);padding:3px 10px;border-radius:20px;font-weight:800;}
+  .qbox{margin:12px 20px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;}
+  .qbox h4{font-size:12px;color:var(--pinkd);margin-bottom:7px;}
+  .qbox p{font-size:14px;line-height:1.75;}
+  .upload{margin:12px 20px;border:2px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--sub);font-size:13px;background:var(--paper);}
+  .mfoot{padding:2px 20px 0;}
+
+  /* Tool (おたすけライト君) */
+  .toolhead{padding:20px 20px 6px;}
+  .toolhead h2{font-size:19px;color:var(--navy);}
+  .toolhead p{font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.6;}
+  .toolcard{margin:14px 18px;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+  .toolcard .th{background:linear-gradient(135deg,var(--blue),#5f97be);color:#fff;padding:11px 15px;font-size:13px;font-weight:800;display:flex;align-items:center;gap:8px;}
+  .toolcard .tb{padding:15px;}
+  .photo{height:96px;border-radius:12px;background:var(--bg2);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:12px;gap:8px;}
+  .result{margin-top:14px;display:none;}
+  .result.show{display:block;animation:fade .4s;}
+  .rrow{padding:11px 0;border-top:1px solid var(--line);}
+  .rrow:first-child{border-top:none;}
+  .rrow .k{font-size:10.5px;color:var(--sub);letter-spacing:.03em;}
+  .rrow .v{font-size:14px;margin-top:3px;line-height:1.6;color:var(--ink);}
+  .rrow .v.big{font-size:19px;font-weight:800;color:var(--pinkd);}
+  .rrow .v.big small{font-size:11px;color:var(--sub);font-weight:500;}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+  .chip{font-size:11px;background:var(--pinkbg);color:var(--pinkd);padding:4px 10px;border-radius:20px;}
+
+  /* Photo support */
+  .tipcard{margin:12px 18px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;}
+  .tipcard .n{width:30px;height:30px;border-radius:9px;background:var(--pinkbg);color:var(--pinkd);flex:none;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+  .tipcard h4{font-size:13.5px;color:var(--navy);}
+  .tipcard p{font-size:12px;color:var(--sub);margin-top:2px;line-height:1.6;}
+
+  /* Community */
+  .feed{padding:8px 16px;}
+  .live{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--blue);margin:8px 4px 14px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(127,176,210,.5);}70%{box-shadow:0 0 0 8px rgba(127,176,210,0);}}
+  .msg{display:flex;gap:10px;margin:12px 2px;}
+  .av{width:36px;height:36px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;background:var(--bg2);color:var(--sub);}
+  .bub{background:var(--paper);border:1px solid var(--line);border-radius:5px 15px 15px 15px;padding:10px 13px;font-size:13px;line-height:1.65;}
+  .bub b{font-size:11px;color:var(--pinkd);display:block;margin-bottom:2px;}
+  .msg.k .av{background:var(--pink);color:#fff;}
+  .msg.k .bub{background:var(--pinkbg);border-color:#efd6dd;}
+
+  /* Clear */
+  .cw{text-align:center;padding:40px 26px 10px;}
+  .cw .k{font-size:11px;letter-spacing:.18em;color:var(--pinkd);margin-bottom:10px;}
+  .cw h2{font-size:22px;color:var(--navy);margin:6px 0 8px;}
+  .cw .lead{font-size:13.5px;color:var(--sub);line-height:1.9;}
+  .reward{background:var(--paper);border:2px solid var(--pink);border-radius:16px;padding:18px;margin:20px 0;text-align:left;}
+  .reward h4{color:var(--pinkd);font-size:13px;margin-bottom:8px;}
+  .reward p{font-size:13px;line-height:1.8;}
+  .offer{background:var(--navy);color:#fff;border-radius:18px;padding:22px;margin-top:8px;text-align:left;}
+  .offer .lim{display:inline-block;background:var(--pink);font-size:11px;padding:3px 11px;border-radius:20px;margin-bottom:11px;font-weight:800;}
+  .offer h3{font-size:17px;margin-bottom:8px;}
+  .offer p{font-size:13px;line-height:1.8;opacity:.95;margin-bottom:16px;}
+
+  .tabbar{position:fixed;bottom:0;width:100%;max-width:430px;display:flex;background:var(--paper);border-top:1px solid var(--line);z-index:10;}
+  .tabbar button{flex:1;border:none;background:none;padding:10px 0 8px;cursor:pointer;font-size:10px;color:var(--sub);display:flex;flex-direction:column;align-items:center;gap:3px;}
+  .tabbar button.on{color:var(--pinkd);}
+  .tabbar button .ti{height:20px;}
+  .note{font-size:11px;color:var(--sub);text-align:center;padding:14px 24px 0;line-height:1.7;}
+  .toast{position:fixed;left:50%;bottom:108px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;transition:.3s;z-index:50;text-align:center;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TITLE -->
+  <section id="s-title" class="screen active">
+    <div class="hero">
+      <div class="kick">MERCARI 4DAYS CHALLENGE</div>
+      <svg class="crest" viewBox="0 0 70 70" fill="none"><circle cx="35" cy="35" r="33" fill="#26405f"/><circle cx="35" cy="35" r="26" fill="none" stroke="#cf8f9c" stroke-width="1.5" stroke-dasharray="3 4"/><path d="M24 36 L32 44 L48 26" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h1>メルカリ<br>4日間スタンプクエスト</h1>
+      <p class="lead">毎晩21時の生配信に参加して、宿題を出すと<br>スタンプが1つずつ埋まっていく。<br>4つ集めて「完走」を目指そう。</p>
+    </div>
+    <div class="pad">
+      <div class="field"><input id="nameInput" placeholder="お名前（ニックネームでOK）"></div>
+      <button class="btn pink" onclick="start()">チャレンジをはじめる</button>
+      <p class="note">これは画面イメージ（クリックモック）です。<br>生配信・AI・保存・管理者機能は本実装で組み込みます。</p>
+    </div>
+  </section>
+
+  <!-- HOME (stamp card) -->
+  <section id="s-home" class="screen">
+    <div class="hud"><span class="logo">4日間クエスト<small id="hName">ゲスト</small></span>
+      <span class="prog">スタンプ <b id="cnt">0</b>/4</span></div>
+
+    <div class="cardwrap">
+      <div class="stampcard">
+        <h3>スタンプカード</h3>
+        <div class="cnt">あと <b id="left">4</b> つで「出品マスター」称号＆完走特典</div>
+        <div class="stamps">
+          <div class="stamp today" id="st1" onclick="openDay(1)">
+            <svg class="seal" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none" stroke="#cf8f9c" stroke-width="2"/><path d="M17 22h18M17 27h18M17 32h11" stroke="#cf8f9c" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="d">Day1・7/15</span><span class="lbl">選ぶ＆撮る</span>
+          </div>
+          <div class="stamp" id="st2" onclick="openDay(2)">
+            <svg class="seal" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none" stroke="#9aa6b3" stroke-width="2"/><path d="M19 33 L19 27 L31 15 L37 21 L25 33 Z" stroke="#9aa6b3" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+            <span class="d">Day2・7/16</span><span class="lbl">言葉にする</span>
+          </div>
+          <div class="stamp" id="st3" onclick="openDay(3)">
+            <svg class="seal" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none" stroke="#9aa6b3" stroke-width="2"/><path d="M14 24 L24 14 L38 14 L38 27 L28 37 Z" stroke="#9aa6b3" stroke-width="2" fill="none" stroke-linejoin="round"/><circle cx="31" cy="21" r="2" fill="#9aa6b3"/></svg>
+            <span class="d">Day3・7/17</span><span class="lbl">値をつける</span>
+          </div>
+          <div class="stamp" id="st4" onclick="openDay(4)">
+            <svg class="seal" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none" stroke="#9aa6b3" stroke-width="2"/><path d="M16 20h20v16h-20z M16 20 L16 16 h20 v4 M26 16 v20" stroke="#9aa6b3" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+            <span class="d">Day4・7/18</span><span class="lbl">お披露目</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="todaybox">
+      <div class="t" id="tdTag">TODAY ・ 7/15(水) 21:00〜</div>
+      <h4 id="tdTitle">Day1：売る商品を選んで、撮る</h4>
+      <p id="tdDesc">今夜の生配信を見て、おうちの「もう使わないけど大切だったもの」を1つ選び、明るい場所で撮ってみましょう。</p>
+      <button class="btn pink" onclick="openDay(current)">今日のクエストを開く</button>
+    </div>
+    <p class="note">※本番は毎晩21時に自動で解放（生配信 or 録画を配信風に）。宿題提出で自動スタンプ。</p>
+  </section>
+
+  <!-- おたすけライト君 -->
+  <section id="s-tool" class="screen">
+    <div class="hud"><span class="logo">おたすけライト君</span></div>
+    <div class="toolhead">
+      <h2>1分で、出品の言葉と値段を。</h2>
+      <p>商品の写真と、ひとことメモを入れるだけ。タイトル・説明文・相場・手取りをAIが提案します。</p>
+    </div>
+    <div class="toolcard">
+      <div class="th"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21 L16 16"/></svg> AI出品アシスタント</div>
+      <div class="tb">
+        <div class="photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9aa6b3" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2.5"/><circle cx="12" cy="12.5" r="3.5"/></svg> 商品の写真をえらぶ</div>
+        <button class="btn navy" style="margin-top:12px" onclick="runTool()">この写真で提案してもらう</button>
+        <div class="result" id="tResult">
+          <div class="rrow"><div class="k">おすすめタイトル（40字以内）</div><div class="v" id="rTitle"></div></div>
+          <div class="rrow"><div class="k">説明文</div><div class="v" id="rDesc"></div></div>
+          <div class="rrow"><div class="k">相場の目安</div><div class="v" id="rMkt"></div></div>
+          <div class="rrow"><div class="k">おすすめ価格 → あなたの手取り</div><div class="v big" id="rPrice"></div></div>
+          <div class="rrow"><div class="k">映えワード</div><div class="chips" id="rChips"></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="note">※本実装ではClaude APIで実際に生成（APIキーはSupabase Edge Functionで保護）。</p>
+  </section>
+
+  <!-- 写真サポート -->
+  <section id="s-photo" class="screen">
+    <div class="hud"><span class="logo">写真サポート</span></div>
+    <div class="toolhead"><h2>「売れる1枚」のコツ</h2><p>むずかしくありません。この4つだけ意識すれば、ぐっと見違えます。</p></div>
+    <div class="tipcard"><div class="n">1</div><div><h4>明るい窓辺で撮る</h4><p>自然光がいちばん。照明の黄色みより、昼間の白い光を。</p></div></div>
+    <div class="tipcard"><div class="n">2</div><div><h4>背景は白か無地</h4><p>白い壁・白い布の上に置くだけで、清潔感が出ます。</p></div></div>
+    <div class="tipcard"><div class="n">3</div><div><h4>正面・斜め・寄りの3枚</h4><p>全体→ディテール→タグ。買う人の「見たい」を先回り。</p></div></div>
+    <div class="tipcard"><div class="n">4</div><div><h4>左上にブランド名</h4><p>一覧で目に留まる。AIが自動で入れるお手伝いもします。</p></div></div>
+    <div style="padding:14px 18px 0"><button class="btn navy" onclick="toast('AI写真診断は本実装で（明るさ・背景・写り込みを判定）')">写真をAIで診断する</button></div>
+    <p class="note">※本実装で「明るさ・背景・ブレ」をAI判定してワンタップ補正。</p>
+  </section>
+
+  <!-- 仲間の広場 -->
+  <section id="s-feed" class="screen">
+    <div class="hud"><span class="logo">仲間の広場</span><span class="prog"><span class="dot" style="display:inline-block;margin-right:5px"></span>23人</span></div>
+    <div class="feed">
+      <div class="live"><span class="dot"></span> いま 23人 が課題に取り組み中</div>
+      <div class="msg k"><div class="av">M</div><div class="bub"><b>くみこ</b>Day1おつかれさま。1品でOKだよ。提出したら、みんなでコメントし合おうね。</div></div>
+      <div class="msg"><div class="av">あ</div><div class="bub"><b>あきこさん</b>ニット出せました！タイトル、おたすけ君に助けてもらった…！</div></div>
+      <div class="msg"><div class="av">せ</div><div class="bub"><b>先輩・ちかこ</b>あきこさん、背景を白くするともっと映えますよ◎</div></div>
+      <div class="msg"><div class="av">は</div><div class="bub"><b>はるなさん</b>はじめて出品して、もう1件売れました。涙</div></div>
+    </div>
+    <p class="note">※FBグループの「◯日目スレ＋添削」を、この広場に一元化（先輩＆講師が添削）。</p>
+  </section>
+
+  <!-- CLEAR -->
+  <section id="s-clear" class="screen">
+    <div class="cw">
+      <svg width="66" height="66" viewBox="0 0 70 70" style="margin:0 auto" fill="none"><circle cx="35" cy="35" r="33" fill="#cf8f9c"/><path d="M23 36 L32 45 L49 26" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="k" style="margin-top:14px">4 STAMPS COMPLETE</div>
+      <h2>出品マスター、誕生。</h2>
+      <p class="lead">4日間、よくがんばりました。<br>あなたはもう「売れた」を知っている人です。</p>
+      <div class="reward"><h4>▶ 完走特典</h4><p>・出品マスター称号＆スタンプコンプ<br>・おたすけライト君「1週間おかわり」<br>・売れ筋チェックの早見表</p></div>
+      <div class="offer"><span class="lim">この4日間の参加者だけ・48時間</span><h3>本気で続けるなら、次の一歩へ</h3><p>仕入れも届いて、無期限で支える。もっと自由な働き方を、一緒に。</p><button class="btn pink" onclick="toast('個別相談の予約へ（本実装で接続）')">続きを相談する</button></div>
+      <button class="btn ghost" onclick="go('s-home')">← ホームに戻る</button>
+    </div>
+  </section>
+
+  <!-- DAY MODAL -->
+  <div class="modal" id="modal">
+    <div class="sheet">
+      <div class="grab"></div>
+      <div class="mhd"><span class="d" id="mDay">DAY 1・7/15(水)</span><h2 id="mTitle">売る商品を選んで、撮る</h2></div>
+      <div class="video"><span class="tag" id="mTag">今夜21時 LIVE</span><div class="play"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 5 L8 19 L19 12 Z"/></svg></div></div>
+      <div class="qbox"><h4>今日の宿題（1つでOK）</h4><p id="mQuest"></p></div>
+      <div class="upload" id="mUpload">📷 提出物をアップする（写真・URLなど）</div>
+      <div class="mfoot">
+        <button class="btn pink" id="mSubmit" onclick="submitDay()">宿題を提出してスタンプをもらう</button>
+        <button class="btn ghost" onclick="closeModal()">あとで</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABBAR -->
+  <div class="tabbar">
+    <button class="on" id="t-home" onclick="go('s-home')"><span class="ti"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></span>カード</button>
+    <button id="t-tool" onclick="go('s-tool')"><span class="ti"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21 L16 16"/></svg></span>おたすけ君</button>
+    <button id="t-photo" onclick="go('s-photo')"><span class="ti"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2.5"/><circle cx="12" cy="12.5" r="3.5"/></svg></span>写真</button>
+    <button id="t-feed" onclick="go('s-feed')"><span class="ti"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5 H20 V16 H10 L5 20 V16 H4 Z"/></svg></span>仲間</button>
+  </div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+  const days={
+    1:{title:"売る商品を選んで、撮る",date:"7/15(水)",tag:"今夜21時 LIVE",
+       quest:"おうちの「もう使わないけど大切だったもの」を1つ選んで、明るい窓辺で撮ってみましょう。完璧じゃなくてOK。まずは1枚。",seal:"st1"},
+    2:{title:"売れる言葉にする",date:"7/16(木)",tag:"録画あり",
+       quest:"昨日の商品に、思わず欲しくなるタイトル（40字以内）と説明文を。おたすけライト君を使ってOK。",seal:"st2"},
+    3:{title:"値段をつけて出品する",date:"7/17(金)",tag:"買付け体験Live",
+       quest:"相場と手取りの目安を見て、納得の価格で出品しましょう。困ったら仲間の広場で相談を。",seal:"st3"},
+    4:{title:"お披露目＆次の一歩",date:"7/18(土)",tag:"お披露目会",
+       quest:"売れたら気持ちよく発送。仲間の広場に「できた！」を報告して、4つめのスタンプを受け取りましょう。",seal:"st4"}
+  };
+  let current=1;
+  const done={1:false,2:false,3:false,4:false};
+
+  function start(){
+    const n=document.getElementById('nameInput').value.trim()||"ゲスト";
+    document.getElementById('hName').textContent=n;
+    go('s-home');
+  }
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.tabbar button').forEach(b=>b.classList.remove('on'));
+    const m={'s-home':'t-home','s-tool':'t-tool','s-photo':'t-photo','s-feed':'t-feed'};
+    if(m[id])document.getElementById(m[id]).classList.add('on');
+    window.scrollTo(0,0);
+  }
+  function openDay(n){
+    current=n;const d=days[n];
+    document.getElementById('mDay').textContent='DAY '+n+'・'+d.date;
+    document.getElementById('mTitle').textContent=d.title;
+    document.getElementById('mTag').textContent=d.tag;
+    document.getElementById('mQuest').textContent=d.quest;
+    const b=document.getElementById('mSubmit');
+    if(done[n]){b.textContent='提出済み ✓';b.className='btn navy';}
+    else{b.textContent='宿題を提出してスタンプをもらう';b.className='btn pink';}
+    document.getElementById('modal').classList.add('active');
+  }
+  function closeModal(){document.getElementById('modal').classList.remove('active');}
+  function submitDay(){
+    const d=days[current];
+    if(!done[current]){
+      done[current]=true;
+      const el=document.getElementById(d.seal);
+      el.classList.add('done');el.classList.remove('today');
+      // 中のsealのstrokeをピンクに
+      el.querySelectorAll('[stroke]').forEach(p=>p.setAttribute('stroke','#cf8f9c'));
+      const c=Object.values(done).filter(Boolean).length;
+      document.getElementById('cnt').textContent=c;
+      document.getElementById('left').textContent=4-c;
+      if(current<4){document.getElementById('st'+(current+1)).classList.add('today');
+        setTodayBox(current+1);}
+      toast('スタンプGET！ Day'+current+' 完了');
+    }
+    closeModal();
+    if(done[1]&&done[2]&&done[3]&&done[4]){setTimeout(()=>go('s-clear'),450);}else{go('s-home');}
+  }
+  function setTodayBox(n){const d=days[n];
+    document.getElementById('tdTag').textContent='TODAY ・ '+d.date+' 21:00〜';
+    document.getElementById('tdTitle').textContent='Day'+n+'：'+d.title;
+    document.getElementById('tdDesc').textContent=d.quest;
+    current=n;
+  }
+  function runTool(){
+    document.getElementById('rTitle').textContent='【美品】上質ウールニット 大人カラー 着回し◎';
+    document.getElementById('rDesc').textContent='やわらかな肌ざわりのウールニット。落ち着いたカラーで合わせやすく、オフィスにもお出かけにも。大切に着ていた一着です。';
+    document.getElementById('rMkt').textContent='似た商品の相場：おおよそ 2,400〜3,200円';
+    document.getElementById('rPrice').innerHTML='2,800円 <small>→ 送料・手数料を引いた手取り 約2,090円</small>';
+    document.getElementById('rChips').innerHTML='<span class="chip">#美品</span><span class="chip">#秋冬</span><span class="chip">#オフィス</span><span class="chip">#大人カラー</span>';
+    document.getElementById('tResult').classList.add('show');
+    toast('おたすけライト君が提案しました');
+  }
+  function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1900);}
+  document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+</script>
+</body>
+</html>
