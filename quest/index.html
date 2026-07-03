@@ -259,8 +259,9 @@
     <div class="toolcard">
       <div class="th"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21 L16 16"/></svg> AI出品アシスタント</div>
       <div class="tb">
-        <div class="photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9aa6b3" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2.5"/><circle cx="12" cy="12.5" r="3.5"/></svg> 商品の写真をえらぶ</div>
-        <button class="btn navy" style="margin-top:12px" onclick="runTool()">この写真で提案してもらう</button>
+        <div class="photo" onclick="window.open('./photo-tool/','_blank')" style="cursor:pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9aa6b3" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2.5"/><circle cx="12" cy="12.5" r="3.5"/></svg> 商品の写真をえらぶ（白抜きツールが開きます）</div>
+        <button class="btn pink" style="margin-top:12px" onclick="window.open('./photo-tool/','_blank')">写真を白抜き＆文字入れする（実ツール）</button>
+        <button class="btn navy" style="margin-top:8px" onclick="runTool()">この写真で提案してもらう</button>
         <div class="result" id="tResult">
           <div class="rrow"><div class="k">おすすめタイトル（40字以内）</div><div class="v" id="rTitle"></div></div>
           <div class="rrow"><div class="k">説明文</div><div class="v" id="rDesc"></div></div>
@@ -281,8 +282,8 @@
     <div class="tipcard"><div class="n">2</div><div><h4>背景は白か無地</h4><p>白い壁・白い布の上に置くだけで、清潔感が出ます。</p></div></div>
     <div class="tipcard"><div class="n">3</div><div><h4>正面・斜め・寄りの3枚</h4><p>全体→ディテール→タグ。買う人の「見たい」を先回り。</p></div></div>
     <div class="tipcard"><div class="n">4</div><div><h4>左上にブランド名</h4><p>一覧で目に留まる。AIが自動で入れるお手伝いもします。</p></div></div>
-    <div style="padding:14px 18px 0"><button class="btn navy" onclick="toast('AI写真診断は本実装で（明るさ・背景・写り込みを判定）')">写真をAIで診断する</button></div>
-    <p class="note">※本実装で「明るさ・背景・ブレ」をAI判定してワンタップ補正。</p>
+    <div style="padding:14px 18px 0"><button class="btn navy" onclick="window.open('./photo-tool/','_blank')">写真を白抜き＆文字入れする（実ツール）</button></div>
+    <p class="note">※「おたすけライト君｜写真加工」が別タブで開きます。AI背景白抜き・影/明るさ調整・左上への文字入れまで実際に動きます。</p>
   </section>
 
   <!-- 仲間の広場 -->
