@@ -176,6 +176,15 @@
   .takehome .k{font-size:11px;color:#b9cbe0;font-weight:700;}
   .takehome .v{font-size:20px;font-weight:800;}
   .takehome .v.neg{color:var(--pink);}
+  /* wizard steps */
+  .wizsteps{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:16px;}
+  .wstep{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--sub);}
+  .wstep .wnum{width:22px;height:22px;border-radius:50%;background:var(--line);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
+  .wstep.on{color:var(--navy);}
+  .wstep.on .wnum{background:var(--pinkd);}
+  .wstep.done .wnum{background:var(--blued);}
+  .wline{flex:0 0 18px;height:2px;background:var(--line);border-radius:2px;}
   .toast{position:fixed;bottom:92px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;
     padding:11px 20px;border-radius:22px;font-size:12.5px;font-weight:700;z-index:60;opacity:0;
     transition:opacity .3s;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.2);}
@@ -196,7 +205,8 @@
   <!-- ========== 在庫 ========== -->
   <section class="page active" id="page-stock">
     <div class="sec-title">在庫（商品明細）<small id="stockCount"></small></div>
-    <button class="btn pink" style="margin-bottom:14px" onclick="openItemModal()">＋ 1品を登録する</button>
+    <button class="btn pink" style="margin-bottom:10px" onclick="openWizard()">＋ 出品する<span style="font-weight:600;font-size:11px;opacity:.85;margin-left:6px">写真→文章→登録まで</span></button>
+    <button class="btn ghost sm" style="margin-bottom:14px" onclick="openItemModal()">＋ 1品だけ手入力で登録</button>
     <div class="filterbar">
       <button class="on" data-f="all" onclick="setFilter('all')">すべて</button>
       <button data-f="listed" onclick="setFilter('listed')">出品中</button>
@@ -243,24 +253,34 @@
     </div>
   </section>
 
-  <!-- ========== おたすけライト君 ========== -->
+  <!-- ========== おたすけライト君（下書き） ========== -->
   <section class="page" id="page-help">
     <div class="sec-title">おたすけライト君<small>タイトル・説明文の下書き</small></div>
     <div class="card">
-      <div class="genrow">
-        <input id="gen-name" placeholder="商品名（例：CHANEL ローファー）">
+      <div class="field"><label>商品名<span class="req">*</span></label><input id="gen-name" placeholder="例：CHANEL ローファー"></div>
+      <div class="row2">
+        <div class="field"><label>カテゴリ</label><input id="gen-cat" list="catlist" placeholder="レディース靴 など"></div>
+        <div class="field"><label>状態</label>
+          <select id="gen-cond">
+            <option>新品・未使用</option>
+            <option>未使用に近い</option>
+            <option selected>目立った傷や汚れなし</option>
+            <option>やや傷や汚れあり</option>
+            <option>傷や汚れあり</option>
+          </select>
+        </div>
       </div>
-      <div class="genrow">
-        <input id="gen-cat" placeholder="カテゴリ（例：レディース靴）">
+      <div class="row2">
+        <div class="field"><label>ブランド（任意）</label><input id="gen-brand" placeholder="CHANEL など"></div>
+        <div class="field"><label>色・サイズ（任意）</label><input id="gen-opt" placeholder="ベージュ / 37 など"></div>
       </div>
-      <div class="row2" style="margin-bottom:10px">
-        <button class="btn blue sm" onclick="runGen()">下書きを作る</button>
-        <button class="btn ghost sm" onclick="genToStock()">この内容で在庫に登録</button>
-      </div>
+      <div class="field"><label>仕入れ値（円・任意）</label><input id="gen-cost" type="number" inputmode="numeric" placeholder="0"></div>
+      <button class="btn blue sm" style="margin-bottom:10px" onclick="runGen()">下書きを作る</button>
       <div class="genout" id="genOut" style="display:none"></div>
+      <button class="btn pink sm" id="genToWizardBtn" style="display:none;margin-top:10px" onclick="genToWizard()">この内容で出品フローに進む</button>
     </div>
     <div class="note">
-      いまはキーワードから型に沿って文章を組み立てる<b>デモ版</b>です。本実装では、撮影した写真をAIが解析して、状態・ブランド・相場から自動でタイトル・説明文・推奨価格まで生成します。
+      キーワードから型に沿って文章を組み立てる<b>デモ版</b>です。本実装では、撮影した写真をAIが解析して、状態・ブランド・相場から自動でタイトル・説明文・推奨価格まで生成します。「＋出品する」フローの<b>おたすけ君</b>と同じロジックです。
     </div>
   </section>
 
@@ -281,6 +301,27 @@
       <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">写真加工ツール</div>
       <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">白抜き＆左上の文字入れはこちらから。別タブで開きます。</div>
       <button class="btn blue sm" onclick="openPhotoTool()">写真加工ツールを開く</button>
+    </div>
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">スプシ自動書き出し</div>
+      <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">
+        ONにすると、出品したり「売れた」に更新するたびに、あなたの売上管理スプシの<b style="color:var(--pinkd)">出品明細</b>タブへ自動で1行ずつ書き出します。<br>
+        まず<b style="color:var(--pinkd)">GASのデプロイ手順（別途案内）</b>で出たWeb App URLを下に貼り、次に自分の売上管理スプシのURLを入れてね。明細タブは初回書き出し時に自動でできます。
+      </div>
+      <div class="field"><label>GAS Web App URL</label><input id="s-url" placeholder="https://script.google.com/macros/s/XXX/exec"></div>
+      <div class="field"><label>売上管理スプシのURL または ID</label><input id="s-sheet" placeholder="https://docs.google.com/spreadsheets/d/XXX/edit" oninput="onSheetIdInput()"><div id="s-sheetid" style="font-size:10.5px;color:var(--sub);margin-top:5px"></div></div>
+      <div class="field" style="margin-bottom:10px">
+        <label>自動書き出し</label>
+        <div class="filterbar">
+          <button type="button" id="s-off" class="on" onclick="setSheetEnabled(false)">OFF</button>
+          <button type="button" id="s-on" onclick="setSheetEnabled(true)">ON</button>
+        </div>
+      </div>
+      <div class="row2">
+        <button class="btn navy sm" onclick="saveSheetSettings()">設定を保存</button>
+        <button class="btn ghost sm" onclick="testSheet()">接続テスト</button>
+      </div>
+      <div class="note" style="margin-top:10px">接続テストは<b>テスト用のダミー行</b>を1件送ります。通信方式（no-cors）の都合で成功/失敗はこの画面では判定できません。送信後、スプシの<b>出品明細</b>タブを開いて行が増えているか確認してね。</div>
     </div>
     <div class="card">
       <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">データ管理</div>
@@ -355,6 +396,89 @@
   </div>
 </div>
 
+<!-- ===== listing wizard modal ===== -->
+<div class="modal" id="wizModal">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2 id="wizTitle">出品する</h2>
+
+    <!-- step indicator -->
+    <div class="wizsteps" id="wizSteps">
+      <div class="wstep on" data-s="1"><span class="wnum">1</span>写真</div>
+      <div class="wline"></div>
+      <div class="wstep" data-s="2"><span class="wnum">2</span>おたすけ君</div>
+      <div class="wline"></div>
+      <div class="wstep" data-s="3"><span class="wnum">3</span>確認</div>
+    </div>
+
+    <!-- STEP 1: photo -->
+    <div class="wizpane" id="wiz-1">
+      <div class="card" style="margin-bottom:12px">
+        <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">写真を切り抜き</div>
+        <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">白抜き加工は別タブの写真加工ツールで。加工した写真を保存してから、下で選んでください。</div>
+        <button class="btn blue sm" style="margin-bottom:10px" onclick="openPhotoTool()">写真を加工する（別タブ）</button>
+        <div class="field" style="margin-bottom:0">
+          <label>加工した写真を選ぶ</label>
+          <input id="wz-photo" type="file" accept="image/*" onchange="wizHandlePhoto(event)">
+          <div id="wzPhotoPrev" style="margin-top:8px"></div>
+        </div>
+      </div>
+      <button class="btn navy" onclick="wizGo(2)">次へ（写真なしでもOK）</button>
+      <button class="close" onclick="closeModal('wizModal')">閉じる</button>
+    </div>
+
+    <!-- STEP 2: helper -->
+    <div class="wizpane" id="wiz-2" style="display:none">
+      <div class="card" style="margin-bottom:12px">
+        <div class="field"><label>商品名<span class="req">*</span></label><input id="wz-name" placeholder="例：CHANEL ローファー 37"></div>
+        <div class="row2">
+          <div class="field"><label>カテゴリ</label><input id="wz-cat" list="catlist" placeholder="レディース靴 など"></div>
+          <div class="field"><label>状態</label>
+            <select id="wz-cond">
+              <option>新品・未使用</option>
+              <option>未使用に近い</option>
+              <option selected>目立った傷や汚れなし</option>
+              <option>やや傷や汚れあり</option>
+              <option>傷や汚れあり</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>ブランド（任意）</label><input id="wz-brand" placeholder="CHANEL など"></div>
+          <div class="field"><label>色・サイズ（任意）</label><input id="wz-opt" placeholder="ベージュ / 37 など"></div>
+        </div>
+        <div class="field" style="margin-bottom:0"><label>仕入れ値（円・任意）</label><input id="wz-cost" type="number" inputmode="numeric" placeholder="0"></div>
+      </div>
+      <button class="btn blue" style="margin-bottom:12px" onclick="wizGenerate()">作成する</button>
+
+      <!-- editable generated result -->
+      <div id="wizGenBox" style="display:none">
+        <div class="card">
+          <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:10px;">生成結果（そのまま編集できます）</div>
+          <div class="field"><label>タイトル<span id="wzTitleLen" style="color:var(--sub);font-weight:600;margin-left:4px"></span></label><input id="wz-title" oninput="wizTitleLen()" maxlength="40"></div>
+          <div class="field"><label>説明文</label><textarea id="wz-desc" style="min-height:120px"></textarea></div>
+          <div class="field"><label>ハッシュタグ（スペース区切り）</label><textarea id="wz-tags" style="min-height:48px"></textarea></div>
+          <div class="row2">
+            <div class="field"><label>出品価格（円）</label><input id="wz-price" type="number" inputmode="numeric"></div>
+            <div class="field"><label>手取り目安</label><input id="wz-take" readonly style="background:var(--bg2);color:var(--navy);font-weight:800"></div>
+          </div>
+          <div class="note" id="wzPriceNote" style="margin-top:2px"></div>
+        </div>
+        <button class="btn navy" onclick="wizGo(3)">確認へ進む</button>
+      </div>
+      <button class="close" onclick="wizGo(1)">← 写真に戻る</button>
+    </div>
+
+    <!-- STEP 3: confirm -->
+    <div class="wizpane" id="wiz-3" style="display:none">
+      <div class="card" id="wizConfirm" style="margin-bottom:12px"></div>
+      <div class="note" style="margin-bottom:12px">「出品完了・在庫に登録」で、この内容がそのまま在庫の1品として登録されます（状態＝出品中／出品日＝今日）。</div>
+      <button class="btn pink" onclick="wizComplete()">出品完了・在庫に登録</button>
+      <button class="close" onclick="wizGo(2)">← 内容を直す</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== goal modal ===== -->
 <div class="modal" id="goalModal">
   <div class="sheet">
@@ -380,10 +504,11 @@
 "use strict";
 /* ============ storage ============ */
 var KEY = "seller_tool_v1";
-var state = { items:[], goals:{}, profile:{} };
+var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false} };
 function load(){
   try{ var raw = localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw);
-    state.items = p.items||[]; state.goals = p.goals||{}; state.profile = p.profile||{}; } }catch(e){}
+    state.items = p.items||[]; state.goals = p.goals||{}; state.profile = p.profile||{};
+    state.sheet = p.sheet || {url:"",sheetId:"",enabled:false}; } }catch(e){}
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
 
@@ -486,9 +611,15 @@ function saveItem(){
   if(!name){ toast("商品名を入れてね"); return; }
   var id = document.getElementById("f-id").value || ("i"+Date.now()+Math.floor(Math.random()*1000));
   var feeRaw = document.getElementById("f-fee").value;
+  var prev = state.items.find(function(x){return x.id===id;});
   var it = {
     id:id, name:name,
     cat: document.getElementById("f-cat").value.trim(),
+    // おたすけ君で生成した下書きフィールドは編集時も保持
+    cond: prev? (prev.cond||"") : "",
+    title: prev? (prev.title||"") : "",
+    desc: prev? (prev.desc||"") : "",
+    tags: prev? (prev.tags||"") : "",
     photo: tmpPhoto||"",
     cost: num(document.getElementById("f-cost").value),
     price: num(document.getElementById("f-price").value),
@@ -500,8 +631,14 @@ function saveItem(){
     ship: soldState? num(document.getElementById("f-ship").value) : 0
   };
   var idx = state.items.findIndex(function(x){return x.id===id;});
+  var isNew = idx<0;
   if(idx>=0) state.items[idx]=it; else state.items.unshift(it);
-  save(); closeModal("itemModal"); renderItems(); toast("保存しました");
+  save(); closeModal("itemModal"); renderItems();
+  // スプシ書き出し：新規=add、売れた更新=sold（同じフックを通す）。it.take を明細に反映するため付与
+  var sent=false;
+  if(it.sold){ it.take=takeHome(it); sent=sheetPost("sold", it); }
+  else if(isNew){ sent=sheetPost("add", it); }
+  toast(sent? "保存＋スプシに書き出したよ" : "保存しました");
 }
 function quickSell(id){ openItemModal(id); setSoldState(true); }
 function delItem(id){
@@ -668,51 +805,309 @@ function saveProfile(){
   save(); toast("基本情報を保存しました");
 }
 
-/* ============ おたすけライト君（ルールベース demo） ============ */
-var lastGen=null;
-function runGen(){
-  var name=document.getElementById("gen-name").value.trim();
-  var cat=document.getElementById("gen-cat").value.trim();
-  if(!name){ toast("商品名を入れてね"); return; }
-  var brand=(name.match(/^[A-Za-zＡ-Ｚａ-ｚ&\.\s]+/)||[""])[0].trim();
-  var state1 = "美品";
-  var title = (name + " " + (cat||"") + " " + state1 + " 送料無料 即購入OK").replace(/\s+/g," ").trim();
+/* ============ スプシ自動書き出し設定 ============ */
+var sheetEnabled=false;
+function extractSheetId(v){
+  v=(v||"").trim();
+  var m=v.match(/\/d\/([a-zA-Z0-9_-]+)/); // URLなら /d/XXX/ から抽出
+  if(m) return m[1];
+  return v; // すでにIDならそのまま
+}
+function loadSheetSettings(){
+  var s=state.sheet||{};
+  document.getElementById("s-url").value = s.url||"";
+  document.getElementById("s-sheet").value = s.url2||s.sheetRaw||s.sheetId||"";
+  setSheetEnabled(!!s.enabled);
+  onSheetIdInput();
+}
+function onSheetIdInput(){
+  var id=extractSheetId(document.getElementById("s-sheet").value);
+  document.getElementById("s-sheetid").textContent = id? ("スプシID: "+id) : "";
+}
+function setSheetEnabled(v){
+  sheetEnabled=v;
+  document.getElementById("s-off").classList.toggle("on", !v);
+  document.getElementById("s-on").classList.toggle("on", v);
+}
+function saveSheetSettings(){
+  var raw=document.getElementById("s-sheet").value.trim();
+  state.sheet={
+    url:document.getElementById("s-url").value.trim(),
+    sheetRaw:raw,
+    sheetId:extractSheetId(raw),
+    enabled:sheetEnabled
+  };
+  save(); onSheetIdInput(); toast("スプシ設定を保存しました");
+}
+/* GAS Web App へ書き出し（no-cors + text/plain が定石。kumiko-task-sync等と同方式） */
+function sheetPost(action, item){
+  var s=state.sheet||{};
+  if(!s.enabled || !s.url || !s.sheetId) return false;
+  try{
+    fetch(s.url,{method:"POST",mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({sheetId:s.sheetId, action:action, item:item})});
+    return true;
+  }catch(e){ return false; }
+}
+function testSheet(){
+  var url=document.getElementById("s-url").value.trim();
+  var id=extractSheetId(document.getElementById("s-sheet").value);
+  if(!url||!id){ toast("URLとスプシIDを入れてね"); return; }
+  var dummy={ id:"test"+Date.now(), name:"接続テスト（この行は消してOK）", cat:"テスト",
+    cond:"—", title:"接続テスト", desc:"アプリからの送信テストです。", tags:"",
+    cost:0, price:0, listDate:today(), sold:false, sellDate:"", sellPrice:0, fee:"", ship:0 };
+  try{
+    fetch(url,{method:"POST",mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({sheetId:id, action:"add", item:dummy})});
+  }catch(e){}
+  toast("送信しました。スプシの出品明細タブを確認してね");
+}
+
+/* ============ おたすけライト君（ルールベース・共通ロジック） ============ */
+/* reseller-assistant の runListing / runPrice を参考にしたルールベース生成。
+   入力: {name,cat,cond,brand,opt,cost} → 出力: {title,desc,tags,price,fast,high} */
+function isBetter(cond){ return /新品|未使用/.test(cond||""); }
+function buildDraft(inp){
+  var name=(inp.name||"").trim();
+  var cat=(inp.cat||"").trim();
+  var cond=inp.cond||"目立った傷や汚れなし";
+  var opt=(inp.opt||"").trim();
+  // ブランド：明示があれば優先、なければ商品名の英字先頭から推定
+  var brand=(inp.brand||"").trim() || (name.match(/^[A-Za-zＡ-Ｚａ-ｚ&\.\s]+/)||[""])[0].trim();
+  var grade = isBetter(cond)? "美品":"良品";
+
+  // タイトル（40字以内）: runListing の連結型を踏襲
+  var title = [name, opt, grade, "送料無料", "即購入OK"].filter(Boolean).join(" ").replace(/\s+/g," ").trim();
   if(title.length>40) title=title.slice(0,40);
+
+  // 説明文: runListing の見出しブロック構成を踏襲
   var desc =
-    "ご覧いただきありがとうございます。\n"+
-    "【"+name+"】"+(cat?"（"+cat+"）":"")+"\n"+
-    "・"+state1+"／自宅保管品です\n"+
+    "ご覧いただきありがとうございます。\n\n"+
+    "【"+name+"】"+(cat?"（"+cat+"）":"")+(opt?" "+opt:"")+"\n"+
+    "状態は「"+cond+"」です。"+(brand?brand+"の"+ (cat||"アイテム")+"になります。":"")+"\n\n"+
+    "【おすすめポイント】\n"+
+    "・"+grade+"／自宅保管品です\n"+
     "・大きな傷や汚れはございません\n"+
-    "・気持ちよくお使いいただけるよう丁寧に梱包いたします\n"+
+    "・気持ちよくお使いいただけるよう丁寧に梱包いたします\n\n"+
+    "【発送・その他】\n"+
+    "・即購入歓迎です。お値下げご希望の方はコメントでご相談ください\n"+
+    "・発送は1〜2日以内を予定しています\n\n"+
     "気になる点はお気軽にコメントください☺";
-  var tags = ["#"+ (brand||name).replace(/\s+/g,""), cat? "#"+cat.replace(/\s+/g,""):"", "#美品","#送料無料"].filter(Boolean).join(" ");
-  var price = suggestPrice(cat);
-  lastGen = {name:name, cat:cat, title:title, desc:desc, tags:tags, price:price};
-  var out=document.getElementById("genOut");
-  out.style.display="block";
-  out.innerHTML =
-    '<div class="g-lbl">タイトル（'+title.length+'字）</div><div class="g-val">'+esc(title)+'</div>'+
-    '<div class="g-lbl">説明文</div><div class="g-val" style="white-space:pre-wrap">'+esc(desc)+'</div>'+
-    '<div class="g-lbl">ハッシュタグ</div><div class="g-tags">'+esc(tags)+'</div>'+
-    '<div class="g-lbl">推奨価格</div><div class="g-val">'+yen(price)+' 前後（相場から調整してください）</div>';
+
+  // ハッシュタグ
+  var tags = ["#"+(brand||name).replace(/\s+/g,""), cat?"#"+cat.replace(/\s+/g,""):"",
+    "#"+grade, "#送料無料", "#即購入OK"].filter(Boolean);
+  tags = tags.filter(function(t,i){ return tags.indexOf(t)===i; }).join(" ");
+
+  // 価格: suggestPrice をベースに、状態で3パターン（runPrice の fast/相場/美品を踏襲）
+  var cost = num(inp.cost);
+  var base = suggestPrice(cat);
+  if(isBetter(cond)) base = Math.round(base*1.15/100)*100;
+  else if(/傷や汚れあり/.test(cond)) base = Math.round(base*0.85/100)*100;
+
+  // 下限：手取り（price*0.9 - 送料700 - 仕入れ）が最低+500円になる価格を計算し、
+  // 相場推奨がそれ未満なら下限価格を採用（推奨が仕入れを割って手取りマイナスになるのを防ぐ）
+  var floor = priceFloor(cost);
+  var belowCost = false;
+  if(cost>0 && base<floor){ base = floor; belowCost = true; }
+
+  var fast = Math.max(priceFloor(cost), Math.round(base*0.82/100)*100);
+  var high = Math.round(base*1.28/100)*100;
+  return {name:name, cat:cat, cond:cond, brand:brand, opt:opt,
+    title:title, desc:desc, tags:tags, price:base, fast:fast, high:high, cost:cost, belowCost:belowCost};
 }
 function suggestPrice(cat){
   var map={"バッグ":8000,"レディース靴":4500,"レディース服":3000,"メンズ服":3000,"アクセサリー":3500,"家電":6000,"キッズ":1800};
   return map[cat]||2500;
 }
-function genToStock(){
+/* 手取りが最低 MIN_TAKE 円以上になる出品価格の下限（100円単位で切上げ） */
+var MIN_TAKE = 500;
+function priceFloor(cost){
+  // price*0.9 - 700 - cost >= MIN_TAKE  =>  price >= (MIN_TAKE + 700 + cost) / 0.9
+  var p = (MIN_TAKE + 700 + num(cost)) / 0.9;
+  return Math.ceil(p/100)*100;
+}
+/* 手取り目安: 売値 - 手数料10% - 送料700 - 仕入れ値（runPrice の profit() を踏襲） */
+function estTake(price, cost){ return Math.round(num(price)*0.9 - 700 - num(cost)); }
+
+/* --- 下書きタブ（おたすけ君と同ロジック） --- */
+var lastGen=null;
+function runGen(){
+  var name=document.getElementById("gen-name").value.trim();
+  if(!name){ toast("商品名を入れてね"); return; }
+  var d = buildDraft({
+    name:name,
+    cat:document.getElementById("gen-cat").value,
+    cond:document.getElementById("gen-cond").value,
+    brand:document.getElementById("gen-brand").value,
+    opt:document.getElementById("gen-opt").value,
+    cost:document.getElementById("gen-cost").value
+  });
+  lastGen = d;
+  var take = estTake(d.price, d.cost);
+  var out=document.getElementById("genOut");
+  out.style.display="block";
+  out.innerHTML =
+    '<div class="g-lbl">タイトル（'+d.title.length+'字）</div><div class="g-val">'+esc(d.title)+'</div>'+
+    '<div class="g-lbl">説明文</div><div class="g-val" style="white-space:pre-wrap">'+esc(d.desc)+'</div>'+
+    '<div class="g-lbl">ハッシュタグ</div><div class="g-tags">'+esc(d.tags)+'</div>'+
+    '<div class="g-lbl">推奨価格</div><div class="g-val">'+yen(d.price)+' 前後（早め '+yen(d.fast)+'／美品 '+yen(d.high)+'）</div>'+
+    '<div class="g-lbl">手取り目安</div><div class="g-val"'+(take<0?' style="color:var(--pinkd)"':'')+'>'+yen(take)+'（手数料10%＋送料700円＋仕入れ値を差引）</div>'+
+    (d.belowCost? '<div class="g-val" style="color:var(--pinkd);margin-top:4px">仕入れに対して相場が低めです。値付け注意。手取りが残る最低ラインで表示しています。</div>':"");
+  document.getElementById("genToWizardBtn").style.display="block";
+}
+function genToWizard(){
   if(!lastGen){ toast("先に下書きを作ってね"); return; }
-  go("stock"); openItemModal();
-  document.getElementById("f-name").value = lastGen.name;
-  document.getElementById("f-cat").value = lastGen.cat||"";
-  document.getElementById("f-price").value = lastGen.price;
-  toast("在庫フォームに反映しました");
+  openWizard(lastGen);
 }
 
 /* ============ photo tool ============ */
 function openPhotoTool(){
   // 実在パス（seller-tool から見た相対）
   window.open("../photo-tool/","_blank");
+}
+
+/* ============ 出品ウィザード ============ */
+var wizPhoto=null, wizDraft=null;
+function openWizard(prefill){
+  wizPhoto=null; wizDraft=null;
+  document.getElementById("wz-photo").value="";
+  document.getElementById("wzPhotoPrev").innerHTML="";
+  // step2 入力
+  document.getElementById("wz-name").value  = prefill? (prefill.name||""):"";
+  document.getElementById("wz-cat").value   = prefill? (prefill.cat||""):"";
+  document.getElementById("wz-cond").value  = prefill? (prefill.cond||"目立った傷や汚れなし"):"目立った傷や汚れなし";
+  document.getElementById("wz-brand").value = prefill? (prefill.brand||""):"";
+  document.getElementById("wz-opt").value   = prefill? (prefill.opt||""):"";
+  document.getElementById("wz-cost").value  = (prefill&&prefill.cost)? prefill.cost:"";
+  document.getElementById("wizGenBox").style.display="none";
+  wizGo(1);
+  openModal("wizModal");
+  // 下書きタブから来た場合は生成済み内容を反映
+  if(prefill && prefill.title){ wizFillGen(prefill); wizGo(2); }
+}
+function wizGo(step){
+  [1,2,3].forEach(function(s){
+    document.getElementById("wiz-"+s).style.display = (s===step)?"block":"none";
+    var el=document.querySelector('.wstep[data-s="'+s+'"]');
+    el.classList.toggle("on", s===step);
+    el.classList.toggle("done", s<step);
+  });
+  if(step===3) wizRenderConfirm();
+  var sh=document.querySelector("#wizModal .sheet"); if(sh) sh.scrollTop=0;
+}
+function wizHandlePhoto(e){
+  var file=e.target.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){
+      var max=600,w=img.width,h=img.height;
+      if(w>h && w>max){ h=Math.round(h*max/w); w=max; }
+      else if(h>=w && h>max){ w=Math.round(w*max/h); h=max; }
+      var cv=document.createElement("canvas"); cv.width=w; cv.height=h;
+      cv.getContext("2d").drawImage(img,0,0,w,h);
+      wizPhoto=cv.toDataURL("image/jpeg",0.82);
+      document.getElementById("wzPhotoPrev").innerHTML='<img src="'+wizPhoto+'" style="width:96px;height:96px;object-fit:cover;border-radius:12px;border:1px solid var(--line)">';
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function wizGenerate(){
+  var name=document.getElementById("wz-name").value.trim();
+  if(!name){ toast("商品名を入れてね"); return; }
+  var d=buildDraft({
+    name:name,
+    cat:document.getElementById("wz-cat").value,
+    cond:document.getElementById("wz-cond").value,
+    brand:document.getElementById("wz-brand").value,
+    opt:document.getElementById("wz-opt").value,
+    cost:document.getElementById("wz-cost").value
+  });
+  wizFillGen(d);
+}
+function wizFillGen(d){
+  wizDraft=d;
+  document.getElementById("wz-title").value=d.title;
+  document.getElementById("wz-desc").value=d.desc;
+  document.getElementById("wz-tags").value=d.tags;
+  document.getElementById("wz-price").value=d.price;
+  document.getElementById("wzPriceNote").innerHTML=
+    "<b>参考</b>：早め "+yen(d.fast)+" ／ 相場 "+yen(d.price)+" ／ 美品 "+yen(d.high)+"。写真AIが本実装では相場から自動算出します。"+
+    (d.belowCost? '<div style="color:var(--pinkd);margin-top:6px">仕入れに対して相場が低めです。値付け注意。手取りが残るよう最低ラインで表示しています。</div>':"");
+  wizTitleLen();
+  wizTake();
+  document.getElementById("wz-price").oninput=wizTake;
+  document.getElementById("wizGenBox").style.display="block";
+}
+function wizTitleLen(){
+  var v=document.getElementById("wz-title").value;
+  document.getElementById("wzTitleLen").textContent="（"+v.length+"字/40）";
+}
+function wizTake(){
+  var take=estTake(document.getElementById("wz-price").value, wizDraft?wizDraft.cost:0);
+  var el=document.getElementById("wz-take");
+  el.value=yen(take);
+  el.style.color = take<0? "var(--pinkd)":"var(--navy)";
+}
+function wizRenderConfirm(){
+  var name=document.getElementById("wz-name").value.trim();
+  var title=document.getElementById("wz-title").value.trim();
+  var desc=document.getElementById("wz-desc").value.trim();
+  var tags=document.getElementById("wz-tags").value.trim();
+  var price=num(document.getElementById("wz-price").value);
+  var cond=document.getElementById("wz-cond").value;
+  var cat=document.getElementById("wz-cat").value.trim();
+  var take=estTake(price, wizDraft?wizDraft.cost:0);
+  var thumb=wizPhoto? '<img src="'+wizPhoto+'" style="width:72px;height:72px;object-fit:cover;border-radius:12px;border:1px solid var(--line)">'
+    : '<div style="width:72px;height:72px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:10px">写真なし</div>';
+  document.getElementById("wizConfirm").innerHTML=
+    '<div style="display:flex;gap:12px;margin-bottom:12px;align-items:center">'+thumb+
+      '<div style="min-width:0"><div style="font-size:14px;font-weight:800;color:var(--navy)">'+esc(name||"（無題）")+'</div>'+
+      '<div style="font-size:11px;color:var(--sub);margin-top:3px">'+esc(cat||"カテゴリ未設定")+' ・ '+esc(cond)+'</div></div>'+
+    '</div>'+
+    '<div class="g-lbl" style="font-size:10px;color:var(--pinkd);font-weight:800">タイトル（'+title.length+'字）</div>'+
+    '<div style="font-size:12.5px;color:var(--navy);margin:2px 0 8px;line-height:1.6">'+esc(title)+'</div>'+
+    '<div class="g-lbl" style="font-size:10px;color:var(--pinkd);font-weight:800">説明文</div>'+
+    '<div style="font-size:12px;color:var(--ink);margin:2px 0 8px;white-space:pre-wrap;line-height:1.7;max-height:150px;overflow:auto;background:var(--bg2);border-radius:10px;padding:10px">'+esc(desc)+'</div>'+
+    '<div class="g-lbl" style="font-size:10px;color:var(--pinkd);font-weight:800">ハッシュタグ</div>'+
+    '<div style="font-size:12px;color:var(--blued);font-weight:700;margin:2px 0 10px">'+esc(tags)+'</div>'+
+    '<div class="takehome"><span class="k">出品価格 '+yen(price)+' → 手取り目安</span><span class="v'+(take<0?" neg":"")+'">'+yen(take)+'</span></div>';
+}
+function wizComplete(){
+  var name=document.getElementById("wz-name").value.trim();
+  if(!name){ toast("商品名が空です"); wizGo(2); return; }
+  var item={
+    id:"i"+Date.now()+Math.floor(Math.random()*1000),
+    name:name,
+    cat:document.getElementById("wz-cat").value.trim(),
+    cond:document.getElementById("wz-cond").value,
+    title:document.getElementById("wz-title").value.trim(),
+    desc:document.getElementById("wz-desc").value.trim(),
+    tags:document.getElementById("wz-tags").value.trim(),
+    photo:wizPhoto||"",
+    cost:num(wizDraft?wizDraft.cost:0),
+    price:num(document.getElementById("wz-price").value),
+    listDate:today(),
+    sold:false, sellDate:"", sellPrice:0, fee:"", ship:0
+  };
+  var sent=saveListing(item);
+  closeModal("wizModal");
+  go("stock");
+  toast(sent? "在庫に登録＋スプシにも書き出したよ" : "出品完了！在庫に登録しました");
+}
+
+/* 出品完了の登録処理は単一関数に集約。enabled時のみGAS Web AppへPOST（add）。 */
+function saveListing(item){
+  var idx=state.items.findIndex(function(x){return x.id===item.id;});
+  if(idx>=0) state.items[idx]=item; else state.items.unshift(item);
+  save();
+  renderItems();
+  // Step4 スプシ書き出しフック：一意idを含めて送信（後で"売れた"更新時に行特定するため）
+  return sheetPost("add", item);
 }
 
 /* ============ import / export ============ */
@@ -729,7 +1124,8 @@ function importJSON(e){
     try{
       var p=JSON.parse(ev.target.result);
       state.items=p.items||[]; state.goals=p.goals||{}; state.profile=p.profile||{};
-      save(); loadProfile(); renderItems(); renderDash(); toast("読み込みました");
+      if(p.sheet) state.sheet=p.sheet;
+      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); toast("読み込みました");
     }catch(err){ toast("読み込めませんでした"); }
     e.target.value="";
   };
@@ -742,7 +1138,7 @@ function closeModal(id){ document.getElementById(id).classList.remove("open"); }
 document.querySelectorAll(".modal").forEach(function(m){ m.addEventListener("click",function(e){ if(e.target===m) m.classList.remove("open"); }); });
 
 /* ============ init ============ */
-load(); loadProfile(); renderItems(); renderDash();
+load(); loadProfile(); loadSheetSettings(); renderItems(); renderDash();
 </script>
 </body>
 </html>
