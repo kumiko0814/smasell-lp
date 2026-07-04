@@ -248,6 +248,81 @@
   .fx-coin{margin-top:-6px;font-size:15px;font-weight:800;color:#fff;background:var(--navy);
     border-radius:20px;padding:4px 14px;box-shadow:0 3px 0 var(--navy2);animation:coinRise .6s ease-out;}
   @keyframes coinRise{0%{transform:translateY(10px);opacity:0}100%{transform:translateY(0);opacity:1}}
+
+  /* ===== 性格診断（ソーシャルスタイル）===== */
+  /* 在庫ホームの誘導カード */
+  .diag-invite{background:linear-gradient(135deg,#f4f9fd,#fbeef1);border:1px solid var(--line);
+    border-radius:18px;padding:15px 16px;margin-bottom:14px;}
+  .diag-invite .di-ttl{font-size:13.5px;font-weight:800;color:var(--navy);line-height:1.5;margin-bottom:4px;}
+  .diag-invite .di-sub{font-size:11.5px;color:var(--sub);line-height:1.6;margin-bottom:11px;}
+  .diag-invite .di-row{display:flex;gap:9px;}
+  .diag-invite .di-row .btn{margin:0;}
+  .diag-invite .di-later{flex:0 0 92px;}
+
+  /* 診断済みバッジ（ホーム・設定） */
+  .diag-mine{display:flex;align-items:center;gap:11px;background:var(--paper);border:1px solid var(--line);
+    border-radius:16px;padding:12px 14px;margin-bottom:14px;}
+  .diag-mine .dm-ic{width:46px;height:46px;flex-shrink:0;}
+  .diag-mine .dm-body{flex:1;min-width:0;}
+  .diag-mine .dm-tp{font-size:13px;font-weight:800;color:var(--navy);line-height:1.3;}
+  .diag-mine .dm-tp small{color:var(--sub);font-weight:600;font-size:10.5px;margin-left:5px;}
+  .diag-mine .dm-sub{font-size:10.5px;color:var(--sub);margin-top:2px;line-height:1.5;}
+  .diag-mine .dm-btn{flex-shrink:0;border:1px solid var(--line);background:var(--bg2);color:var(--navy);
+    border-radius:10px;font-size:11px;font-weight:700;padding:8px 10px;cursor:pointer;font-family:inherit;line-height:1.2;}
+
+  /* 診断モーダル：設問 */
+  .diag-prog{height:7px;background:var(--bg2);border-radius:20px;overflow:hidden;border:1px solid var(--line);
+    margin-bottom:6px;}
+  .diag-progfill{height:100%;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:20px;
+    transition:width .35s;min-width:2px;}
+  .diag-progtxt{font-size:11px;color:var(--sub);font-weight:700;text-align:center;margin-bottom:16px;}
+  .diag-q{font-size:17px;font-weight:800;color:var(--navy);line-height:1.5;margin:6px 2px 18px;text-align:center;}
+  .diag-opts{display:flex;flex-direction:column;gap:11px;margin-bottom:8px;}
+  .diag-opt{width:100%;text-align:left;border:2px solid var(--line);background:var(--paper);color:var(--navy);
+    border-radius:14px;padding:16px 16px;font-size:14.5px;font-weight:700;font-family:inherit;cursor:pointer;
+    line-height:1.5;transition:transform .05s,border-color .15s,background .15s;}
+  .diag-opt:active{transform:scale(.98);}
+  .diag-opt.sel{border-color:var(--pink);background:var(--pinkbg);color:var(--pinkd);}
+  .diag-back{background:none;border:none;color:var(--sub);font-size:13px;cursor:pointer;font-family:inherit;
+    display:block;margin:12px auto 0;padding:8px;}
+
+  /* 診断結果 */
+  .diag-res-hero{display:flex;flex-direction:column;align-items:center;text-align:center;
+    background:linear-gradient(135deg,#f4f9fd,#fbeef1);border:1px solid var(--line);border-radius:18px;
+    padding:20px 16px 18px;margin-bottom:14px;}
+  .diag-res-ic{width:104px;height:104px;margin-bottom:6px;}
+  .diag-res-tp{font-size:21px;font-weight:800;color:var(--navy);letter-spacing:.02em;}
+  .diag-res-en{font-size:11px;font-weight:700;color:var(--pinkd);letter-spacing:.06em;margin-top:2px;}
+  .diag-res-cap{font-size:12.5px;color:var(--ink);line-height:1.7;margin-top:9px;}
+  .diag-strengths{list-style:none;padding:0;margin:0 0 14px;}
+  .diag-strengths li{display:flex;gap:9px;align-items:flex-start;background:var(--paper);border:1px solid var(--line);
+    border-radius:13px;padding:11px 13px;margin-bottom:9px;font-size:13px;color:var(--navy);
+    font-weight:700;line-height:1.5;}
+  .diag-strengths li .st-no{flex:0 0 22px;height:22px;border-radius:50%;background:var(--pinkd);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
+  .diag-why{background:var(--navy);color:#fff;border-radius:16px;padding:15px 16px;margin-bottom:14px;}
+  .diag-why .dw-ttl{font-size:12px;font-weight:800;color:#b9cbe0;margin-bottom:7px;letter-spacing:.03em;}
+  .diag-why .dw-txt{font-size:13px;line-height:1.85;color:#fff;}
+
+  /* ルーティーン */
+  .rt-head{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
+  .rt-head .rt-ic{width:44px;height:44px;flex-shrink:0;}
+  .rt-head .rt-t{font-size:14px;font-weight:800;color:var(--navy);line-height:1.4;}
+  .rt-head .rt-t small{display:block;color:var(--sub);font-weight:600;font-size:11px;margin-top:2px;}
+  .rt-target{background:var(--pinkbg);border-radius:13px;padding:12px 14px;margin-bottom:12px;
+    display:flex;justify-content:space-between;align-items:center;}
+  .rt-target .k{font-size:11.5px;color:var(--pinkd);font-weight:700;}
+  .rt-target .v{font-size:20px;font-weight:800;color:var(--pinkd);}
+  .rt-target .v small{font-size:12px;font-weight:600;}
+  .rt-steps{list-style:none;padding:0;margin:0 0 12px;}
+  .rt-steps li{display:flex;gap:10px;align-items:flex-start;padding:10px 2px;border-bottom:1px solid var(--line);
+    font-size:13px;color:var(--ink);line-height:1.6;}
+  .rt-steps li:last-child{border-bottom:none;}
+  .rt-steps li .rt-dot{flex:0 0 8px;height:8px;border-radius:50%;background:var(--blue);margin-top:6px;}
+  .rt-steps li b{color:var(--navy);}
+  .rt-edit textarea{width:100%;padding:12px 13px;border:2px solid var(--line);border-radius:11px;
+    font-size:13px;color:var(--navy);font-family:inherit;background:var(--paper);line-height:1.7;min-height:120px;resize:vertical;}
+  .rt-edit textarea:focus{outline:none;border-color:var(--blue);}
 </style>
 </head>
 <body>
@@ -264,6 +339,7 @@
   <!-- ========== 在庫 ========== -->
   <section class="page active" id="page-stock">
     <div id="autoSaveBadge" style="display:none"></div>
+    <div id="diagHome"></div>
     <div id="buddyHome" class="buddy-home"></div>
     <div class="sec-title">在庫（商品明細）<small id="stockCount"></small></div>
     <button class="btn pink" style="margin-bottom:10px" onclick="openWizard()">＋ 出品する<span style="font-weight:600;font-size:11px;opacity:.85;margin-left:6px">写真→文章→登録まで</span></button>
@@ -357,6 +433,11 @@
         <div class="field"><label>目標利益額/月</label><input id="p-goal" type="number" inputmode="numeric" placeholder="100000"></div>
       </div>
       <button class="btn navy sm" onclick="saveProfile()">基本情報を保存</button>
+    </div>
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">あなたのタイプ診断<span style="color:var(--sub);font-weight:600;font-size:11px;margin-left:6px">1分・全12問</span></div>
+      <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">かんたんな質問に答えると、あなたに合った続けやすい出品のペースとやり方（あなた専用ルーティーン）が出ます。いつでも受け直せます。</div>
+      <div id="diagSetting"></div>
     </div>
     <div class="card">
       <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">写真加工ツール</div>
@@ -559,6 +640,46 @@
   </div>
 </div>
 
+<!-- ===== 性格診断モーダル（設問）===== -->
+<div class="modal" id="diagModal">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2 id="diagTitle">あなたのタイプ診断</h2>
+    <div class="diag-prog"><div class="diag-progfill" id="diagProgFill" style="width:0%"></div></div>
+    <div class="diag-progtxt" id="diagProgTxt">質問 1 / 12</div>
+    <div class="diag-q" id="diagQ"></div>
+    <div class="diag-opts" id="diagOpts"></div>
+    <button class="diag-back" id="diagBack" onclick="diagPrev()" style="display:none">← 前の質問にもどる</button>
+    <button class="close" onclick="closeModal('diagModal')">あとで（スキップ）</button>
+  </div>
+</div>
+
+<!-- ===== 診断結果モーダル ===== -->
+<div class="modal" id="diagResultModal">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2>診断結果</h2>
+    <div id="diagResult"></div>
+    <button class="btn pink" style="margin-top:6px" onclick="showRoutineFromResult()">あなた専用ルーティーンを見る</button>
+    <button class="close" onclick="closeModal('diagResultModal')">閉じる</button>
+  </div>
+</div>
+
+<!-- ===== ルーティーンモーダル ===== -->
+<div class="modal" id="routineModal">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2>あなた専用の出品ルーティーン</h2>
+    <div id="routineView"></div>
+    <div class="rt-edit" style="margin-top:6px">
+      <div class="field" style="margin-bottom:8px"><label>自由にメモ・書きかえOK（あなた仕様に）</label>
+        <textarea id="rt-memo" placeholder="ここにメモを書けます"></textarea></div>
+    </div>
+    <button class="btn navy" style="margin-top:6px" onclick="saveRoutine()">このルーティーンで保存<span style="font-weight:600;font-size:11px;opacity:.85;margin-left:6px">今日の目標にも反映</span></button>
+    <button class="close" onclick="closeModal('routineModal')">閉じる</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -575,12 +696,14 @@ var GAS_URL = "";  // ★デプロイ後にここへ .../exec を貼る（全生
 /* ============ storage ============ */
 var KEY = "seller_tool_v1";
 function defaultGame(){ return { xp:0, level:1, species:"egg", stage:"egg", streak:0, lastListDate:"", badges:[], todayDone:false, mood:"normal" }; }
-var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false}, game:defaultGame() };
+var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false}, game:defaultGame(), diagnosis:null, routine:null };
 function load(){
   try{ var raw = localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw);
     state.items = p.items||[]; state.goals = p.goals||{}; state.profile = p.profile||{};
     state.sheet = p.sheet || {url:"",sheetId:"",enabled:false};
-    state.game = normalizeGame(p.game); } }catch(e){}
+    state.game = normalizeGame(p.game);
+    state.diagnosis = p.diagnosis || null;
+    state.routine = p.routine || null; } }catch(e){}
 }
 /* game オブジェクトの欠損を埋める（既存ユーザーが game を持たない場合も安全に） */
 function normalizeGame(g){
@@ -623,7 +746,8 @@ function go(p){
   document.getElementById("page-"+p).classList.add("active");
   document.querySelectorAll(".tabbar button").forEach(function(b){ b.classList.toggle("on", b.dataset.p===p); });
   if(p==="dash") renderDash();
-  if(p==="stock"){ renderItems(); renderAutoSaveBadge(); renderGame(); }
+  if(p==="stock"){ renderItems(); renderAutoSaveBadge(); renderGame(); renderDiag(); }
+  if(p==="set") renderDiagSetting();
   window.scrollTo(0,0);
 }
 
@@ -1242,7 +1366,15 @@ function detectSpecies(){
   });
   var best="cozy", bestN=-1;
   ["chic","elegant","mecha","cozy"].forEach(function(k){ if(groups[k]>bestN){ bestN=groups[k]; best=k; } });
-  return bestN<=0? "cozy" : best;
+  // まだカテゴリ実績が無い（＝自動分岐できない）ときだけ、診断タイプで初期の寄りを味付け。
+  // 出品が積み上がれば↑のカテゴリ集計が主。既存の自動分岐は一切壊さない。
+  if(bestN<=0){ return speciesFromDiagnosis() || "cozy"; }
+  return best;
+}
+/* 診断タイプ→相棒系統の初期寄り（主導/分析=かしこ寄り、促進=おしゃれ寄り、支持=なごみ）。あくまで初期の味付け。 */
+function speciesFromDiagnosis(){
+  var d=state.diagnosis; if(!d) return null;
+  return {driving:"mecha", analytical:"mecha", expressive:"chic", amiable:"cozy"}[d.type]||null;
 }
 
 /* --- 今日のクエスト：goals の出品数目標から「今日◯品」を逆算 --- */
@@ -1503,6 +1635,371 @@ function showSoldCelebration(take){
   setTimeout(function(){ l.classList.remove("show"); }, 2600);
 }
 
+/* ============================================================
+   ★ 性格診断（ソーシャルスタイル・2軸方式／メリル&リード準拠）★
+   既存の回答DBスプシと同じ「4タイプ各々にスコア→最大スコア＝最も強いタイプ」構造。
+   自己主張(assert)/感情表出(express)の2軸で採点し、4象限スコアを導く。
+   items/goals/profile/sheet/game は一切壊さない。診断結果は state.diagnosis / state.routine に保存。
+   ※このロジックはNode検証で全パターン合格済み（主導/促進/支持/分析＋assert大幅マイナス→サポート型）。
+   ============================================================ */
+
+/* 設問（12問）：axis="assert"（自己主張軸）or "express"（感情表出軸）。
+   各選択肢に value(+2/+1/-1/-2)。value>0=軸が高方向、value<0=低方向。
+   30〜49歳・在宅女性・メルカリ物販に馴染む日常の言い回し。専門用語ゼロ。 */
+var DIAG_QUESTIONS = [
+  { axis:"assert", q:"やりたいことが決まったとき、あなたは？", opts:[
+    {t:"すぐ動き出したい。考えるより先に手が動く", v:2},
+    {t:"わりとすぐ動くほう", v:1},
+    {t:"少し様子を見てから動く", v:-1},
+    {t:"じっくり準備してから動きたい", v:-2}]},
+  { axis:"assert", q:"みんなで話しているとき、あなたは？", opts:[
+    {t:"自分から話を引っぱっていくことが多い", v:2},
+    {t:"けっこう自分から発言する", v:1},
+    {t:"聞き役にまわることが多い", v:-1},
+    {t:"だいたい聞き役。あまり自分からは話さない", v:-2}]},
+  { axis:"assert", q:"意見が分かれたとき、あなたは？", opts:[
+    {t:"はっきり自分の意見を言う", v:2},
+    {t:"言うべきときは言う", v:1},
+    {t:"できれば合わせたい", v:-1},
+    {t:"相手に合わせることが多い", v:-2}]},
+  { axis:"assert", q:"物事を決めるとき、あなたは？", opts:[
+    {t:"自分でパッと決めたい", v:2},
+    {t:"自分で決めるほう", v:1},
+    {t:"人に相談してから決めたい", v:-1},
+    {t:"人に決めてもらえると安心する", v:-2}]},
+  { axis:"assert", q:"新しいことを始めるとき、あなたは？", opts:[
+    {t:"まず自分がやってみせるタイプ", v:2},
+    {t:"前に出てみることが多い", v:1},
+    {t:"だれかの後についていきたい", v:-1},
+    {t:"できれば一歩下がって支えたい", v:-2}]},
+  { axis:"assert", q:"周りからよく言われるのは？", opts:[
+    {t:"リーダーっぽい・引っぱるタイプ", v:2},
+    {t:"しっかりしている・行動的", v:1},
+    {t:"おだやか・やさしい", v:-1},
+    {t:"控えめ・縁の下の力持ち", v:-2}]},
+  { axis:"express", q:"うれしいことがあったとき、あなたは？", opts:[
+    {t:"顔にも声にもすぐ出る。まわりにも伝えたい", v:2},
+    {t:"表情に出るほう", v:1},
+    {t:"内心うれしいけど、あまり表には出ない", v:-1},
+    {t:"落ち着いて受けとめる。表には出さない", v:-2}]},
+  { axis:"express", q:"人と話すとき、あなたは？", opts:[
+    {t:"身ぶり手ぶりも大きく、感情ゆたかに話す", v:2},
+    {t:"わりと表情ゆたかに話す", v:1},
+    {t:"落ち着いた話し方だと思う", v:-1},
+    {t:"淡々と・きちんと話すほう", v:-2}]},
+  { axis:"express", q:"物事を判断するとき、大事にするのは？", opts:[
+    {t:"そのときの気持ち・ワクワク感", v:2},
+    {t:"どちらかといえば気持ち重視", v:1},
+    {t:"どちらかといえば事実やデータ重視", v:-1},
+    {t:"数字や根拠をしっかり確かめたい", v:-2}]},
+  { axis:"express", q:"初対面の人に対して、あなたは？", opts:[
+    {t:"すぐ打ち解けて仲よくなれる", v:2},
+    {t:"わりと話しかけるほう", v:1},
+    {t:"少し慎重になる", v:-1},
+    {t:"まず相手をよく見てから、ゆっくり", v:-2}]},
+  { axis:"express", q:"作業の進め方は、どちらが近い？", opts:[
+    {t:"楽しさや気分をのせて進めたい", v:2},
+    {t:"気分がのると進む", v:1},
+    {t:"手順を決めてコツコツ進めたい", v:-1},
+    {t:"計画と記録をきっちり残して進めたい", v:-2}]},
+  { axis:"express", q:"あなたの雰囲気に近いのは？", opts:[
+    {t:"明るくて感情ゆたか・にぎやか", v:2},
+    {t:"あたたかくて表情ゆたか", v:1},
+    {t:"落ち着いていて冷静", v:-1},
+    {t:"きちんとしていて物静か", v:-2}]}
+];
+
+/* くみこ指定：自己主張が大きくマイナスの閾値（≦この値でサポート型の意味づけ） */
+var SUPPORT_ASSERT_THRESHOLD = -10;
+
+/* 採点：answers=各設問で選んだ value の配列 →
+   {assert, express, scores:{主導,分析,支持,促進}, type, label, supportType} */
+function scoreDiagnosis(answers){
+  var assert=0, express=0;
+  for(var i=0;i<DIAG_QUESTIONS.length;i++){
+    var v=answers[i];
+    if(typeof v!=="number") continue;
+    if(DIAG_QUESTIONS[i].axis==="assert") assert+=v; else express+=v;
+  }
+  /* 4タイプスコア＝各象限への寄与（符号一致度）。最大スコア＝最も強いタイプ。 */
+  var scores = {
+    "主導": assert - express,   // 自己主張:高 × 感情表出:低
+    "促進": assert + express,   // 自己主張:高 × 感情表出:高
+    "支持": -assert + express,  // 自己主張:低 × 感情表出:高
+    "分析": -assert - express   // 自己主張:低 × 感情表出:低
+  };
+  /* 最大スコア判定。同点タイブレークは express→assert の順（安定・決定論的）。 */
+  var order=["主導","促進","支持","分析"];
+  function tiebreakKey(t){
+    var eBias=(t==="促進"||t==="支持")? express : -express;
+    var aBias=(t==="主導"||t==="促進")? assert  : -assert;
+    return eBias*100 + aBias;
+  }
+  var best=order[0], bestScore=-Infinity, bestTie=-Infinity;
+  order.forEach(function(t){
+    var s=scores[t];
+    if(s>bestScore || (s===bestScore && tiebreakKey(t)>bestTie)){ bestScore=s; bestTie=tiebreakKey(t); best=t; }
+  });
+  var supportType=(assert<=SUPPORT_ASSERT_THRESHOLD);
+  return { assert:assert, express:express, scores:scores, type:typeKey(best), label:best, supportType:supportType };
+}
+function typeKey(label){ return {"主導":"driving","促進":"expressive","支持":"amiable","分析":"analytical"}[label]||"amiable"; }
+
+/* --- タイプ別メタ（ラベル/理論名/強み3つ/物販で輝く理由）--- */
+var DIAG_TYPE_INFO = {
+  driving:{ label:"主導タイプ", en:"DRIVING", color:{body:"#cf8f9c",accent:"#bd7886"},
+    cap:"決断が早く、行動的。結果に向かってぐいぐい進めるリーダー気質です。",
+    strengths:["決めたらすぐ動ける行動力","目標から逆算して結果を出す力","迷わず値付け・出品できる決断力"],
+    why:"物販は「出品した数」がそのまま結果になる世界です。あなたの“考えるより先に動く”強みは、そのまま売上に直結します。数字で目標を決めて一気に進めれば、あなたのペースが一番のびます。" },
+  expressive:{ label:"促進タイプ", en:"EXPRESSIVE", color:{body:"#cf8f9c",accent:"#bd7886"},
+    cap:"アイデア豊富で楽しいことが大好き。人を巻き込むムードメーカーです。",
+    strengths:["写真や見せ方を楽しく工夫できる発想力","前向きで場を明るくする力","楽しみながら続けられる推進力"],
+    why:"あなたは「楽しい」が原動力。写真を映えさせたり、売れた喜びを誰かと分かち合ったりすることで、自然と出品が続きます。ワクワクをそのまま出品に乗せられるのが、あなたの武器です。" },
+  amiable:{ label:"支持タイプ", en:"AMIABLE", color:{body:"#7fb0d2",accent:"#5f97be"},
+    cap:"聞き上手で協調的。人を支え、喜んでもらえることに幸せを感じるタイプです。",
+    strengths:["ていねいで信頼される対応力","相手の気持ちに寄りそえる力","コツコツ無理なく続けられる持続力"],
+    why:"あなたの「誰かの役に立ちたい」という気持ちは、物販ととても相性がいいんです。あなたが手放した1品は、それを本当に必要としている誰かのもとへ届きます。ていねいな対応は購入者に伝わり、リピートや高評価という形でちゃんと返ってきます。無理に自分を奮い立たせなくて大丈夫。あなたのやさしさが、そのまま売れる理由になります。" },
+  analytical:{ label:"分析タイプ", en:"ANALYTICAL", color:{body:"#26405f",accent:"#1d3149"},
+    cap:"慎重で正確。データと計画を大切に、着実に積み上げるタイプです。",
+    strengths:["相場を調べて的確に値付けする力","記録をつけて改善できる力","計画的にコツコツ積み上げる力"],
+    why:"物販は、調べて・記録して・改善する人がいちばん強い世界です。あなたの「きちんと確かめてから動く」慎重さは、失敗を減らし利益をしっかり残す力になります。派手さより確実さ。あなたのやり方こそ、長く続けて伸びるタイプです。" }
+};
+
+/* --- タイプ別ルーティーン（ルールベーステンプレ）--- */
+/* dailyTarget=1日の出品目安。steps=続け方3〜5行。 */
+var DIAG_ROUTINE = {
+  driving:{ dailyTarget:3,
+    steps:[
+      "<b>今週◯品</b>を先に決める。今日はそこから逆算して<b>3品</b>を目標に。",
+      "出品はまとめて一気に。すきま時間に一日分をドンと片付ける。",
+      "続けるコツ：<b>売上ダッシュボード</b>で数字の伸びをチェック。達成率を上げるゲーム感覚で。"
+    ]},
+  expressive:{ dailyTarget:2,
+    steps:[
+      "1日<b>2品</b>を目安に。「今日はこの2品を映えさせる！」と決めて楽しく。",
+      "写真は明るく・かわいく。1枚こだわると出品がぐっと楽しくなります。",
+      "続けるコツ：売れたら自分にごほうび。うれしさを誰かに共有すると続きます。"
+    ]},
+  amiable:{ dailyTarget:1,
+    steps:[
+      "1日<b>1品</b>でOK。無理なく、あなたのペースで大丈夫です。",
+      "「これを必要な誰かに届ける」気持ちで、ていねいに1品ずつ。",
+      "続けるコツ：がんばりすぎない。1品出せた日は、それだけで十分えらいです。"
+    ]},
+  analytical:{ dailyTarget:1,
+    steps:[
+      "1日<b>1品</b>から。まずは相場を調べてから値付けする習慣を。",
+      "出品したら記録を残す。売れた日数・価格をメモして次に活かす。",
+      "続けるコツ：週に1回、<b>売上ダッシュボード</b>で振り返り。数字で改善点が見えます。"
+    ]}
+};
+
+/* ============ 診断アイコン SVG（画像不使用・単体HTML維持）============ */
+/* 4タイプ×スマセル色。丸ベースのやさしいアイコン。矢/星/ハート/方眼で象限を表現。 */
+function diagIconSVG(type, size){
+  size=size||96;
+  var c=(DIAG_TYPE_INFO[type]||DIAG_TYPE_INFO.amiable).color;
+  var inner;
+  if(type==="driving"){
+    // 前向きの矢印（行動・結果）
+    inner='<circle cx="50" cy="50" r="40" fill="'+c.body+'"/>'+
+      '<circle cx="50" cy="50" r="40" fill="none" stroke="'+c.accent+'" stroke-width="3"/>'+
+      '<path d="M34 62 L58 38" stroke="#fff" stroke-width="6" stroke-linecap="round"/>'+
+      '<path d="M46 36 L60 36 L60 50" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>';
+  } else if(type==="expressive"){
+    // 星（楽しい・巻き込む）
+    inner='<circle cx="50" cy="50" r="40" fill="'+c.body+'"/>'+
+      '<circle cx="50" cy="50" r="40" fill="none" stroke="'+c.accent+'" stroke-width="3"/>'+
+      '<path d="M50 30 L56 45 L72 45 L59 55 L64 71 L50 61 L36 71 L41 55 L28 45 L44 45 Z" fill="#fff"/>';
+  } else if(type==="amiable"){
+    // ハート（支える・寄りそう）
+    inner='<circle cx="50" cy="50" r="40" fill="'+c.body+'"/>'+
+      '<circle cx="50" cy="50" r="40" fill="none" stroke="'+c.accent+'" stroke-width="3"/>'+
+      '<path d="M50 68 C34 56 30 46 34 40 C38 34 47 35 50 42 C53 35 62 34 66 40 C70 46 66 56 50 68 Z" fill="#fff"/>';
+  } else {
+    // 方眼＋チェック（計画・正確）
+    inner='<circle cx="50" cy="50" r="40" fill="'+c.body+'"/>'+
+      '<circle cx="50" cy="50" r="40" fill="none" stroke="'+c.accent+'" stroke-width="3"/>'+
+      '<rect x="34" y="34" width="32" height="32" rx="4" fill="none" stroke="#fff" stroke-width="4"/>'+
+      '<path d="M34 50 H66 M50 34 V66" stroke="#fff" stroke-width="2.5" opacity=".6"/>'+
+      '<path d="M40 51 L47 58 L60 42" stroke="#fff" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
+  return '<svg viewBox="0 0 100 100" width="'+size+'" height="'+size+'" aria-hidden="true">'+inner+'</svg>';
+}
+
+/* ============ 診断フロー（設問→結果→ルーティーン）============ */
+var diagAnswers=[], diagStep=0;
+function startDiagnosis(){
+  diagAnswers = DIAG_QUESTIONS.map(function(){ return null; });
+  diagStep=0;
+  renderDiagQuestion();
+  openModal("diagModal");
+}
+function renderDiagQuestion(){
+  var total=DIAG_QUESTIONS.length;
+  var item=DIAG_QUESTIONS[diagStep];
+  document.getElementById("diagProgFill").style.width=Math.round((diagStep)/total*100)+"%";
+  document.getElementById("diagProgTxt").textContent="質問 "+(diagStep+1)+" / "+total;
+  document.getElementById("diagQ").textContent=item.q;
+  var cur=diagAnswers[diagStep];
+  document.getElementById("diagOpts").innerHTML=item.opts.map(function(o,i){
+    var sel=(cur===o.v)?" sel":"";
+    return '<button class="diag-opt'+sel+'" onclick="diagAnswer('+o.v+')">'+esc(o.t)+'</button>';
+  }).join("");
+  document.getElementById("diagBack").style.display = diagStep>0? "block":"none";
+  var sh=document.querySelector("#diagModal .sheet"); if(sh) sh.scrollTop=0;
+}
+function diagAnswer(v){
+  diagAnswers[diagStep]=v;
+  if(diagStep < DIAG_QUESTIONS.length-1){
+    diagStep++;
+    renderDiagQuestion();
+  } else {
+    finishDiagnosis();
+  }
+}
+function diagPrev(){ if(diagStep>0){ diagStep--; renderDiagQuestion(); } }
+function finishDiagnosis(){
+  var r=scoreDiagnosis(diagAnswers);
+  state.diagnosis = {
+    type:r.type, label:r.label,
+    scores:{ "主導":r.scores["主導"], "分析":r.scores["分析"], "支持":r.scores["支持"], "促進":r.scores["促進"] },
+    assert:r.assert, express:r.express, supportType:r.supportType,
+    date:today()
+  };
+  // ルーティーンを生成（未編集なら診断タイプのテンプレを採用）
+  var rt=DIAG_ROUTINE[r.type]||DIAG_ROUTINE.amiable;
+  state.routine = { type:r.type, steps:rt.steps.slice(), dailyTarget:rt.dailyTarget, memo:"" };
+  save();
+  closeModal("diagModal");
+  renderDiagResult();
+  openModal("diagResultModal");
+  renderDiag();
+}
+function renderDiagResult(){
+  var d=state.diagnosis; if(!d){ return; }
+  var info=DIAG_TYPE_INFO[d.type]||DIAG_TYPE_INFO.amiable;
+  // サポート型（自己主張大幅マイナス）の追記文をくみこルールで反映
+  var supportNote = d.supportType
+    ? '<div class="diag-why" style="background:#f4f9fd;color:var(--navy);border:1px solid var(--line)">'+
+        '<div class="dw-ttl" style="color:var(--pinkd)">あなたらしさについて</div>'+
+        '<div class="dw-txt" style="color:var(--ink)">あなたは、自分でぐいぐい引っぱるより、<b>誰かを支えたり、人に喜んでもらえること</b>に幸せを感じるタイプです。自分から燃料を投下してどんどん攻めるより、目の前の相手にていねいに向き合うほうが、あなたらしく力を発揮できます。それは弱みではなく、物販でとても信頼される<b>あなただけの強み</b>です。無理にリーダー型のやり方をまねする必要はありません。</div>'+
+      '</div>'
+    : "";
+  document.getElementById("diagResult").innerHTML=
+    '<div class="diag-res-hero">'+
+      '<div class="diag-res-ic">'+diagIconSVG(d.type,104)+'</div>'+
+      '<div class="diag-res-tp">'+esc(info.label)+'</div>'+
+      '<div class="diag-res-en">'+esc(info.en)+'</div>'+
+      '<div class="diag-res-cap">'+esc(info.cap)+'</div>'+
+    '</div>'+
+    '<div style="font-size:12px;font-weight:800;color:var(--navy);margin:0 2px 9px">あなたの強み</div>'+
+    '<ul class="diag-strengths">'+
+      info.strengths.map(function(s,i){ return '<li><span class="st-no">'+(i+1)+'</span>'+esc(s)+'</li>'; }).join("")+
+    '</ul>'+
+    '<div class="diag-why"><div class="dw-ttl">あなたが物販で輝く理由</div><div class="dw-txt">'+esc(info.why)+'</div></div>'+
+    supportNote;
+}
+function showRoutineFromResult(){ closeModal("diagResultModal"); openRoutine(); }
+
+/* --- ルーティーン表示・編集・保存 --- */
+function openRoutine(){
+  var d=state.diagnosis;
+  if(!d){ toast("先に診断を受けてね"); return; }
+  var rt=state.routine || (function(){ var t=DIAG_ROUTINE[d.type]||DIAG_ROUTINE.amiable; return {type:d.type,steps:t.steps.slice(),dailyTarget:t.dailyTarget,memo:""}; })();
+  state.routine=rt;
+  var info=DIAG_TYPE_INFO[rt.type]||DIAG_TYPE_INFO.amiable;
+  document.getElementById("routineView").innerHTML=
+    '<div class="rt-head">'+
+      '<div class="rt-ic">'+diagIconSVG(rt.type,44)+'</div>'+
+      '<div class="rt-t">'+esc(info.label)+'のあなたに<small>いちばん続けやすいペース＆やり方</small></div>'+
+    '</div>'+
+    '<div class="rt-target"><span class="k">1日の出品目標</span><span class="v">'+rt.dailyTarget+'<small>品</small></span></div>'+
+    '<ul class="rt-steps">'+
+      rt.steps.map(function(s){ return '<li><span class="rt-dot"></span><span>'+s+'</span></li>'; }).join("")+
+    '</ul>';
+  document.getElementById("rt-memo").value = rt.memo||"";
+  openModal("routineModal");
+}
+function saveRoutine(){
+  if(!state.routine){ closeModal("routineModal"); return; }
+  state.routine.memo = document.getElementById("rt-memo").value;
+  // dailyTarget を「今日の1品クエスト」/ goals の出品数目標に反映
+  applyRoutineToGoals(state.routine.dailyTarget);
+  save();
+  closeModal("routineModal");
+  renderGame(); renderDash(); renderDiag();
+  toast("ルーティーンを保存＋今日の目標に反映したよ");
+}
+/* dailyTarget→今月の goals.listed（未設定のときだけ月換算で埋める。既存目標は上書きしない）。 */
+function applyRoutineToGoals(dailyTarget){
+  var ym=today().slice(0,7);
+  var g=state.goals[ym]||{};
+  if(!num(g.listed)){ // 既にユーザーが目標を入れていれば尊重
+    var y=+ym.slice(0,4), m=+ym.slice(5,7), dim=new Date(y,m,0).getDate();
+    g.listed = Math.max(1, num(dailyTarget))*dim;
+    state.goals[ym]=g;
+  }
+}
+
+/* --- 在庫ホーム＆設定：診断カード描画 --- */
+function renderDiag(){
+  renderDiagHome();
+  renderDiagSetting();
+}
+function renderDiagHome(){
+  var el=document.getElementById("diagHome"); if(!el) return;
+  var d=state.diagnosis;
+  if(!d){
+    el.innerHTML=
+      '<div class="diag-invite">'+
+        '<div class="di-ttl">あなたに合った続け方、診断してみませんか？</div>'+
+        '<div class="di-sub">1分・全12問。あなたのタイプに合わせた「続けやすい出品ペース」がわかります。</div>'+
+        '<div class="di-row">'+
+          '<button class="btn pink sm" onclick="startDiagnosis()">診断してみる（1分）</button>'+
+          '<button class="btn ghost sm di-later" onclick="dismissDiagInvite()">あとで</button>'+
+        '</div>'+
+      '</div>';
+    return;
+  }
+  var info=DIAG_TYPE_INFO[d.type]||DIAG_TYPE_INFO.amiable;
+  el.innerHTML=
+    '<div class="diag-mine">'+
+      '<div class="dm-ic">'+diagIconSVG(d.type,46)+'</div>'+
+      '<div class="dm-body">'+
+        '<div class="dm-tp">'+esc(info.label)+'<small>あなたのタイプ</small></div>'+
+        '<div class="dm-sub">あなた専用の出品ルーティーンがあります</div>'+
+      '</div>'+
+      '<button class="dm-btn" onclick="openRoutine()">ルーティーン</button>'+
+    '</div>';
+}
+/* 「あとで」：この端末ではホームの誘導を控えめに畳む（診断は設定からいつでも可）。 */
+var diagInviteDismissed=false;
+function dismissDiagInvite(){
+  diagInviteDismissed=true;
+  var el=document.getElementById("diagHome"); if(el) el.innerHTML="";
+  toast("設定からいつでも診断できます");
+}
+function renderDiagSetting(){
+  var el=document.getElementById("diagSetting"); if(!el) return;
+  var d=state.diagnosis;
+  if(!d){
+    el.innerHTML='<button class="btn pink sm" onclick="startDiagnosis()">診断をはじめる（1分）</button>';
+    return;
+  }
+  var info=DIAG_TYPE_INFO[d.type]||DIAG_TYPE_INFO.amiable;
+  el.innerHTML=
+    '<div class="diag-mine" style="margin-bottom:10px">'+
+      '<div class="dm-ic">'+diagIconSVG(d.type,46)+'</div>'+
+      '<div class="dm-body">'+
+        '<div class="dm-tp">'+esc(info.label)+'<small>'+esc(d.date)+' 診断</small></div>'+
+        '<div class="dm-sub">1日'+((state.routine&&state.routine.dailyTarget)||1)+'品ペースが目安です</div>'+
+      '</div>'+
+      '<button class="dm-btn" onclick="openRoutine()">ルーティーン</button>'+
+    '</div>'+
+    '<button class="btn ghost sm" onclick="startDiagnosis()">もう一度 診断を受け直す</button>';
+}
+
 /* ============ import / export ============ */
 function exportJSON(){
   var blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
@@ -1519,7 +2016,9 @@ function importJSON(e){
       state.items=p.items||[]; state.goals=p.goals||{}; state.profile=p.profile||{};
       if(p.sheet) state.sheet=p.sheet;
       state.game = normalizeGame(p.game);
-      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderAutoSaveBadge(); renderGame(); toast("読み込みました");
+      state.diagnosis = p.diagnosis || null;
+      state.routine = p.routine || null;
+      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderAutoSaveBadge(); renderGame(); renderDiag(); toast("読み込みました");
     }catch(err){ toast("読み込めませんでした"); }
     e.target.value="";
   };
@@ -1576,7 +2075,7 @@ function renderAutoSaveBadge(){
 }
 
 /* ============ init ============ */
-load(); applyLinkParams(); gameDailyCheck(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderGame();
+load(); applyLinkParams(); gameDailyCheck(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderGame(); renderDiag();
 </script>
 </body>
 </html>
