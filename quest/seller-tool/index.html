@@ -199,7 +199,7 @@
 
   /* ===== 相棒育成ゲーム ===== */
   .buddy-home{display:flex;gap:12px;background:linear-gradient(135deg,#f4f9fd,#fbeef1);
-    border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px;align-items:stretch;}
+    border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px;align-items:stretch;position:relative;}
   .buddy-home:empty{display:none;}
   .buddy-home.is-sleepy{background:linear-gradient(135deg,#eef2f6,#f3f6fa);}
   .buddy-left{display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -323,6 +323,86 @@
   .rt-edit textarea{width:100%;padding:12px 13px;border:2px solid var(--line);border-radius:11px;
     font-size:13px;color:var(--navy);font-family:inherit;background:var(--paper);line-height:1.7;min-height:120px;resize:vertical;}
   .rt-edit textarea:focus{outline:none;border-color:var(--blue);}
+
+  /* ===== マイページ ===== */
+  .mp-head{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#f4f9fd,#fbeef1);
+    border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;}
+  .mp-avatar{width:66px;height:66px;border-radius:50%;flex-shrink:0;background:var(--paper);
+    border:2px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;
+    font-size:34px;line-height:1;}
+  .mp-avatar img{width:100%;height:100%;object-fit:cover;}
+  .mp-hbody{flex:1;min-width:0;}
+  .mp-hname{font-size:16px;font-weight:800;color:var(--navy);line-height:1.3;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .mp-hsub{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.5;}
+  .mp-editbtn{flex-shrink:0;border:1px solid var(--line);background:var(--bg2);color:var(--navy);
+    border-radius:10px;font-size:11px;font-weight:700;padding:8px 10px;cursor:pointer;font-family:inherit;line-height:1.2;}
+  .mp-editbtn:active{background:var(--line);}
+  /* 相棒横のミニアバター（ホーム） */
+  .buddy-mini-av{position:absolute;top:8px;right:8px;width:34px;height:34px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;
+    overflow:hidden;font-size:18px;line-height:1;z-index:2;}
+  .buddy-mini-av img{width:100%;height:100%;object-fit:cover;}
+
+  /* 絵文字ピッカー */
+  .emoji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:12px;}
+  .emoji-cell{border:2px solid var(--line);background:var(--paper);border-radius:12px;font-size:24px;
+    line-height:1;padding:9px 0;cursor:pointer;font-family:inherit;transition:transform .05s,border-color .15s,background .15s;}
+  .emoji-cell:active{transform:scale(.92);}
+  .emoji-cell.sel{border-color:var(--pink);background:var(--pinkbg);}
+  .avatar-prev{width:74px;height:74px;border-radius:50%;background:var(--paper);border:2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:38px;line-height:1;
+    margin:0 auto 12px;}
+  .avatar-prev img{width:100%;height:100%;object-fit:cover;}
+
+  /* リンクボタン（カルテ・メルカリ） */
+  .mp-linkrow{display:flex;gap:9px;margin-bottom:8px;}
+  .mp-linkrow .btn{margin:0;flex:1;}
+
+  /* 行動ログ：タグ選択 */
+  .act-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+  .act-tag{border:2px solid var(--line);background:var(--paper);color:var(--navy);border-radius:20px;
+    font-size:12.5px;font-weight:700;padding:8px 13px;cursor:pointer;font-family:inherit;line-height:1;
+    transition:transform .05s,border-color .15s,background .15s;}
+  .act-tag:active{transform:scale(.95);}
+  .act-tag.on{border-color:var(--pink);background:var(--pinkbg);color:var(--pinkd);}
+  .act-tag.auto{border-color:var(--blue);background:#e8f1f8;color:var(--blued);}
+
+  /* 週カレンダー */
+  .wk-nav{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .wk-nav button{border:1px solid var(--line);background:var(--paper);color:var(--navy);border-radius:10px;
+    width:34px;height:34px;font-size:15px;cursor:pointer;font-weight:800;flex-shrink:0;font-family:inherit;}
+  .wk-nav .lbl{flex:1;text-align:center;font-size:13px;font-weight:800;color:var(--navy);}
+  .wk-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px;}
+  .wk-day{border:1px solid var(--line);border-radius:11px;padding:7px 2px 8px;text-align:center;background:var(--bg2);
+    min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;}
+  .wk-day.has{background:linear-gradient(135deg,#eef6fb,#fbeef1);border-color:var(--pink);}
+  .wk-day.today{box-shadow:0 0 0 2px var(--blue);}
+  .wk-day .wd-dow{font-size:9.5px;color:var(--sub);font-weight:700;}
+  .wk-day.has .wd-dow{color:var(--pinkd);}
+  .wk-day .wd-num{font-size:13px;font-weight:800;color:var(--navy);line-height:1;}
+  .wk-day .wd-mark{width:16px;height:16px;line-height:16px;font-size:11px;}
+  .wk-day .wd-dot{width:8px;height:8px;border-radius:50%;background:var(--line);}
+  .wk-day.has .wd-dot{background:var(--pinkd);}
+
+  /* 週次集計 */
+  .wsum-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
+  .wsum{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:11px 12px;}
+  .wsum .k{font-size:10px;color:var(--sub);font-weight:700;}
+  .wsum .v{font-size:19px;font-weight:800;color:var(--navy);margin-top:2px;line-height:1.1;}
+  .wsum .v small{font-size:11px;color:var(--sub);font-weight:600;margin-left:1px;}
+  .wfb{background:var(--navy);color:#fff;border-radius:14px;padding:14px 15px;line-height:1.75;font-size:13px;font-weight:700;}
+  .wfb .wfb-ttl{font-size:11px;font-weight:800;color:#b9cbe0;margin-bottom:6px;letter-spacing:.03em;}
+
+  /* 週報・月報 生成 */
+  .rep-tabs{display:flex;gap:8px;margin-bottom:12px;}
+  .rep-tabs button{flex:1;border:1px solid var(--line);background:var(--paper);color:var(--sub);
+    font-weight:700;font-size:12.5px;padding:9px;border-radius:11px;cursor:pointer;font-family:inherit;}
+  .rep-tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .rep-preview{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px;
+    font-size:12.5px;line-height:1.75;color:var(--ink);white-space:pre-wrap;word-break:break-word;
+    max-height:260px;overflow:auto;margin-bottom:12px;}
+  .rep-deadline{font-size:10.5px;color:var(--sub);line-height:1.5;text-align:center;margin-top:8px;}
 </style>
 </head>
 <body>
@@ -475,6 +555,75 @@
     </div>
   </section>
 
+  <!-- ========== マイページ ========== -->
+  <section class="page" id="page-mypage">
+    <div class="sec-title">マイページ<small>プロフィール・行動ログ・週報月報</small></div>
+
+    <!-- プロフィールヘッダー -->
+    <div class="mp-head">
+      <div class="mp-avatar" id="mpAvatar">🐰</div>
+      <div class="mp-hbody">
+        <div class="mp-hname" id="mpName">名前未設定</div>
+        <div class="mp-hsub" id="mpSub">アイコンと名前を設定できます</div>
+      </div>
+      <button class="mp-editbtn" onclick="openProfileEdit()">編集</button>
+    </div>
+
+    <!-- リンク（カルテ・メルカリ） -->
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:10px;">よく開くリンク</div>
+      <div class="mp-linkrow">
+        <button class="btn blue sm" id="mpKarteBtn" onclick="openKarte()">カルテを開く</button>
+        <button class="btn navy sm" id="mpMercariBtn" onclick="openMercari()">メルカリを開く</button>
+      </div>
+      <div class="note" id="mpLinkNote" style="margin-top:4px">カルテシート・メルカリのURLは「編集」から登録できます。登録するとワンタップで開けます。</div>
+    </div>
+
+    <!-- 今日やったこと -->
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">今日やったこと<small style="color:var(--sub);font-weight:600;font-size:11px;margin-left:6px" id="actTodayDate"></small></div>
+      <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:11px;">やったことをタップで選ぶだけ。あとから直せます。</div>
+      <div class="act-tags" id="actTagList"></div>
+      <div class="field" style="margin-bottom:10px"><label>ひとことメモ（任意）</label><input id="act-memo" placeholder="例：ブランド靴を3品リサーチ"></div>
+      <button class="btn pink sm" onclick="saveActLog()">今日の記録を保存</button>
+    </div>
+
+    <!-- 週カレンダー -->
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:10px;">今週の活動カレンダー</div>
+      <div class="wk-nav">
+        <button onclick="shiftActWeek(-1)">‹</button>
+        <div class="lbl" id="actWeekLbl"></div>
+        <button onclick="shiftActWeek(1)" id="actWeekNext">›</button>
+      </div>
+      <div class="wk-cal" id="actWeekCal"></div>
+      <div class="wsum-grid" id="actWeekSum"></div>
+      <div class="wfb" id="actWeekFb"></div>
+    </div>
+
+    <!-- 週報・月報 -->
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:10px;">週報・月報をつくる<small style="color:var(--sub);font-weight:600;font-size:11px;margin-left:6px">コピーしてグループLINEに貼るだけ</small></div>
+      <div class="rep-tabs">
+        <button class="on" id="rep-tab-week" onclick="setRepMode('week')">週報</button>
+        <button id="rep-tab-month" onclick="setRepMode('month')">月報</button>
+      </div>
+      <div class="wk-nav" style="margin-bottom:10px">
+        <button onclick="shiftRepPeriod(-1)">‹</button>
+        <div class="lbl" id="repPeriodLbl"></div>
+        <button onclick="shiftRepPeriod(1)" id="repPeriodNext">›</button>
+      </div>
+      <div class="field" style="margin-bottom:10px"><label id="rep-look-lbl">今週の振り返り</label><textarea id="rep-look" placeholder="よかったこと・気づいたこと" oninput="renderReport()"></textarea></div>
+      <div class="field" style="margin-bottom:12px"><label id="rep-goal-lbl">翌週の目標</label><textarea id="rep-goal" placeholder="来週やること・目標" oninput="renderReport()"></textarea></div>
+      <div class="rep-preview" id="repPreview"></div>
+      <div class="mp-linkrow">
+        <button class="btn navy sm" onclick="copyReport()">コピーする</button>
+        <button class="btn blue sm" onclick="openLineForReport()">LINEを開く</button>
+      </div>
+      <div class="rep-deadline" id="repDeadline"></div>
+    </div>
+  </section>
+
   <!-- ========== bottom tabs ========== -->
   <nav class="tabbar">
     <button class="on" data-p="stock" onclick="go('stock')">
@@ -488,6 +637,10 @@
     <button data-p="help" onclick="go('help')">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M12 3l1.9 5.6H20l-4.9 3.6 1.9 5.6L12 14.9 7 17.4l1.9-5.6L4 8.6h5.9z"/></svg>
       <span class="tl">下書き</span>
+    </button>
+    <button data-p="mypage" onclick="go('mypage')">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span class="tl">マイページ</span>
     </button>
     <button data-p="set" onclick="go('set')">
       <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
@@ -680,6 +833,26 @@
   </div>
 </div>
 
+<!-- ===== プロフィール編集モーダル ===== -->
+<div class="modal" id="profileModal">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2>プロフィール</h2>
+    <div class="avatar-prev" id="mpAvatarPrev">🐰</div>
+    <div style="font-size:11.5px;color:var(--sub);line-height:1.6;margin-bottom:8px;text-align:center;">LINEと同じアイコンにすると仲間が見つけやすいです</div>
+    <div class="emoji-grid" id="emojiGrid"></div>
+    <div class="field" style="margin-bottom:14px">
+      <label>写真をアイコンにする</label>
+      <input id="mp-photo" type="file" accept="image/*" onchange="mpHandleIcon(event)">
+    </div>
+    <div class="field"><label>名前</label><input id="mp-name" placeholder="山田 花子"></div>
+    <div class="field"><label>カルテシートのURL</label><input id="mp-karte" placeholder="https://docs.google.com/..."></div>
+    <div class="field"><label>メルカリのマイページURL</label><input id="mp-mercari" placeholder="https://jp.mercari.com/user/profile/..."></div>
+    <button class="btn pink" onclick="saveProfileEdit()">保存する</button>
+    <button class="close" onclick="closeModal('profileModal')">閉じる</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -696,14 +869,15 @@ var GAS_URL = "";  // ★デプロイ後にここへ .../exec を貼る（全生
 /* ============ storage ============ */
 var KEY = "seller_tool_v1";
 function defaultGame(){ return { xp:0, level:1, species:"egg", stage:"egg", streak:0, lastListDate:"", badges:[], todayDone:false, mood:"normal" }; }
-var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false}, game:defaultGame(), diagnosis:null, routine:null };
+var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false}, game:defaultGame(), diagnosis:null, routine:null, actlog:[] };
 function load(){
   try{ var raw = localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw);
     state.items = p.items||[]; state.goals = p.goals||{}; state.profile = p.profile||{};
     state.sheet = p.sheet || {url:"",sheetId:"",enabled:false};
     state.game = normalizeGame(p.game);
     state.diagnosis = p.diagnosis || null;
-    state.routine = p.routine || null; } }catch(e){}
+    state.routine = p.routine || null;
+    state.actlog = Array.isArray(p.actlog)? p.actlog : []; } }catch(e){}
 }
 /* game オブジェクトの欠損を埋める（既存ユーザーが game を持たない場合も安全に） */
 function normalizeGame(g){
@@ -748,6 +922,7 @@ function go(p){
   if(p==="dash") renderDash();
   if(p==="stock"){ renderItems(); renderAutoSaveBadge(); renderGame(); renderDiag(); }
   if(p==="set") renderDiagSetting();
+  if(p==="mypage") renderMypage();
   window.scrollTo(0,0);
 }
 
@@ -1016,13 +1191,13 @@ function loadProfile(){
   document.getElementById("p-goal").value=p.goal||"";
 }
 function saveProfile(){
-  state.profile={
-    name:document.getElementById("p-name").value.trim(),
-    line:document.getElementById("p-line").value.trim(),
-    join:document.getElementById("p-join").value,
-    goal:num(document.getElementById("p-goal").value)
-  };
-  save(); toast("基本情報を保存しました");
+  var p = state.profile || {};
+  p.name = document.getElementById("p-name").value.trim();
+  p.line = document.getElementById("p-line").value.trim();
+  p.join = document.getElementById("p-join").value;
+  p.goal = num(document.getElementById("p-goal").value);
+  state.profile = p; // icon/karteUrl/mercariUrl は保持
+  save(); renderAutoSaveBadge(); toast("基本情報を保存しました");
 }
 
 /* ============ スプシ自動書き出し設定 ============ */
@@ -1566,6 +1741,7 @@ function renderGame(){
 
   el.className="buddy-home"+(g.mood==="sleepy"?" is-sleepy":"")+(questDone?" is-happy":"");
   el.innerHTML=
+    '<div class="buddy-mini-av">'+avatarInner()+'</div>'+
     '<div class="buddy-left">'+
       '<div class="buddy-art">'+buddySVG(g.stage,g.species,g.mood,104)+'</div>'+
       '<div class="buddy-stage">'+stageLabel(g.stage)+(g.stage!=="egg"?'・'+esc(speciesName(g.species)):'')+'</div>'+
@@ -2064,7 +2240,8 @@ function importJSON(e){
       state.game = normalizeGame(p.game);
       state.diagnosis = p.diagnosis || null;
       state.routine = p.routine || null;
-      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderAutoSaveBadge(); renderGame(); renderDiag(); toast("読み込みました");
+      state.actlog = Array.isArray(p.actlog)? p.actlog : [];
+      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderAutoSaveBadge(); renderGame(); renderDiag(); renderMypage(); toast("読み込みました");
     }catch(err){ toast("読み込めませんでした"); }
     e.target.value="";
   };
@@ -2118,6 +2295,393 @@ function renderAutoSaveBadge(){
     el.className = "";
     el.innerHTML = "";
   }
+}
+
+/* ============================================================
+   マイページ（プロフィール／行動ログ／週報・月報）
+   ============================================================ */
+
+/* ---- アイコン ---- */
+/* 上品な20個（動物・自然）。チープなキラキラ系は避ける */
+var EMOJI_CHOICES = ["🐰","🐱","🐻","🐨","🦊","🐹","🐶","🐼","🦝","🐈","🐧","🦋","🕊️","🐟","🌷","🌸","🌿","☘️","🍀","⭐"];
+
+/* アイコンの中身HTML（絵文字 or 画像）。未設定は既定のうさぎ */
+function avatarInner(icon){
+  var ic = (icon!==undefined)? icon : (state.profile && state.profile.icon);
+  if(ic && ic.indexOf("data:")===0) return '<img src="'+ic+'" alt="">';
+  if(ic) return esc(ic);
+  return "🐰";
+}
+
+/* ---- マイページ描画 ---- */
+function renderMypage(){
+  renderMpHead();
+  renderActTagList();
+  renderActWeek();
+  renderReport();
+  renderMpLinkNote();
+}
+function renderMpHead(){
+  var p = state.profile || {};
+  document.getElementById("mpAvatar").innerHTML = avatarInner();
+  document.getElementById("mpName").textContent = p.name ? p.name : "名前未設定";
+  var days = p.join ? Math.max(0, daysBetween(p.join, today())) : null;
+  document.getElementById("mpSub").textContent = (days!==null)
+    ? ("スマセル物販 "+days+"日目")
+    : "アイコンと名前を設定できます";
+}
+function renderMpLinkNote(){
+  var p = state.profile || {};
+  var kBtn = document.getElementById("mpKarteBtn");
+  var mBtn = document.getElementById("mpMercariBtn");
+  kBtn.style.opacity = p.karteUrl ? "1" : ".55";
+  mBtn.style.opacity = p.mercariUrl ? "1" : ".55";
+  var note = document.getElementById("mpLinkNote");
+  if(p.karteUrl && p.mercariUrl){ note.style.display="none"; }
+  else { note.style.display="block"; }
+}
+function openKarte(){
+  var u = state.profile && state.profile.karteUrl;
+  if(!u){ toast("先に「編集」からカルテURLを登録してね"); openProfileEdit(); return; }
+  window.open(u, "_blank");
+}
+function openMercari(){
+  var u = state.profile && state.profile.mercariUrl;
+  if(!u){ toast("先に「編集」からメルカリURLを登録してね"); openProfileEdit(); return; }
+  window.open(u, "_blank");
+}
+
+/* ---- プロフィール編集モーダル ---- */
+var mpTmpIcon = null;
+function openProfileEdit(){
+  var p = state.profile || {};
+  mpTmpIcon = (p.icon!==undefined && p.icon!==null) ? p.icon : "";
+  document.getElementById("mp-name").value    = p.name || "";
+  document.getElementById("mp-karte").value   = p.karteUrl || "";
+  document.getElementById("mp-mercari").value = p.mercariUrl || "";
+  document.getElementById("mp-photo").value   = "";
+  renderEmojiGrid();
+  renderAvatarPrev();
+  openModal("profileModal");
+}
+function renderEmojiGrid(){
+  var g = document.getElementById("emojiGrid");
+  g.innerHTML = EMOJI_CHOICES.map(function(e){
+    var on = (mpTmpIcon===e) ? " sel" : "";
+    return '<button type="button" class="emoji-cell'+on+'" onclick="pickEmoji(\''+e+'\')">'+e+'</button>';
+  }).join("");
+}
+function pickEmoji(e){
+  mpTmpIcon = e;
+  renderEmojiGrid();
+  renderAvatarPrev();
+}
+function renderAvatarPrev(){
+  document.getElementById("mpAvatarPrev").innerHTML = avatarInner(mpTmpIcon);
+}
+/* 画像→長辺256pxにリサイズしてdataURL */
+function mpHandleIcon(e){
+  var file = e.target.files[0]; if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var img = new Image();
+    img.onload = function(){
+      var max=256, w=img.width, h=img.height;
+      if(w>h && w>max){ h=Math.round(h*max/w); w=max; }
+      else if(h>=w && h>max){ w=Math.round(w*max/h); h=max; }
+      var cv=document.createElement("canvas"); cv.width=w; cv.height=h;
+      cv.getContext("2d").drawImage(img,0,0,w,h);
+      mpTmpIcon = cv.toDataURL("image/jpeg",0.85);
+      renderEmojiGrid();
+      renderAvatarPrev();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function saveProfileEdit(){
+  var p = state.profile || {};
+  p.icon       = mpTmpIcon || "";
+  p.name       = document.getElementById("mp-name").value.trim();
+  p.karteUrl   = document.getElementById("mp-karte").value.trim();
+  p.mercariUrl = document.getElementById("mp-mercari").value.trim();
+  state.profile = p;
+  save();
+  closeModal("profileModal");
+  renderMypage(); renderGame(); loadProfile(); renderAutoSaveBadge();
+  toast("プロフィールを保存しました");
+}
+
+/* ============================================================
+   行動ログ
+   ============================================================ */
+var ACT_TAGS = ["出品","リサーチ","撮影","仕入れ","梱包・発送","コメント対応","学習","その他"];
+var actSelected = [];
+
+/* その日のレコードを取得（なければnull） */
+function actLogFor(dateStr){
+  var arr = state.actlog || [];
+  for(var i=0;i<arr.length;i++){ if(arr[i].date===dateStr) return arr[i]; }
+  return null;
+}
+/* 今日「出品」があるか（在庫のlistDate=今日で自動判定） */
+function autoListedToday(){ return listedToday()>0; }
+
+function renderActTagList(){
+  var t = today();
+  document.getElementById("actTodayDate").textContent = t.slice(5).replace("-","/");
+  var rec = actLogFor(t);
+  actSelected = rec ? rec.tags.slice() : [];
+  // 出品は在庫から自動ON（未選択なら足す）
+  var autoList = autoListedToday();
+  if(autoList && actSelected.indexOf("出品")<0) actSelected.push("出品");
+  document.getElementById("act-memo").value = rec ? (rec.memo||"") : "";
+  var el = document.getElementById("actTagList");
+  el.innerHTML = ACT_TAGS.map(function(tag){
+    var on = actSelected.indexOf(tag)>=0;
+    var isAuto = (tag==="出品" && autoList);
+    var cls = "act-tag" + (on?(isAuto?" auto":" on"):"");
+    var label = isAuto ? (tag+" ✓自動") : tag;
+    return '<button type="button" class="'+cls+'" onclick="toggleActTag(\''+tag+'\')">'+esc(label)+'</button>';
+  }).join("");
+}
+function toggleActTag(tag){
+  var i = actSelected.indexOf(tag);
+  if(i>=0) actSelected.splice(i,1); else actSelected.push(tag);
+  renderActTagButtons();
+}
+/* 選択状態だけ塗り替え（自動ラベルは維持） */
+function renderActTagButtons(){
+  var autoList = autoListedToday();
+  document.querySelectorAll("#actTagList .act-tag").forEach(function(btn){
+    var tag = btn.textContent.replace(" ✓自動","");
+    var on = actSelected.indexOf(tag)>=0;
+    var isAuto = (tag==="出品" && autoList);
+    btn.className = "act-tag" + (on?(isAuto?" auto":" on"):"");
+  });
+}
+function saveActLog(){
+  var t = today();
+  var memo = document.getElementById("act-memo").value.trim();
+  var tags = actSelected.slice();
+  var arr = state.actlog || (state.actlog=[]);
+  var rec = actLogFor(t);
+  if(rec){ rec.tags = tags; rec.memo = memo; }
+  else { arr.push({date:t, tags:tags, memo:memo}); }
+  save();
+  renderActWeek();
+  renderReport();
+  toast("今日の記録を保存しました");
+}
+
+/* ============================================================
+   週カレンダー & 週次集計
+   ============================================================ */
+/* 月曜始まりの週。actWeekOffset=0が今週 */
+var actWeekOffset = 0;
+/* dateStr の週の月曜を返す（YYYY-MM-DD） */
+function mondayOf(dateStr){
+  var d = new Date(dateStr+"T00:00:00");
+  var day = d.getDay(); // 0=日
+  var diff = (day===0? -6 : 1-day);
+  d.setDate(d.getDate()+diff);
+  return d.toISOString().slice(0,10);
+}
+function addDays(dateStr, n){
+  var d = new Date(dateStr+"T00:00:00"); d.setDate(d.getDate()+n);
+  return d.toISOString().slice(0,10);
+}
+/* オフセット週の月曜 */
+function activeWeekMonday(){ return addDays(mondayOf(today()), actWeekOffset*7); }
+function shiftActWeek(d){
+  if(actWeekOffset+d>0) return; // 未来には進めない
+  actWeekOffset += d;
+  renderActWeek();
+}
+/* その日行動があったか（ログのタグ or 在庫の出品/売却） */
+function hasActivityOn(dateStr){
+  var rec = actLogFor(dateStr);
+  if(rec && rec.tags && rec.tags.length) return true;
+  var hit = false;
+  state.items.forEach(function(it){
+    if(it.listDate===dateStr) hit=true;
+    if(it.sold && it.sellDate===dateStr) hit=true;
+  });
+  return hit;
+}
+/* 週集計：活動日数/出品/リサーチ/撮影/学習/売却 */
+function aggWeek(mon){
+  var days=[]; for(var i=0;i<7;i++) days.push(addDays(mon,i));
+  var activeDays=0, listed=0, research=0, shoot=0, study=0, soldN=0;
+  days.forEach(function(ds){
+    if(hasActivityOn(ds)) activeDays++;
+    var rec = actLogFor(ds);
+    if(rec){
+      if(rec.tags.indexOf("リサーチ")>=0) research++;
+      if(rec.tags.indexOf("撮影")>=0) shoot++;
+      if(rec.tags.indexOf("学習")>=0) study++;
+    }
+  });
+  state.items.forEach(function(it){
+    if(days.indexOf(it.listDate)>=0) listed++;
+    if(it.sold && days.indexOf(it.sellDate)>=0) soldN++;
+  });
+  return {days:days, activeDays:activeDays, listed:listed, research:research, shoot:shoot, study:study, soldN:soldN};
+}
+function renderActWeek(){
+  var mon = activeWeekMonday();
+  var a = aggWeek(mon);
+  var end = addDays(mon,6);
+  document.getElementById("actWeekLbl").textContent =
+    mon.slice(5).replace("-","/")+"〜"+end.slice(5).replace("-","/")+(actWeekOffset===0?"（今週）":actWeekOffset===-1?"（先週）":"");
+  document.getElementById("actWeekNext").style.visibility = (actWeekOffset>=0)?"hidden":"visible";
+  var dows=["月","火","水","木","金","土","日"];
+  var t = today();
+  document.getElementById("actWeekCal").innerHTML = a.days.map(function(ds,i){
+    var has = hasActivityOn(ds);
+    var isToday = ds===t;
+    var mark = has ? '<div class="wd-mark">✓</div>' : '<div class="wd-dot"></div>';
+    return '<div class="wk-day'+(has?" has":"")+(isToday?" today":"")+'">'+
+      '<div class="wd-dow">'+dows[i]+'</div>'+
+      '<div class="wd-num">'+(+ds.slice(8))+'</div>'+
+      mark+
+    '</div>';
+  }).join("");
+  // 集計カード
+  document.getElementById("actWeekSum").innerHTML =
+    wsumCell("活動した日", a.activeDays, "日") +
+    wsumCell("出品", a.listed, "品") +
+    wsumCell("リサーチ", a.research, "日") +
+    wsumCell("売れた", a.soldN, "品");
+  // FBコメント
+  document.getElementById("actWeekFb").innerHTML =
+    '<div class="wfb-ttl">今週のひとこと</div>'+esc(weeklyFeedback(a));
+}
+function wsumCell(k,v,unit){
+  return '<div class="wsum"><div class="k">'+k+'</div><div class="v">'+v+'<small>'+unit+'</small></div></div>';
+}
+/* ルールベースFB：責めず前向き（純赤/責め言葉NG） */
+function weeklyFeedback(a){
+  var parts=[];
+  if(a.activeDays>=5) parts.push("今週は"+a.activeDays+"日も動けています。素晴らしいペースです。");
+  else if(a.activeDays>=3) parts.push("今週は"+a.activeDays+"日、コツコツ動けました。この調子でいきましょう。");
+  else if(a.activeDays>=1) parts.push("今週は"+a.activeDays+"日、手をつけられました。まず1日1タップで大丈夫です。");
+  else parts.push("今週はこれからですね。まず今日、1つだけ触ってみましょう。");
+
+  if(a.listed>=5) parts.push("出品"+a.listed+"品、しっかり積み上がっています。");
+  else if(a.listed>=1) parts.push("出品"+a.listed+"品。1品ずつが確実に前進です。");
+  if(a.soldN>=1) parts.push("さらに"+a.soldN+"品お迎え先が決まりました。おめでとうございます。");
+  if(a.research>=3) parts.push("リサーチの習慣もついてきています。");
+  return parts.join(" ");
+}
+
+/* ============================================================
+   週報・月報 → LINEコピペ
+   ============================================================ */
+var repMode = "week"; // week | month
+var repWeekOffset = 0; // 0=今週
+var repMonthOffset = 0; // 0=今月
+function setRepMode(m){
+  repMode = m;
+  document.getElementById("rep-tab-week").classList.toggle("on", m==="week");
+  document.getElementById("rep-tab-month").classList.toggle("on", m==="month");
+  document.getElementById("rep-look-lbl").textContent = (m==="week")? "今週の振り返り" : "今月の振り返り";
+  document.getElementById("rep-goal-lbl").textContent = (m==="week")? "翌週の目標" : "翌月の目標";
+  renderReport();
+}
+function shiftRepPeriod(d){
+  if(repMode==="week"){ if(repWeekOffset+d>0) return; repWeekOffset+=d; }
+  else { if(repMonthOffset+d>0) return; repMonthOffset+=d; }
+  renderReport();
+}
+/* 対象月ym（monthOffset適用） */
+function repTargetMonth(){
+  var y=+today().slice(0,4), m=+today().slice(5,7)+repMonthOffset;
+  while(m<1){m+=12;y--;} while(m>12){m-=12;y++;}
+  return y+"-"+String(m).padStart(2,"0");
+}
+function buildReportText(){
+  var p = state.profile || {};
+  var nm = p.name || "";
+  if(repMode==="week"){
+    var mon = addDays(mondayOf(today()), repWeekOffset*7);
+    var end = addDays(mon,6);
+    var wk = aggWeek(mon);
+    // その週の売上・利益（在庫の売却ベース）
+    var sales=0, profit=0;
+    state.items.forEach(function(it){
+      if(it.sold && wk.days.indexOf(it.sellDate)>=0){ sales+=num(it.sellPrice); profit+=takeHome(it); }
+    });
+    var actParts=[];
+    if(wk.activeDays) actParts.push("活動"+wk.activeDays+"日");
+    if(wk.listed) actParts.push("出品"+wk.listed+"日相当");
+    if(wk.research) actParts.push("リサーチ"+wk.research+"日");
+    if(wk.shoot) actParts.push("撮影"+wk.shoot+"日");
+    if(wk.study) actParts.push("学習"+wk.study+"日");
+    var actLine = actParts.length? actParts.join("／") : "記録なし";
+    var look = document.getElementById("rep-look").value.trim() || "（記入してください）";
+    var goal = document.getElementById("rep-goal").value.trim() || "（記入してください）";
+    return "【週報】"+(nm?nm+"さん":"")+"\n"+
+      mon.slice(5).replace("-","/")+"〜"+end.slice(5).replace("-","/")+"\n"+
+      "売上"+yen(sales)+"／利益"+yen(profit)+"\n"+
+      "出品"+wk.listed+"件／販売"+wk.soldN+"件\n"+
+      "今週やったこと："+actLine+"\n"+
+      "振り返り："+look+"\n"+
+      "翌週の目標："+goal;
+  } else {
+    var ym = repTargetMonth();
+    var a = aggMonth(ym);
+    // その月の行動ログ集計
+    var actDays=0;
+    (state.actlog||[]).forEach(function(r){ if(ymOf(r.date)===ym && r.tags && r.tags.length) actDays++; });
+    var look = document.getElementById("rep-look").value.trim() || "（記入してください）";
+    var goal = document.getElementById("rep-goal").value.trim() || "（記入してください）";
+    return "【月報】"+(nm?nm+"さん":"")+"\n"+
+      ym.slice(0,4)+"年"+(+ym.slice(5,7))+"月\n"+
+      "売上"+yen(a.sales)+"／利益"+yen(a.profit)+"\n"+
+      "出品"+a.listed+"件／販売"+a.soldN+"件（販売率"+pct(a.rate)+"）\n"+
+      "活動日数："+actDays+"日\n"+
+      "振り返り："+look+"\n"+
+      "翌月の目標："+goal;
+  }
+}
+function renderReport(){
+  // 期間ラベル
+  var lbl = document.getElementById("repPeriodLbl");
+  var nextBtn = document.getElementById("repPeriodNext");
+  if(repMode==="week"){
+    var mon = addDays(mondayOf(today()), repWeekOffset*7);
+    var end = addDays(mon,6);
+    lbl.textContent = mon.slice(5).replace("-","/")+"〜"+end.slice(5).replace("-","/")+(repWeekOffset===0?"（今週）":repWeekOffset===-1?"（先週）":"");
+    nextBtn.style.visibility = (repWeekOffset>=0)?"hidden":"visible";
+    document.getElementById("repDeadline").textContent = "提出目安：週報は翌週の月曜まで";
+  } else {
+    var ym = repTargetMonth();
+    lbl.textContent = ym.slice(0,4)+"年"+(+ym.slice(5,7))+"月"+(repMonthOffset===0?"（今月）":"");
+    nextBtn.style.visibility = (repMonthOffset>=0)?"hidden":"visible";
+    document.getElementById("repDeadline").textContent = "提出目安：月報は翌月3日まで";
+  }
+  document.getElementById("repPreview").textContent = buildReportText();
+}
+function copyReport(){
+  var txt = buildReportText();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ toast("コピーしました。LINEに貼ってね"); },
+      function(){ fallbackCopy(txt); });
+  } else { fallbackCopy(txt); }
+}
+function fallbackCopy(txt){
+  var ta=document.createElement("textarea");
+  ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{ document.execCommand("copy"); toast("コピーしました。LINEに貼ってね"); }
+  catch(e){ toast("長押しでコピーしてね"); }
+  document.body.removeChild(ta);
+}
+function openLineForReport(){
+  // LINEアプリ／LINEを開く汎用導線（コピー済み前提で貼るだけ）
+  copyReport();
+  setTimeout(function(){ window.open("https://line.me/R/","_blank"); }, 250);
 }
 
 /* ============ init ============ */
