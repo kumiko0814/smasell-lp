@@ -1636,112 +1636,126 @@ function showSoldCelebration(take){
 }
 
 /* ============================================================
-   ★ 性格診断（ソーシャルスタイル・2軸方式／メリル&リード準拠）★
-   既存の回答DBスプシと同じ「4タイプ各々にスコア→最大スコア＝最も強いタイプ」構造。
-   自己主張(assert)/感情表出(express)の2軸で採点し、4象限スコアを導く。
+   ★ 性格診断（くみこ実データ・4タイプ独立スコア方式）★
+   判定はくみこのスプシ実データが正。4タイプ＝主導/分析/支持/促進 に
+   独立スコア（各設問の加点合計・±あり）を持たせ、最大スコア＝該当タイプ。
    items/goals/profile/sheet/game は一切壊さない。診断結果は state.diagnosis / state.routine に保存。
-   ※このロジックはNode検証で全パターン合格済み（主導/促進/支持/分析＋assert大幅マイナス→サポート型）。
+   ※既知実データ6件（民輪咲苗/澤裕美/堂佛聡子/大山かなこ/原山恵/岩井彩華）で
+     判定一致をNode検証済み。
    ============================================================ */
 
-/* 設問（12問）：axis="assert"（自己主張軸）or "express"（感情表出軸）。
-   各選択肢に value(+2/+1/-1/-2)。value>0=軸が高方向、value<0=低方向。
-   30〜49歳・在宅女性・メルカリ物販に馴染む日常の言い回し。専門用語ゼロ。 */
+/* 設問（12問）：くみこの4タイプ性格特性に忠実。
+   各設問の各選択肢に add:{主導?,分析?,支持?,促進?}（±の加点）を持たせ、
+   タイプごとに独立に加点していく（1問で最も近いタイプへ加点＋逆タイプに減点方式）。
+   30〜49歳・在宅女性・メルカリ物販に馴染む日常の言い回し。専門用語ゼロ・二〜4択。
+   ▼各タイプの性格特性（くみこ資料）
+     主導：現実派・結果第一・行動力・決断力・即断即決・競争心・効率重視・一見ドライ
+     分析：客観派・分析力・計画力・慎重・情報収集してから動く・完全主義・冷静沈着・感情を出さない
+     促進：お祭り好き・楽しいこと好き・承認欲求最強・注目されたい・アイデアマン・飽きっぽい・仕切り上手
+     支持：友好派・人のために頑張る・協調性・NOと言えない・感情を抑える・コツコツ・役に立つのが好き */
 var DIAG_QUESTIONS = [
-  { axis:"assert", q:"やりたいことが決まったとき、あなたは？", opts:[
-    {t:"すぐ動き出したい。考えるより先に手が動く", v:2},
-    {t:"わりとすぐ動くほう", v:1},
-    {t:"少し様子を見てから動く", v:-1},
-    {t:"じっくり準備してから動きたい", v:-2}]},
-  { axis:"assert", q:"みんなで話しているとき、あなたは？", opts:[
-    {t:"自分から話を引っぱっていくことが多い", v:2},
-    {t:"けっこう自分から発言する", v:1},
-    {t:"聞き役にまわることが多い", v:-1},
-    {t:"だいたい聞き役。あまり自分からは話さない", v:-2}]},
-  { axis:"assert", q:"意見が分かれたとき、あなたは？", opts:[
-    {t:"はっきり自分の意見を言う", v:2},
-    {t:"言うべきときは言う", v:1},
-    {t:"できれば合わせたい", v:-1},
-    {t:"相手に合わせることが多い", v:-2}]},
-  { axis:"assert", q:"物事を決めるとき、あなたは？", opts:[
-    {t:"自分でパッと決めたい", v:2},
-    {t:"自分で決めるほう", v:1},
-    {t:"人に相談してから決めたい", v:-1},
-    {t:"人に決めてもらえると安心する", v:-2}]},
-  { axis:"assert", q:"新しいことを始めるとき、あなたは？", opts:[
-    {t:"まず自分がやってみせるタイプ", v:2},
-    {t:"前に出てみることが多い", v:1},
-    {t:"だれかの後についていきたい", v:-1},
-    {t:"できれば一歩下がって支えたい", v:-2}]},
-  { axis:"assert", q:"周りからよく言われるのは？", opts:[
-    {t:"リーダーっぽい・引っぱるタイプ", v:2},
-    {t:"しっかりしている・行動的", v:1},
-    {t:"おだやか・やさしい", v:-1},
-    {t:"控えめ・縁の下の力持ち", v:-2}]},
-  { axis:"express", q:"うれしいことがあったとき、あなたは？", opts:[
-    {t:"顔にも声にもすぐ出る。まわりにも伝えたい", v:2},
-    {t:"表情に出るほう", v:1},
-    {t:"内心うれしいけど、あまり表には出ない", v:-1},
-    {t:"落ち着いて受けとめる。表には出さない", v:-2}]},
-  { axis:"express", q:"人と話すとき、あなたは？", opts:[
-    {t:"身ぶり手ぶりも大きく、感情ゆたかに話す", v:2},
-    {t:"わりと表情ゆたかに話す", v:1},
-    {t:"落ち着いた話し方だと思う", v:-1},
-    {t:"淡々と・きちんと話すほう", v:-2}]},
-  { axis:"express", q:"物事を判断するとき、大事にするのは？", opts:[
-    {t:"そのときの気持ち・ワクワク感", v:2},
-    {t:"どちらかといえば気持ち重視", v:1},
-    {t:"どちらかといえば事実やデータ重視", v:-1},
-    {t:"数字や根拠をしっかり確かめたい", v:-2}]},
-  { axis:"express", q:"初対面の人に対して、あなたは？", opts:[
-    {t:"すぐ打ち解けて仲よくなれる", v:2},
-    {t:"わりと話しかけるほう", v:1},
-    {t:"少し慎重になる", v:-1},
-    {t:"まず相手をよく見てから、ゆっくり", v:-2}]},
-  { axis:"express", q:"作業の進め方は、どちらが近い？", opts:[
-    {t:"楽しさや気分をのせて進めたい", v:2},
-    {t:"気分がのると進む", v:1},
-    {t:"手順を決めてコツコツ進めたい", v:-1},
-    {t:"計画と記録をきっちり残して進めたい", v:-2}]},
-  { axis:"express", q:"あなたの雰囲気に近いのは？", opts:[
-    {t:"明るくて感情ゆたか・にぎやか", v:2},
-    {t:"あたたかくて表情ゆたか", v:1},
-    {t:"落ち着いていて冷静", v:-1},
-    {t:"きちんとしていて物静か", v:-2}]}
+  { q:"やりたいことが決まったとき、あなたは？", opts:[
+    {t:"考えるより先に手が動く。すぐ出品しちゃう", add:{主導:2, 分析:-1}},
+    {t:"まず相場や売れ方を調べてから動きたい", add:{分析:2, 主導:-1}},
+    {t:"だれかに相談して、背中を押してもらいたい", add:{支持:2, 主導:-1}},
+    {t:"「楽しそう！」と思ったらノリで始める", add:{促進:2, 分析:-1}}]},
+  { q:"物事を決めるとき、あなたに近いのは？", opts:[
+    {t:"自分でパッと即決したい。迷う時間がもったいない", add:{主導:2, 支持:-1}},
+    {t:"じっくり比べて、いちばん確実な方を選ぶ", add:{分析:2, 促進:-1}},
+    {t:"まわりの意見に合わせることが多い", add:{支持:2, 主導:-1}},
+    {t:"そのときの気分やワクワクで決める", add:{促進:2, 分析:-1}}]},
+  { q:"出品するとき、いちばん気になるのは？", opts:[
+    {t:"どれだけ早く・多く売れて結果が出るか", add:{主導:2, 支持:-1}},
+    {t:"相場と比べて価格が正しいか、損しないか", add:{分析:2, 促進:-1}},
+    {t:"買ってくれた人に気持ちよく使ってもらえるか", add:{支持:2, 主導:-1}},
+    {t:"写真がかわいく映えて、目にとまるか", add:{促進:2, 分析:-1}}]},
+  { q:"作業の進め方は、どちらが近い？", opts:[
+    {t:"まとめて一気に片づけたい。効率重視", add:{主導:2, 促進:-1}},
+    {t:"手順を決めて、記録しながらコツコツ", add:{分析:2, 促進:-1}},
+    {t:"無理せず、自分のペースで少しずつ", add:{支持:1, 分析:1}},
+    {t:"気分がのった日にワーッと進めたい", add:{促進:2, 分析:-1}}]},
+  { q:"うれしいことがあったとき、あなたは？", opts:[
+    {t:"顔にも声にもすぐ出て、まわりにも伝えたい", add:{促進:2, 分析:-1}},
+    {t:"内心うれしいけど、あまり表には出さない", add:{分析:2, 促進:-1}},
+    {t:"うれしさを、支えてくれた人と分かち合いたい", add:{支持:2}},
+    {t:"「よし次だ」と、すぐ気持ちを切り替える", add:{主導:2, 促進:-1}}]},
+  { q:"まわりからよく言われるのは？", opts:[
+    {t:"決断が早い・引っぱるタイプ・しっかりしてる", add:{主導:2, 支持:-1}},
+    {t:"冷静・きっちりしてる・落ち着いてる", add:{分析:2, 促進:-1}},
+    {t:"やさしい・気がきく・話しやすい", add:{支持:2, 主導:-1}},
+    {t:"明るい・ムードメーカー・楽しい人", add:{促進:2, 分析:-1}}]},
+  { q:"苦手なこと・つい避けたくなるのは？", opts:[
+    {t:"ダラダラ続く、非効率でムダな作業", add:{主導:2, 支持:-1}},
+    {t:"下調べなしの、行きあたりばったり", add:{分析:2, 促進:-1}},
+    {t:"だれかとぶつかること・NOと言うこと", add:{支持:2, 主導:-1}},
+    {t:"地道な単純作業がずっと続くこと", add:{促進:2, 分析:-1}}]},
+  { q:"目標を立てるとしたら、しっくりくるのは？", opts:[
+    {t:"「今月◯品・◯円」と数字で決めて挑む", add:{主導:2, 支持:-1}},
+    {t:"データを見ながら、無理のない計画に落とす", add:{分析:2, 促進:-1}},
+    {t:"数字よりも「続けられること」を大事にしたい", add:{支持:2, 主導:-1}},
+    {t:"目標より「楽しく続くこと」が優先", add:{促進:2, 分析:-1}}]},
+  { q:"人と関わるとき、あなたは？", opts:[
+    {t:"必要なことをはっきり伝える。わりとドライ", add:{主導:2, 支持:-1}},
+    {t:"相手をよく見てから、落ち着いて話す", add:{分析:1, 支持:1}},
+    {t:"つい相手に合わせて、気をつかいすぎる", add:{支持:2, 主導:-1}},
+    {t:"すぐ打ち解けて、みんなで盛り上がりたい", add:{促進:2, 分析:-1}}]},
+  { q:"うまくいかなかったとき、あなたは？", opts:[
+    {t:"原因をパッと切り替えて、次の一手を打つ", add:{主導:2, 支持:-1}},
+    {t:"何が悪かったか、じっくり振り返って直す", add:{分析:2, 促進:-1}},
+    {t:"少し落ち込むけど、まわりに支えられて立て直す", add:{支持:2, 主導:-1}},
+    {t:"気分を変えて、楽しいことでリセットする", add:{促進:2, 分析:-1}}]},
+  { q:"あなたのがんばる原動力に近いのは？", opts:[
+    {t:"勝ちたい・結果を出したいという気持ち", add:{主導:2, 支持:-1}},
+    {t:"きちんとやりきりたい・完璧にしたい気持ち", add:{分析:2, 促進:-1}},
+    {t:"だれかの役に立ちたい・喜んでほしい気持ち", add:{支持:2, 主導:-1}},
+    {t:"認められたい・注目されたら燃える気持ち", add:{促進:2, 分析:-1}}]},
+  { q:"「これが自分らしい」と思うのは？", opts:[
+    {t:"とにかく動きが早くて、決断が速い", add:{主導:2, 促進:-1}},
+    {t:"よく調べて、正確で、抜けがない", add:{分析:2, 促進:-1}},
+    {t:"人を支えるのが好きで、コツコツ続けられる", add:{支持:2, 主導:-1}},
+    {t:"アイデアが浮かびやすくて、場を明るくできる", add:{促進:2, 分析:-1}}]}
 ];
 
-/* くみこ指定：自己主張が大きくマイナスの閾値（≦この値でサポート型の意味づけ） */
-var SUPPORT_ASSERT_THRESHOLD = -10;
+/* くみこ指定：合計トータルの閾値（≦この値でサポート特性フラグ。生徒画面には出さず運営データに保持） */
+var SUPPORT_TOTAL_THRESHOLD = -10;
 
-/* 採点：answers=各設問で選んだ value の配列 →
-   {assert, express, scores:{主導,分析,支持,促進}, type, label, supportType} */
+/* タイブレーク固定順（実データ再現性を優先。同点はこの並びの先頭が上位）。
+   ▼根拠：大山かなこ（主導-1,支持-1 同点）が「主導タイプ（支持の傾向も）」＝主導が上位。
+   このため 主導>分析>支持>促進 の固定順で確定。 */
+var DIAG_TIE_ORDER = ["主導","分析","支持","促進"];
+
+/* 採点：answers=各設問で選んだ「選択肢インデックス」の配列（未回答=null）。
+   DIAG_QUESTIONS[i].opts[idx].add を各タイプへ加点していく →
+   {scores:{主導,分析,支持,促進}, total, type, label, subLabel, subType, supportFlag}
+   ※検証用に answers に add オブジェクトを直接渡しても動く（後方互換）。 */
 function scoreDiagnosis(answers){
-  var assert=0, express=0;
-  for(var i=0;i<DIAG_QUESTIONS.length;i++){
-    var v=answers[i];
-    if(typeof v!=="number") continue;
-    if(DIAG_QUESTIONS[i].axis==="assert") assert+=v; else express+=v;
+  var scores={ "主導":0, "分析":0, "支持":0, "促進":0 };
+  for(var i=0;i<answers.length;i++){
+    var a=answers[i];
+    if(a===null || a===undefined) continue;
+    var add=(typeof a==="number")
+      ? (DIAG_QUESTIONS[i] && DIAG_QUESTIONS[i].opts[a] ? DIAG_QUESTIONS[i].opts[a].add : null)
+      : a; // オブジェクト直渡し（検証用）
+    if(!add) continue;
+    for(var k in add){ if(scores.hasOwnProperty(k)) scores[k]+=add[k]; }
   }
-  /* 4タイプスコア＝各象限への寄与（符号一致度）。最大スコア＝最も強いタイプ。 */
-  var scores = {
-    "主導": assert - express,   // 自己主張:高 × 感情表出:低
-    "促進": assert + express,   // 自己主張:高 × 感情表出:高
-    "支持": -assert + express,  // 自己主張:低 × 感情表出:高
-    "分析": -assert - express   // 自己主張:低 × 感情表出:低
-  };
-  /* 最大スコア判定。同点タイブレークは express→assert の順（安定・決定論的）。 */
-  var order=["主導","促進","支持","分析"];
-  function tiebreakKey(t){
-    var eBias=(t==="促進"||t==="支持")? express : -express;
-    var aBias=(t==="主導"||t==="促進")? assert  : -assert;
-    return eBias*100 + aBias;
-  }
-  var best=order[0], bestScore=-Infinity, bestTie=-Infinity;
-  order.forEach(function(t){
-    var s=scores[t];
-    if(s>bestScore || (s===bestScore && tiebreakKey(t)>bestTie)){ bestScore=s; bestTie=tiebreakKey(t); best=t; }
+  var total = scores["主導"]+scores["分析"]+scores["支持"]+scores["促進"];
+  /* 最大スコア判定。同点は DIAG_TIE_ORDER の並び順で決定論的に。 */
+  var keys=["主導","分析","支持","促進"];
+  var sorted=keys.slice().sort(function(a,b){
+    if(scores[b]!==scores[a]) return scores[b]-scores[a];
+    return DIAG_TIE_ORDER.indexOf(a)-DIAG_TIE_ORDER.indexOf(b);
   });
-  var supportType=(assert<=SUPPORT_ASSERT_THRESHOLD);
-  return { assert:assert, express:express, scores:scores, type:typeKey(best), label:best, supportType:supportType };
+  var topLabel=sorted[0], secondLabel=sorted[1];
+  /* 1位と2位が「同点（差0）」のときだけ併記（実データ：大山=同点併記／岩井=1点差は単独）。 */
+  var subLabel = (scores[topLabel]-scores[secondLabel]===0) ? secondLabel : null;
+  var supportFlag = (total <= SUPPORT_TOTAL_THRESHOLD);
+  return {
+    scores:scores, total:total,
+    type:typeKey(topLabel), label:topLabel,
+    subLabel:subLabel, subType: subLabel ? typeKey(subLabel) : null,
+    supportFlag:supportFlag
+  };
 }
 function typeKey(label){ return {"主導":"driving","促進":"expressive","支持":"amiable","分析":"analytical"}[label]||"amiable"; }
 
@@ -1765,32 +1779,41 @@ var DIAG_TYPE_INFO = {
     why:"物販は、調べて・記録して・改善する人がいちばん強い世界です。あなたの「きちんと確かめてから動く」慎重さは、失敗を減らし利益をしっかり残す力になります。派手さより確実さ。あなたのやり方こそ、長く続けて伸びるタイプです。" }
 };
 
-/* --- タイプ別ルーティーン（ルールベーステンプレ）--- */
-/* dailyTarget=1日の出品目安。steps=続け方3〜5行。 */
+/* --- タイプ別ルーティーン（くみこ資料の物販取組法・指導方法に準拠）--- */
+/* dailyTarget=1日の出品目安。steps=続け方3〜4行。memo=デフォルトメモ。
+   ▼指導方針
+     主導：目標を数値化し短期/長期に分け一気に。成果を可視化。自主性を尊重しつつ行動指針
+     分析：相場・データを調べてから。計画を立て記録し週次で振り返り。数値目標
+     促進：キャンペーン/イベントを絡めて楽しく。仲間と共有・映え・ごほうび。視覚的な成果
+     支持：コツコツ丁寧に1日1品。誰かの役に立つ気持ちで無理しない。一つずつ一緒にクリア。寄り添い */
 var DIAG_ROUTINE = {
-  driving:{ dailyTarget:3,
+  driving:{ dailyTarget:3, memo:"",
     steps:[
-      "<b>今週◯品</b>を先に決める。今日はそこから逆算して<b>3品</b>を目標に。",
-      "出品はまとめて一気に。すきま時間に一日分をドンと片付ける。",
-      "続けるコツ：<b>売上ダッシュボード</b>で数字の伸びをチェック。達成率を上げるゲーム感覚で。"
+      "<b>短期＝今週◯品</b>・<b>長期＝今月◯円</b>を数字で決める。今日はそこから逆算して<b>3品</b>を目標に。",
+      "出品はまとめて一気に。すきま時間に一日分をドンと片づけて、効率よく回す。",
+      "成果を可視化：<b>売上ダッシュボード</b>で数字の伸びをチェック。達成率を上げるゲーム感覚で。",
+      "やり方は自由。あなたのペースで、迷わず決めて進めてOKです。"
     ]},
-  expressive:{ dailyTarget:2,
+  expressive:{ dailyTarget:2, memo:"",
     steps:[
       "1日<b>2品</b>を目安に。「今日はこの2品を映えさせる！」と決めて楽しく。",
-      "写真は明るく・かわいく。1枚こだわると出品がぐっと楽しくなります。",
-      "続けるコツ：売れたら自分にごほうび。うれしさを誰かに共有すると続きます。"
+      "季節やイベントに乗せて出品。写真は明るく・かわいく、1枚こだわると楽しさUP。",
+      "売れたら自分に<b>ごほうび</b>。うれしさを仲間に共有すると、自然と続きます。",
+      "視覚的な成果を楽しんで：<b>売上ダッシュボード</b>で伸びるグラフを見てニヤリ。"
     ]},
-  amiable:{ dailyTarget:1,
+  amiable:{ dailyTarget:1, memo:"",
     steps:[
-      "1日<b>1品</b>でOK。無理なく、あなたのペースで大丈夫です。",
+      "1日<b>1品</b>でOK。コツコツ丁寧に、無理なくあなたのペースで大丈夫です。",
       "「これを必要な誰かに届ける」気持ちで、ていねいに1品ずつ。",
-      "続けるコツ：がんばりすぎない。1品出せた日は、それだけで十分えらいです。"
+      "一つずつ一緒にクリアしていきましょう。焦らなくて大丈夫です。",
+      "がんばりすぎない。1品出せた日は、それだけで十分えらいです。"
     ]},
-  analytical:{ dailyTarget:1,
+  analytical:{ dailyTarget:1, memo:"",
     steps:[
-      "1日<b>1品</b>から。まずは相場を調べてから値付けする習慣を。",
-      "出品したら記録を残す。売れた日数・価格をメモして次に活かす。",
-      "続けるコツ：週に1回、<b>売上ダッシュボード</b>で振り返り。数字で改善点が見えます。"
+      "1日<b>1品</b>から。まずは<b>相場・データを調べてから</b>値付けする習慣を。",
+      "出品する前に計画を。売れた日数・価格を記録して、次に活かします。",
+      "<b>数値目標</b>を1つ決めて（例：今月◯円）、コツコツ着実に積み上げる。",
+      "週に1回、<b>売上ダッシュボード</b>で振り返り。数字で改善点が見えます。"
     ]}
 };
 
@@ -1828,6 +1851,7 @@ function diagIconSVG(type, size){
 }
 
 /* ============ 診断フロー（設問→結果→ルーティーン）============ */
+/* diagAnswers[i] = 選んだ選択肢のインデックス（未回答=null）。採点時に add オブジェクトへ変換。 */
 var diagAnswers=[], diagStep=0;
 function startDiagnosis(){
   diagAnswers = DIAG_QUESTIONS.map(function(){ return null; });
@@ -1843,14 +1867,14 @@ function renderDiagQuestion(){
   document.getElementById("diagQ").textContent=item.q;
   var cur=diagAnswers[diagStep];
   document.getElementById("diagOpts").innerHTML=item.opts.map(function(o,i){
-    var sel=(cur===o.v)?" sel":"";
-    return '<button class="diag-opt'+sel+'" onclick="diagAnswer('+o.v+')">'+esc(o.t)+'</button>';
+    var sel=(cur===i)?" sel":"";
+    return '<button class="diag-opt'+sel+'" onclick="diagAnswer('+i+')">'+esc(o.t)+'</button>';
   }).join("");
   document.getElementById("diagBack").style.display = diagStep>0? "block":"none";
   var sh=document.querySelector("#diagModal .sheet"); if(sh) sh.scrollTop=0;
 }
-function diagAnswer(v){
-  diagAnswers[diagStep]=v;
+function diagAnswer(optIndex){
+  diagAnswers[diagStep]=optIndex;
   if(diagStep < DIAG_QUESTIONS.length-1){
     diagStep++;
     renderDiagQuestion();
@@ -1861,35 +1885,58 @@ function diagAnswer(v){
 function diagPrev(){ if(diagStep>0){ diagStep--; renderDiagQuestion(); } }
 function finishDiagnosis(){
   var r=scoreDiagnosis(diagAnswers);
+  // 併記用ラベル：subLabel があれば「◯◯タイプ（△△タイプの傾向も）」
+  var label = r.label + "タイプ" + (r.subLabel ? "（" + r.subLabel + "タイプの傾向も）" : "");
   state.diagnosis = {
-    type:r.type, label:r.label,
+    type:r.type, subType:r.subType, label:label,
     scores:{ "主導":r.scores["主導"], "分析":r.scores["分析"], "支持":r.scores["支持"], "促進":r.scores["促進"] },
-    assert:r.assert, express:r.express, supportType:r.supportType,
+    total:r.total, supportFlag:r.supportFlag,
     date:today()
   };
   // ルーティーンを生成（未編集なら診断タイプのテンプレを採用）
   var rt=DIAG_ROUTINE[r.type]||DIAG_ROUTINE.amiable;
-  state.routine = { type:r.type, steps:rt.steps.slice(), dailyTarget:rt.dailyTarget, memo:"" };
+  state.routine = { type:r.type, steps:rt.steps.slice(), dailyTarget:rt.dailyTarget, memo:rt.memo||"" };
   save();
+  // 運営スプシへ診断結果を送信（サポート特性トータルはここに乗る。生徒画面には出さない）
+  try{ postDiagnosis(); }catch(e){}
   closeModal("diagModal");
   renderDiagResult();
   openModal("diagResultModal");
   renderDiag();
 }
+/* 診断結果を運営スプシ「診断結果」タブへ送信（既存sheetPostと同方式・非干渉）。
+   合計total・supportFlag も含めて運営が把握できるようにする。 */
+function postDiagnosis(){
+  var s=state.sheet||{};
+  var postUrl = (s.url && s.url.trim()) ? s.url.trim() : (GAS_URL||"").trim();
+  if(!s.enabled || !postUrl || !s.sheetId) return false;
+  var d=state.diagnosis; if(!d) return false;
+  var payload={
+    name: (state.profile && state.profile.name) ? state.profile.name : "",
+    type: d.label,                       // 併記込みラベル
+    subType: d.subType || "",
+    "主導": d.scores["主導"], "分析": d.scores["分析"],
+    "支持": d.scores["支持"], "促進": d.scores["促進"],
+    total: d.total, supportFlag: d.supportFlag, date: d.date
+  };
+  try{
+    fetch(postUrl,{method:"POST",mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({sheetId:s.sheetId, action:"diag", item:payload})});
+    return true;
+  }catch(e){ return false; }
+}
 function renderDiagResult(){
   var d=state.diagnosis; if(!d){ return; }
   var info=DIAG_TYPE_INFO[d.type]||DIAG_TYPE_INFO.amiable;
-  // サポート型（自己主張大幅マイナス）の追記文をくみこルールで反映
-  var supportNote = d.supportType
-    ? '<div class="diag-why" style="background:#f4f9fd;color:var(--navy);border:1px solid var(--line)">'+
-        '<div class="dw-ttl" style="color:var(--pinkd)">あなたらしさについて</div>'+
-        '<div class="dw-txt" style="color:var(--ink)">あなたは、自分でぐいぐい引っぱるより、<b>誰かを支えたり、人に喜んでもらえること</b>に幸せを感じるタイプです。自分から燃料を投下してどんどん攻めるより、目の前の相手にていねいに向き合うほうが、あなたらしく力を発揮できます。それは弱みではなく、物販でとても信頼される<b>あなただけの強み</b>です。無理にリーダー型のやり方をまねする必要はありません。</div>'+
-      '</div>'
-    : "";
+  // 併記タイプがあれば「◯◯タイプ（△△タイプの傾向も）」を自然に表示（d.label に併記込み）
+  var titleLabel = d.label || info.label;
+  // ※supportFlag（合計≤-10）は生徒画面に一切出さない（運営データのみ）。
+  //   全タイプ共通で前向き・安心できるトーンを維持する。
   document.getElementById("diagResult").innerHTML=
     '<div class="diag-res-hero">'+
       '<div class="diag-res-ic">'+diagIconSVG(d.type,104)+'</div>'+
-      '<div class="diag-res-tp">'+esc(info.label)+'</div>'+
+      '<div class="diag-res-tp">'+esc(titleLabel)+'</div>'+
       '<div class="diag-res-en">'+esc(info.en)+'</div>'+
       '<div class="diag-res-cap">'+esc(info.cap)+'</div>'+
     '</div>'+
@@ -1897,8 +1944,7 @@ function renderDiagResult(){
     '<ul class="diag-strengths">'+
       info.strengths.map(function(s,i){ return '<li><span class="st-no">'+(i+1)+'</span>'+esc(s)+'</li>'; }).join("")+
     '</ul>'+
-    '<div class="diag-why"><div class="dw-ttl">あなたが物販で輝く理由</div><div class="dw-txt">'+esc(info.why)+'</div></div>'+
-    supportNote;
+    '<div class="diag-why"><div class="dw-ttl">あなたが物販で輝く理由</div><div class="dw-txt">'+esc(info.why)+'</div></div>';
 }
 function showRoutineFromResult(){ closeModal("diagResultModal"); openRoutine(); }
 
@@ -1967,7 +2013,7 @@ function renderDiagHome(){
     '<div class="diag-mine">'+
       '<div class="dm-ic">'+diagIconSVG(d.type,46)+'</div>'+
       '<div class="dm-body">'+
-        '<div class="dm-tp">'+esc(info.label)+'<small>あなたのタイプ</small></div>'+
+        '<div class="dm-tp">'+esc(d.label||info.label)+'<small>あなたのタイプ</small></div>'+
         '<div class="dm-sub">あなた専用の出品ルーティーンがあります</div>'+
       '</div>'+
       '<button class="dm-btn" onclick="openRoutine()">ルーティーン</button>'+
@@ -1992,7 +2038,7 @@ function renderDiagSetting(){
     '<div class="diag-mine" style="margin-bottom:10px">'+
       '<div class="dm-ic">'+diagIconSVG(d.type,46)+'</div>'+
       '<div class="dm-body">'+
-        '<div class="dm-tp">'+esc(info.label)+'<small>'+esc(d.date)+' 診断</small></div>'+
+        '<div class="dm-tp">'+esc(d.label||info.label)+'<small>'+esc(d.date)+' 診断</small></div>'+
         '<div class="dm-sub">1日'+((state.routine&&state.routine.dailyTarget)||1)+'品ペースが目安です</div>'+
       '</div>'+
       '<button class="dm-btn" onclick="openRoutine()">ルーティーン</button>'+
