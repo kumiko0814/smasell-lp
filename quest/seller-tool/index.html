@@ -196,6 +196,58 @@
   .savebadge .dot{width:8px;height:8px;border-radius:50%;background:var(--pinkd);flex-shrink:0;
     box-shadow:0 0 0 3px rgba(207,143,156,.25);}
   .savebadge .txt{font-size:12px;font-weight:700;color:var(--pinkd);line-height:1.4;}
+
+  /* ===== 相棒育成ゲーム ===== */
+  .buddy-home{display:flex;gap:12px;background:linear-gradient(135deg,#f4f9fd,#fbeef1);
+    border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px;align-items:stretch;}
+  .buddy-home:empty{display:none;}
+  .buddy-home.is-sleepy{background:linear-gradient(135deg,#eef2f6,#f3f6fa);}
+  .buddy-left{display:flex;flex-direction:column;align-items:center;justify-content:center;
+    flex:0 0 108px;gap:4px;}
+  .buddy-art{width:104px;height:104px;display:flex;align-items:center;justify-content:center;}
+  .buddy-svg{display:block;animation:buddyBob 3.2s ease-in-out infinite;transform-origin:50% 90%;}
+  .buddy-home.is-happy .buddy-svg{animation:buddyHop .6s ease-in-out 2;}
+  .buddy-home.is-sleepy .buddy-svg{animation:buddyBreath 4.4s ease-in-out infinite;opacity:.92;}
+  @keyframes buddyBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  @keyframes buddyHop{0%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}}
+  @keyframes buddyBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+  .buddy-stage{font-size:10.5px;font-weight:800;color:var(--navy);text-align:center;letter-spacing:.02em;}
+  .buddy-right{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:5px;}
+  .buddy-lvrow{display:flex;align-items:center;gap:8px;}
+  .buddy-lv{font-size:17px;font-weight:800;color:var(--navy);line-height:1;}
+  .buddy-streak{font-size:10.5px;font-weight:700;color:var(--pinkd);background:var(--pinkbg);
+    border-radius:20px;padding:2px 9px;}
+  .buddy-xptrack{height:8px;background:#e4edf5;border-radius:20px;overflow:hidden;border:1px solid var(--line);}
+  .buddy-xpfill{height:100%;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:20px;
+    transition:width .5s;min-width:2px;}
+  .buddy-xptxt{font-size:10px;color:var(--sub);font-weight:600;}
+  .buddy-quest{margin-top:2px;}
+  .q-open{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .q-big{font-size:13px;font-weight:800;color:var(--navy);}
+  .q-big b{color:var(--pinkd);font-size:15px;}
+  .q-sub{font-size:10.5px;color:var(--sub);font-weight:700;}
+  .q-done{font-size:13px;font-weight:800;color:var(--blued);}
+  .buddy-mood{font-size:11px;color:var(--navy);font-weight:700;line-height:1.4;}
+  .buddy-weekhint{font-size:10px;color:var(--sub);line-height:1.5;}
+
+  /* 演出レイヤー */
+  .fxlayer{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;
+    background:rgba(29,49,73,.34);pointer-events:none;}
+  .fxlayer.show{display:flex;}
+  .fx-card{background:var(--paper);border-radius:22px;padding:22px 26px;text-align:center;
+    box-shadow:0 10px 34px rgba(29,49,73,.28);max-width:300px;border:1px solid var(--line);}
+  .fx-pop{animation:fxPop .34s cubic-bezier(.2,1.4,.4,1);}
+  @keyframes fxPop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
+  .fx-art{display:flex;align-items:center;justify-content:center;margin-bottom:8px;position:relative;}
+  .fx-art .buddy-svg{animation:buddyHop .55s ease-in-out infinite;}
+  .fx-head{font-size:20px;font-weight:800;color:var(--pinkd);letter-spacing:.04em;}
+  .fx-sub{font-size:13px;font-weight:700;color:var(--navy);margin-top:4px;}
+  .fx-mini{font-size:10.5px;color:var(--sub);margin-top:8px;line-height:1.6;}
+  .fx-sold .fx-head{color:var(--navy);}
+  .fx-carry{flex-direction:column;}
+  .fx-coin{margin-top:-6px;font-size:15px;font-weight:800;color:#fff;background:var(--navy);
+    border-radius:20px;padding:4px 14px;box-shadow:0 3px 0 var(--navy2);animation:coinRise .6s ease-out;}
+  @keyframes coinRise{0%{transform:translateY(10px);opacity:0}100%{transform:translateY(0);opacity:1}}
 </style>
 </head>
 <body>
@@ -212,6 +264,7 @@
   <!-- ========== 在庫 ========== -->
   <section class="page active" id="page-stock">
     <div id="autoSaveBadge" style="display:none"></div>
+    <div id="buddyHome" class="buddy-home"></div>
     <div class="sec-title">在庫（商品明細）<small id="stockCount"></small></div>
     <button class="btn pink" style="margin-bottom:10px" onclick="openWizard()">＋ 出品する<span style="font-weight:600;font-size:11px;opacity:.85;margin-left:6px">写真→文章→登録まで</span></button>
     <button class="btn ghost sm" style="margin-bottom:14px" onclick="openItemModal()">＋ 1品だけ手入力で登録</button>
@@ -521,11 +574,29 @@ var GAS_URL = "";  // ★デプロイ後にここへ .../exec を貼る（全生
 
 /* ============ storage ============ */
 var KEY = "seller_tool_v1";
-var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false} };
+function defaultGame(){ return { xp:0, level:1, species:"egg", stage:"egg", streak:0, lastListDate:"", badges:[], todayDone:false, mood:"normal" }; }
+var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false}, game:defaultGame() };
 function load(){
   try{ var raw = localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw);
     state.items = p.items||[]; state.goals = p.goals||{}; state.profile = p.profile||{};
-    state.sheet = p.sheet || {url:"",sheetId:"",enabled:false}; } }catch(e){}
+    state.sheet = p.sheet || {url:"",sheetId:"",enabled:false};
+    state.game = normalizeGame(p.game); } }catch(e){}
+}
+/* game オブジェクトの欠損を埋める（既存ユーザーが game を持たない場合も安全に） */
+function normalizeGame(g){
+  var d=defaultGame();
+  if(!g||typeof g!=="object") return d;
+  return {
+    xp: (typeof g.xp==="number")? g.xp : 0,
+    level: (typeof g.level==="number" && g.level>=1)? g.level : 1,
+    species: g.species||"egg",
+    stage: g.stage||"egg",
+    streak: (typeof g.streak==="number")? g.streak : 0,
+    lastListDate: g.lastListDate||"",
+    badges: Array.isArray(g.badges)? g.badges.slice() : [],
+    todayDone: !!g.todayDone,
+    mood: g.mood||"normal"
+  };
 }
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
 
@@ -552,7 +623,7 @@ function go(p){
   document.getElementById("page-"+p).classList.add("active");
   document.querySelectorAll(".tabbar button").forEach(function(b){ b.classList.toggle("on", b.dataset.p===p); });
   if(p==="dash") renderDash();
-  if(p==="stock"){ renderItems(); renderAutoSaveBadge(); }
+  if(p==="stock"){ renderItems(); renderAutoSaveBadge(); renderGame(); }
   window.scrollTo(0,0);
 }
 
@@ -649,8 +720,16 @@ function saveItem(){
   };
   var idx = state.items.findIndex(function(x){return x.id===id;});
   var isNew = idx<0;
+  var wasSold = prev? !!prev.sold : false;
   if(idx>=0) state.items[idx]=it; else state.items.unshift(it);
   save(); closeModal("itemModal"); renderItems();
+  // ★ゲーム：新規登録＝出品としてXP加算。売れた（新たにsold化）＝売れた演出。
+  //   sheetPost とは独立。例外が保存/書き出しを壊さないよう try/catch で隔離。
+  if(it.sold){
+    if(!wasSold){ try{ gameOnSold(takeHome(it)); renderGame(); }catch(e){} }
+  } else if(isNew){
+    try{ var res=gameOnListing(); renderGame(); fireGameFx(res); }catch(e){}
+  }
   // スプシ書き出し：新規=add、売れた更新=sold（同じフックを通す）。it.take を明細に反映するため付与
   var sent=false;
   if(it.sold){ it.take=takeHome(it); sent=sheetPost("sold", it); }
@@ -1122,11 +1201,306 @@ function wizComplete(){
 /* 出品完了の登録処理は単一関数に集約。enabled時のみGAS Web AppへPOST（add）。 */
 function saveListing(item){
   var idx=state.items.findIndex(function(x){return x.id===item.id;});
+  var isNew=idx<0;
   if(idx>=0) state.items[idx]=item; else state.items.unshift(item);
   save();
   renderItems();
+  // ★ゲーム：新規出品のときだけXP加算・クエスト・ストリーク。演出も。
+  //   sheetPost とは独立。例外が sheetPost / 保存を壊さないよう try/catch で隔離。
+  if(isNew){ try{ var res=gameOnListing(); renderGame(); fireGameFx(res); }catch(e){} }
   // Step4 スプシ書き出しフック：一意idを含めて送信（後で"売れた"更新時に行特定するため）
   return sheetPost("add", item);
+}
+
+/* ============================================================
+   ★ 相棒育成ゲーム（自己入力ゼロ／出品した瞬間に自動で進む）★
+   4課題→機構：①今日の1品クエスト ②相棒育成(XP/進化) ③ストリーク＋サボり＋即回復 ④売れた演出
+   データは state.game に集約。items/goals/profile/sheet は一切壊さない。
+   ============================================================ */
+
+/* --- レベル設計：Lvに必要な累計XP（出品1品=1XP）。低モチベ層向けに軽め --- */
+/* Lv1=0, Lv2=2, Lv3=5, Lv4=9, Lv5=14, Lv6=20 …（(lv-1)*lv/2）孵化=Lv3(5品)/成長=Lv6(20品) */
+function xpForLevel(lv){ return Math.round((lv-1)*lv/2); }
+function levelFromXp(xp){ var lv=1; while(xpForLevel(lv+1)<=xp && lv<99) lv++; return lv; }
+
+/* --- 進化ステージ：Lvで egg→hatch→grown。系統(species)はカテゴリ集計で自動分岐 --- */
+function stageFromLevel(lv){ if(lv>=6) return "grown"; if(lv>=3) return "hatch"; return "egg"; }
+/* items のカテゴリ集計から系統を判定（3〜4系統）。卵のうちは "egg" のまま */
+function detectSpecies(){
+  var count={};
+  state.items.forEach(function(it){
+    var c=(it.cat||"").trim(); if(!c) return;
+    count[c]=(count[c]||0)+1;
+  });
+  var groups={ chic:0, elegant:0, mecha:0, cozy:0 };
+  Object.keys(count).forEach(function(c){
+    var n=count[c];
+    if(/服|ファッション|アパレル|レディース服|メンズ服/.test(c)) groups.chic+=n;
+    else if(/バッグ|アクセ|靴|ジュエリー|時計/.test(c)) groups.elegant+=n;
+    else if(/家電|ガジェット|PC|カメラ|オーディオ|ゲーム/.test(c)) groups.mecha+=n;
+    else groups.cozy+=n; // キッズ・その他・生活雑貨など
+  });
+  var best="cozy", bestN=-1;
+  ["chic","elegant","mecha","cozy"].forEach(function(k){ if(groups[k]>bestN){ bestN=groups[k]; best=k; } });
+  return bestN<=0? "cozy" : best;
+}
+
+/* --- 今日のクエスト：goals の出品数目標から「今日◯品」を逆算 --- */
+function daysInMonth(ym){ var y=+ym.slice(0,4),m=+ym.slice(5,7); return new Date(y,m,0).getDate(); }
+function todayQuestTarget(){
+  var ym=today().slice(0,7);
+  var g=state.goals[ym]||{};
+  var monthly=num(g.listed);
+  if(monthly<=0) return 1; // 目標未設定はデフォルト「1日1品」
+  var per=Math.ceil(monthly/daysInMonth(ym));
+  return Math.max(1, per);
+}
+function listedToday(){
+  var t=today(), n=0;
+  state.items.forEach(function(it){ if(it.listDate===t) n++; });
+  return n;
+}
+/* 今週◯品→今日◯品の補足用：週残数（当月ベースのざっくり） */
+function weekRemainInfo(){
+  var ym=today().slice(0,7), g=state.goals[ym]||{};
+  var monthly=num(g.listed); if(monthly<=0) monthly=daysInMonth(ym); // 未設定は1日1品換算
+  var listedThisMonth=0; state.items.forEach(function(it){ if(ymOf(it.listDate)===ym) listedThisMonth++; });
+  var remainMonth=Math.max(0, monthly-listedThisMonth);
+  var weekly=Math.ceil(monthly/4);
+  return { weekly:weekly, remainMonth:remainMonth };
+}
+
+/* --- 出品フック：XP加算・クエスト判定・ストリーク更新（saveListing / saveItem から呼ぶ）--- */
+/* 例外が絶対に sheetPost / 保存を壊さないよう、呼び出し側で try/catch 済み。ここも防御的に。 */
+function gameOnListing(){
+  var g=state.game; if(!g) { state.game=defaultGame(); g=state.game; }
+  var t=today();
+  var prevLevel=g.level;
+  var prevStage=g.stage;
+  // XP
+  g.xp=(g.xp||0)+1;
+  g.level=levelFromXp(g.xp);
+  g.species=detectSpecies();
+  g.stage=stageFromLevel(g.level);
+  // ストリーク：前回出品日との差で判定（同日は据え置き、翌日は+1、2日以上空きはリセット→1）
+  if(g.lastListDate){
+    var gap=daysBetween(g.lastListDate, t);
+    if(gap===0){ /* 同日、streakは維持 */ }
+    else if(gap===1){ g.streak=(g.streak||0)+1; }
+    else { g.streak=1; } // サボりからの復帰も“今日1品”で即・連続1にリセット回復
+  } else {
+    g.streak=1;
+  }
+  g.lastListDate=t;
+  var questWasDone=g.todayDone;
+  g.todayDone=true;
+  g.mood="happy"; // 出品直後は喜ぶ
+  // マンスリーバッジ判定
+  checkMonthlyBadge();
+  save();
+  // 演出
+  var evolved = (g.stage!==prevStage);
+  var leveled = (g.level>prevLevel);
+  return { leveled:leveled, evolved:evolved, questJustDone:(!questWasDone), level:g.level, stage:g.stage, species:g.species };
+}
+
+/* --- 初期化時：日付が変わっていたら todayDone リセット、2日以上サボりで mood=sleepy --- */
+function gameDailyCheck(){
+  var g=state.game; if(!g){ state.game=defaultGame(); g=state.game; }
+  var t=today();
+  if(g.lastListDate){
+    var gap=daysBetween(g.lastListDate, t);
+    if(gap>=1) g.todayDone=false;   // 日付が変わった＝今日はまだ
+    if(gap>=2) g.mood="sleepy";     // 2日以上サボり＝眠る/寂しがる
+    else if(gap===1) g.mood="normal";
+    else g.mood = g.todayDone? "happy":"normal";
+  } else {
+    g.todayDone=false; g.mood="normal";
+  }
+  save();
+}
+
+/* --- マンスリーバッジ：当月の出品数目標を達成したら付与 --- */
+function checkMonthlyBadge(){
+  var ym=today().slice(0,7), g=state.goals[ym]||{}, gm=state.game;
+  var target=num(g.listed); if(target<=0) return;
+  var listedThisMonth=0; state.items.forEach(function(it){ if(ymOf(it.listDate)===ym) listedThisMonth++; });
+  if(listedThisMonth>=target && gm.badges.indexOf(ym)<0){ gm.badges.push(ym); }
+}
+
+/* --- 売れた演出フック：手取り金額を相棒が運んでくる（saveItem の sold 更新から呼ぶ）--- */
+function gameOnSold(take){
+  var g=state.game; if(!g) return;
+  checkMonthlyBadge();
+  save();
+  showSoldCelebration(take);
+}
+
+/* ============ 相棒 SVG 描画（画像ファイル不使用・単体HTML維持）============ */
+/* 系統別カラー（スマセル配色ベース）。stage で形が変わる。 */
+function speciesColor(sp){
+  var map={
+    chic:   {body:"#cf8f9c", accent:"#bd7886"}, // おしゃれ系＝スモーキーピンク
+    elegant:{body:"#7fb0d2", accent:"#5f97be"}, // 上品系＝ブルー
+    mecha:  {body:"#26405f", accent:"#1d3149"}, // メカ系＝ネイビー
+    cozy:   {body:"#a9c7de", accent:"#7fb0d2"}  // なごみ系＝淡ブルー
+  };
+  return map[sp]||map.cozy;
+}
+function speciesName(sp){
+  return {chic:"おしゃれタイプ",elegant:"エレガントタイプ",mecha:"かしこタイプ",cozy:"なごみタイプ"}[sp]||"なごみタイプ";
+}
+/* 眠り/通常/喜びで表情を出し分け。size は px。 */
+function buddySVG(stage, species, mood, size){
+  size=size||120;
+  var col=speciesColor(species);
+  var sleepy=(mood==="sleepy");
+  var happy=(mood==="happy");
+  // 目：眠りは閉じ目、喜びは弧目、通常は丸目
+  function eyes(cx1,cx2,cy,r){
+    if(sleepy) return '<path d="M'+(cx1-r)+' '+cy+' q'+r+' '+r+' '+(2*r)+' 0" stroke="#26405f" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+                      '<path d="M'+(cx2-r)+' '+cy+' q'+r+' '+r+' '+(2*r)+' 0" stroke="#26405f" stroke-width="2" fill="none" stroke-linecap="round"/>';
+    if(happy) return '<path d="M'+(cx1-r)+' '+(cy+1)+' q'+r+' -'+(r+1)+' '+(2*r)+' 0" stroke="#26405f" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+
+                     '<path d="M'+(cx2-r)+' '+(cy+1)+' q'+r+' -'+(r+1)+' '+(2*r)+' 0" stroke="#26405f" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+    return '<circle cx="'+cx1+'" cy="'+cy+'" r="'+(r*0.7)+'" fill="#26405f"/><circle cx="'+cx2+'" cy="'+cy+'" r="'+(r*0.7)+'" fill="#26405f"/>';
+  }
+  var zzz = sleepy? '<text x="76" y="30" font-size="13" fill="#7fb0d2" font-weight="800" opacity=".9">z z</text>' : '';
+  var inner="";
+  if(stage==="egg"){
+    // たまご：スマセル配色のなめらかな卵。眠りは伏せ気味。
+    inner =
+      '<ellipse cx="50" cy="86" rx="26" ry="6" fill="#dce7f0"/>'+
+      '<path d="M50 20 C30 20 22 52 22 66 a28 30 0 0 0 56 0 C78 52 70 20 50 20 Z" fill="'+col.body+'"/>'+
+      '<path d="M50 20 C30 20 22 52 22 66 a28 30 0 0 0 56 0 C78 52 70 20 50 20 Z" fill="none" stroke="'+col.accent+'" stroke-width="2"/>'+
+      '<path d="M30 58 q8 6 16 0 q8 -6 16 0 q4 3 8 0" stroke="#ffffff" stroke-width="2.4" fill="none" opacity=".7" stroke-linecap="round"/>'+
+      eyes(42,58,58,4)+
+      (happy? '<path d="M44 68 q6 5 12 0" stroke="#26405f" stroke-width="2" fill="none" stroke-linecap="round"/>':'<path d="M46 68 q4 3 8 0" stroke="#26405f" stroke-width="1.8" fill="none" stroke-linecap="round"/>')+
+      zzz;
+  } else if(stage==="hatch"){
+    // 孵化：割れた殻から顔。耳っぽいツノ。
+    inner =
+      '<ellipse cx="50" cy="88" rx="24" ry="5" fill="#dce7f0"/>'+
+      '<path d="M28 88 L34 70 L40 88 L46 70 L52 88 L58 70 L64 88 L70 70 L72 88 Z" fill="#eef4fa" stroke="'+col.accent+'" stroke-width="1.5"/>'+
+      '<circle cx="50" cy="52" r="26" fill="'+col.body+'"/>'+
+      '<circle cx="50" cy="52" r="26" fill="none" stroke="'+col.accent+'" stroke-width="2"/>'+
+      '<path d="M34 34 l6 10" stroke="'+col.accent+'" stroke-width="4" stroke-linecap="round"/>'+
+      '<path d="M66 34 l-6 10" stroke="'+col.accent+'" stroke-width="4" stroke-linecap="round"/>'+
+      '<circle cx="40" cy="60" r="3.5" fill="'+col.accent+'" opacity=".5"/><circle cx="60" cy="60" r="3.5" fill="'+col.accent+'" opacity=".5"/>'+
+      eyes(42,58,52,4.5)+
+      (happy? '<path d="M43 62 q7 6 14 0" stroke="#26405f" stroke-width="2.2" fill="none" stroke-linecap="round"/>':'<path d="M46 62 q4 3 8 0" stroke="#26405f" stroke-width="2" fill="none" stroke-linecap="round"/>')+
+      zzz;
+  } else {
+    // 成長：体＋しっぽ＋手。系統でしっぽ形状を少し変える。
+    var tail = species==="mecha"
+      ? '<rect x="70" y="60" width="16" height="6" rx="3" fill="'+col.accent+'"/>'
+      : '<path d="M72 62 q14 -4 12 -16 q-6 8 -14 6" fill="'+col.accent+'"/>';
+    inner =
+      '<ellipse cx="50" cy="90" rx="26" ry="5" fill="#dce7f0"/>'+
+      tail +
+      '<ellipse cx="50" cy="62" rx="24" ry="22" fill="'+col.body+'"/>'+
+      '<ellipse cx="50" cy="62" rx="24" ry="22" fill="none" stroke="'+col.accent+'" stroke-width="2"/>'+
+      '<circle cx="34" cy="44" r="7" fill="'+col.body+'" stroke="'+col.accent+'" stroke-width="2"/>'+
+      '<circle cx="66" cy="44" r="7" fill="'+col.body+'" stroke="'+col.accent+'" stroke-width="2"/>'+
+      '<circle cx="28" cy="70" r="6" fill="'+col.accent+'" opacity=".85"/>'+
+      '<circle cx="72" cy="70" r="6" fill="'+col.accent+'" opacity=".85"/>'+
+      '<circle cx="40" cy="60" r="3.5" fill="'+col.accent+'" opacity=".45"/><circle cx="60" cy="60" r="3.5" fill="'+col.accent+'" opacity=".45"/>'+
+      eyes(42,58,60,5)+
+      (happy? '<path d="M42 70 q8 7 16 0" stroke="#26405f" stroke-width="2.4" fill="none" stroke-linecap="round"/>':'<path d="M45 70 q5 4 10 0" stroke="#26405f" stroke-width="2.2" fill="none" stroke-linecap="round"/>')+
+      zzz;
+  }
+  return '<svg viewBox="0 0 100 100" width="'+size+'" height="'+size+'" class="buddy-svg" aria-hidden="true">'+inner+'</svg>';
+}
+
+/* ============ 相棒ホーム描画（在庫タブ上部）============ */
+function stageLabel(stage){ return {egg:"たまご",hatch:"孵化",grown:"成長"}[stage]||"たまご"; }
+function renderGame(){
+  var el=document.getElementById("buddyHome"); if(!el) return;
+  var g=state.game||defaultGame();
+  var target=todayQuestTarget();
+  var doneN=listedToday();
+  var questDone=doneN>=target;
+  var wk=weekRemainInfo();
+  var nextXp=xpForLevel(g.level+1), curBase=xpForLevel(g.level);
+  var into=g.xp-curBase, span=Math.max(1,nextXp-curBase);
+  var xpPct=Math.min(100, Math.round(into/span*100));
+  var moodMsg;
+  if(g.mood==="sleepy") moodMsg="相棒が待ってた…！今日1品で会いに行こう";
+  else if(questDone) moodMsg="今日のクエスト達成！ごきげんです";
+  else moodMsg="今日の1品で、相棒がちょっと育ちます";
+
+  var questBlock = questDone
+    ? '<div class="q-done">✓ 今日の1品 達成（'+doneN+'/'+target+'品）</div>'
+    : '<div class="q-open"><span class="q-big">今日は<b>'+target+'品</b>出品しよう</span><span class="q-sub">今日 '+doneN+'/'+target+'品</span></div>';
+
+  el.className="buddy-home"+(g.mood==="sleepy"?" is-sleepy":"")+(questDone?" is-happy":"");
+  el.innerHTML=
+    '<div class="buddy-left">'+
+      '<div class="buddy-art">'+buddySVG(g.stage,g.species,g.mood,104)+'</div>'+
+      '<div class="buddy-stage">'+stageLabel(g.stage)+(g.stage!=="egg"?'・'+esc(speciesName(g.species)):'')+'</div>'+
+    '</div>'+
+    '<div class="buddy-right">'+
+      '<div class="buddy-lvrow"><span class="buddy-lv">Lv.'+g.level+'</span>'+
+        '<span class="buddy-streak">連続 '+(g.streak||0)+'日</span></div>'+
+      '<div class="buddy-xptrack"><div class="buddy-xpfill" style="width:'+xpPct+'%"></div></div>'+
+      '<div class="buddy-xptxt">次のレベルまで '+Math.max(0,nextXp-g.xp)+' 品</div>'+
+      '<div class="buddy-quest">'+questBlock+'</div>'+
+      '<div class="buddy-mood">'+esc(moodMsg)+'</div>'+
+      '<div class="buddy-weekhint">今週の目安 '+wk.weekly+'品／今月あと '+wk.remainMonth+'品'+
+        (g.badges.length? '　🏅バッジ '+g.badges.length:'')+'</div>'+
+    '</div>';
+}
+
+/* ============ 演出：レベルアップ／進化／クエスト達成／売れた ============ */
+function fireGameFx(res){
+  if(!res) return;
+  if(res.evolved){ showLevelUp(true, res); }
+  else if(res.leveled){ showLevelUp(false, res); }
+  else if(res.questJustDone){ showQuestCheck(); }
+}
+function ensureFxLayer(){
+  var l=document.getElementById("fxLayer");
+  if(!l){ l=document.createElement("div"); l.id="fxLayer"; l.className="fxlayer"; document.body.appendChild(l); }
+  return l;
+}
+function showLevelUp(evolved, res){
+  var g=state.game;
+  var l=ensureFxLayer();
+  var head=evolved? "しんか！":"レベルアップ！";
+  var sub=evolved? (stageLabel(res.stage)+"になりました") : ("Lv."+res.level+" になりました");
+  l.innerHTML=
+    '<div class="fx-card fx-pop">'+
+      '<div class="fx-art">'+buddySVG(g.stage,g.species,"happy",130)+'</div>'+
+      '<div class="fx-head">'+head+'</div>'+
+      '<div class="fx-sub">'+esc(sub)+'</div>'+
+      '<div class="fx-mini">意志の力はいりません。相棒が待ってるから続くんです。</div>'+
+    '</div>';
+  l.classList.add("show");
+  setTimeout(function(){ l.classList.remove("show"); }, 2200);
+}
+function showQuestCheck(){
+  var g=state.game, l=ensureFxLayer();
+  l.innerHTML=
+    '<div class="fx-card fx-pop">'+
+      '<div class="fx-art">'+buddySVG(g.stage,g.species,"happy",120)+'</div>'+
+      '<div class="fx-head" style="font-size:18px">今日のクエスト達成 ✓</div>'+
+      '<div class="fx-sub">相棒がよろこんでいます</div>'+
+    '</div>';
+  l.classList.add("show");
+  setTimeout(function(){ l.classList.remove("show"); }, 1600);
+}
+function showSoldCelebration(take){
+  var g=state.game, l=ensureFxLayer();
+  var amt = (take!=null && !isNaN(take))? yen(take) : "";
+  l.innerHTML=
+    '<div class="fx-card fx-pop fx-sold">'+
+      '<div class="fx-art fx-carry">'+buddySVG(g.stage,g.species,"happy",130)+
+        '<div class="fx-coin">'+esc(amt)+'</div></div>'+
+      '<div class="fx-head">売れました！</div>'+
+      '<div class="fx-sub">手取り '+esc(amt)+' を相棒が運んできました</div>'+
+      '<div class="fx-mini">出品（行動）が、ちゃんと報酬になりました。</div>'+
+    '</div>';
+  l.classList.add("show");
+  setTimeout(function(){ l.classList.remove("show"); }, 2600);
 }
 
 /* ============ import / export ============ */
@@ -1144,7 +1518,8 @@ function importJSON(e){
       var p=JSON.parse(ev.target.result);
       state.items=p.items||[]; state.goals=p.goals||{}; state.profile=p.profile||{};
       if(p.sheet) state.sheet=p.sheet;
-      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderAutoSaveBadge(); toast("読み込みました");
+      state.game = normalizeGame(p.game);
+      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderAutoSaveBadge(); renderGame(); toast("読み込みました");
     }catch(err){ toast("読み込めませんでした"); }
     e.target.value="";
   };
@@ -1201,7 +1576,7 @@ function renderAutoSaveBadge(){
 }
 
 /* ============ init ============ */
-load(); applyLinkParams(); loadProfile(); loadSheetSettings(); renderItems(); renderDash();
+load(); applyLinkParams(); gameDailyCheck(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderGame();
 </script>
 </body>
 </html>
