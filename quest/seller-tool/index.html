@@ -470,6 +470,25 @@
   .mission .m-clear .mc-txt small{display:block;color:var(--sub);font-weight:600;font-size:10.5px;margin-top:2px;}
   .mission .m-next{font-size:12px;color:var(--sub);line-height:1.6;text-align:center;margin-top:2px;}
 
+  /* 診断ファースト：診断まだの主役カード（今日タブの1アクション） */
+  .diagfirst{background:linear-gradient(160deg,#ffffff 0%,#fff5f8 100%);border:2px solid var(--pink);
+    border-radius:22px;padding:26px 20px 22px;box-shadow:0 10px 26px rgba(207,143,156,.22);text-align:center;margin-bottom:16px;}
+  .diagfirst .df-egg{display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+  .diagfirst .df-ttl{font-size:22px;font-weight:800;color:var(--navy);line-height:1.4;margin-bottom:6px;}
+  .diagfirst .df-min{display:inline-block;background:var(--pinkd);color:#fff;font-size:11px;font-weight:800;
+    border-radius:12px;padding:3px 12px;margin-bottom:12px;letter-spacing:.02em;}
+  .diagfirst .df-txt{font-size:13.5px;color:var(--ink);line-height:1.9;margin:0 4px 18px;}
+  .diagfirst .df-cta{display:block;width:100%;border:none;cursor:pointer;padding:18px;border-radius:16px;
+    background:var(--pinkd);color:#fff;font-size:16px;font-weight:800;box-shadow:0 5px 0 #a76673;letter-spacing:.02em;}
+  .diagfirst .df-cta:active{transform:translateY(5px);box-shadow:0 0 0 #a76673;}
+
+  /* 診断→卵誕生→30日スタートの開始演出（初回のみ・ホーム上部） */
+  .home-welcome{display:flex;gap:12px;align-items:center;background:var(--pinkbg);border:1px solid var(--pink);
+    border-radius:18px;padding:13px 15px;margin-bottom:14px;box-shadow:0 6px 16px rgba(207,143,156,.16);}
+  .home-welcome .hw-art{flex:0 0 66px;display:flex;align-items:center;justify-content:center;}
+  .home-welcome .hw-ttl{font-size:14px;font-weight:800;color:var(--pinkd);line-height:1.5;margin-bottom:3px;}
+  .home-welcome .hw-sub{font-size:12px;color:var(--ink);line-height:1.7;}
+
   /* 相棒の応援（ミッションのそば） */
   .home-buddy{display:flex;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);
     border-radius:18px;padding:12px 14px;margin-bottom:16px;}
@@ -557,8 +576,11 @@
     <div id="homeAutoSaveBadge" style="display:none"></div>
     <div class="home-hi" id="homeHi"></div>
 
+    <!-- 診断ファースト：診断がまだのとき、ここに「まず診断」カードを主役表示 -->
+    <div id="homeDiagFirst"></div>
+
     <!-- 進捗 ◯/30 -->
-    <div class="prog-wrap">
+    <div class="prog-wrap" id="homeProgWrap">
       <div class="prog-top">
         <span class="pt-l">30日のあゆみ</span>
         <span class="pt-r"><b id="progDone">0</b> / 30日</span>
@@ -1005,7 +1027,7 @@
     <h2>診断結果</h2>
     <div id="diagResult"></div>
     <button class="btn pink" style="margin-top:6px" onclick="showRoutineFromResult()">あなた専用ルーティーンを見る</button>
-    <button class="close" onclick="closeModal('diagResultModal')">閉じる</button>
+    <button class="close" onclick="closeDiagResult()">閉じて30日プログラムをはじめる</button>
   </div>
 </div>
 
@@ -1020,7 +1042,7 @@
         <textarea id="rt-memo" placeholder="ここにメモを書けます"></textarea></div>
     </div>
     <button class="btn navy" style="margin-top:6px" onclick="saveRoutine()">このルーティーンで保存<span style="font-weight:600;font-size:11px;opacity:.85;margin-left:6px">今日の目標にも反映</span></button>
-    <button class="close" onclick="closeModal('routineModal')">閉じる</button>
+    <button class="close" onclick="closeModal('routineModal');renderHome()">閉じる</button>
   </div>
 </div>
 
@@ -2384,6 +2406,10 @@ function finishDiagnosis(){
   state.routine = { type:r.type, steps:rt.steps.slice(), dailyTarget:rt.dailyTarget, memo:rt.memo||"" };
   // ★診断が終わると、そのタイプの卵が生まれる：相棒の見た目タイプを即反映
   if(state.game){ state.game.species=detectSpecies(); }
+  // ★30日プログラムの起点は診断完了時に確定（診断→卵誕生→30日スタートの正しい順序）
+  ensureProgramStart();
+  // ★初回のみ：ホームに戻ったとき「卵が生まれた→30日スタート」の演出を1回だけ出す
+  state._justDiagnosed = true;
   save();
   // 運営スプシへ診断結果を送信（サポート特性トータルはここに乗る。生徒画面には出さない）
   try{ postDiagnosis(); }catch(e){}
@@ -2448,6 +2474,8 @@ function renderDiagResult(){
     '<div class="diag-why"><div class="dw-ttl">あなたが物販で輝く理由</div><div class="dw-txt">'+esc(info.why)+'</div></div>';
 }
 function showRoutineFromResult(){ closeModal("diagResultModal"); openRoutine(); }
+/* 結果を閉じたらホーム（今日タブ）へ。診断→卵誕生→30日スタートの開始演出＋今日のミッションを出す。 */
+function closeDiagResult(){ closeModal("diagResultModal"); go("home"); }
 
 /* --- ルーティーン表示・編集・保存 --- */
 function openRoutine(){
@@ -2475,7 +2503,7 @@ function saveRoutine(){
   applyRoutineToGoals(state.routine.dailyTarget);
   save();
   closeModal("routineModal");
-  renderGame(); renderDash(); renderDiag();
+  renderGame(); renderDash(); renderDiag(); renderHome();
   toast("ルーティーンを保存＋今日の目標に反映したよ");
 }
 /* dailyTarget→今月の goals.listed（未設定のときだけ月換算で埋める。既存目標は上書きしない）。 */
@@ -3189,7 +3217,28 @@ function programEval(formula, vars){
 }
 
 /* ============ 今日（ホーム）描画 ============ */
+/* 診断ファースト：診断がまだのユーザーは、今日のミッションではなく
+   「まず、あなたのタイプを知ろう」を主役表示し、診断に集中してもらう。 */
 function renderHome(){
+  var diagDone = !!state.diagnosis;
+  var showEls = function(on){
+    var ids=["homeProgWrap","missionCard","homeBuddy","homeShare","homeBadges"];
+    ids.forEach(function(id){ var e=document.getElementById(id); if(e) e.style.display = on? "" : "none"; });
+  };
+  if(!diagDone){
+    // 診断まだ：進捗・ミッション・LINE導線などは出さず、診断カードだけに集中させる
+    showEls(false);
+    var nm = (state.profile && state.profile.name) ? state.profile.name : "";
+    document.getElementById("homeHi").innerHTML =
+      (nm? esc(nm)+"さん、ようこそ" : "ようこそ")+
+      "<small>まずは1分の診断から。ここからはじまります</small>";
+    renderHomeAutoSaveBadge();
+    renderHomeDiagFirst();
+    return;
+  }
+  // 診断済み：診断ファーストカードは消し、通常のホームを描画
+  var df=document.getElementById("homeDiagFirst"); if(df) df.innerHTML="";
+  showEls(true);
   ensureProgramStart();
   var p=state.program;
   var doneN = p.cleared.length;
@@ -3202,10 +3251,44 @@ function renderHome(){
     (nm? esc(nm)+"さん、こんにちは" : "こんにちは")+
     "<small>30日集中フォローアッププログラム "+(elapsed+1)+"日目・まいにち1つずつでOKです</small>";
   renderHomeAutoSaveBadge();
+  renderHomeWelcome();
   renderMissionCard();
   renderHomeBuddy();
   renderHomeShare();
   renderHomeBadges();
+}
+/* 初回のみ：診断→卵誕生→30日スタートの開始演出。表示したらフラグを消す（以降は出さない）。 */
+function renderHomeWelcome(){
+  var el=document.getElementById("homeDiagFirst"); if(!el) return;
+  if(!state._justDiagnosed){ el.innerHTML=""; return; }
+  // 診断結果/ルーティーンのモーダルが開いている間は消費しない（閉じてホームに戻ったとき出す）
+  var rm=document.getElementById("diagResultModal"), rtm=document.getElementById("routineModal");
+  if((rm && rm.classList.contains("open")) || (rtm && rtm.classList.contains("open"))) return;
+  var d=state.diagnosis;
+  var info=(d && DIAG_TYPE_INFO[d.type]) ? DIAG_TYPE_INFO[d.type] : null;
+  var typeName = info ? info.label : "あなた";
+  var g=state.game||defaultGame();
+  el.innerHTML=
+    '<div class="home-welcome">'+
+      '<div class="hw-art">'+buddySVG("egg", (g.species||"amiable"), "happy", 66)+'</div>'+
+      '<div class="hw-body">'+
+        '<div class="hw-ttl">'+esc(typeName)+'タイプの相棒（卵）が生まれました</div>'+
+        '<div class="hw-sub">きょうから30日集中フォローアッププログラムがはじまります。まずは今日の1つから☺</div>'+
+      '</div>'+
+    '</div>';
+  state._justDiagnosed = false; save();
+}
+/* 診断まだのホーム主役カード：迷わせない・小学生でもわかるように1アクション。 */
+function renderHomeDiagFirst(){
+  var el=document.getElementById("homeDiagFirst"); if(!el) return;
+  el.innerHTML=
+    '<div class="diagfirst">'+
+      '<div class="df-egg">'+buddySVG("egg","amiable","normal",76)+'</div>'+
+      '<div class="df-ttl">まず、あなたのタイプを知ろう</div>'+
+      '<div class="df-min">所要 1分・ぜんぶ選ぶだけ</div>'+
+      '<div class="df-txt">あなたに合った「出品のやり方・モチベの保ち方」と、あなただけの相棒（卵）が決まります。</div>'+
+      '<button class="df-cta" onclick="startDiagnosis()">診断をはじめる（1分）</button>'+
+    '</div>';
 }
 /* ホーム上部にも自動保存バッジ（在庫ホームと同内容） */
 function renderHomeAutoSaveBadge(){
