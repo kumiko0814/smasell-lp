@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>スマセル30日プログラム｜まいにち1つずつ</title>
+<title>30日集中フォローアッププログラム｜まいにち1つずつ</title>
 <style>
   :root{
     /* ピンク主役パレット：背景=薄ピンクの暖色寄りグラデ、面=白、CTA/進捗/見出しアクセント=スモーキーピンク、ブルーは補助 */
@@ -203,10 +203,23 @@
     border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px;align-items:stretch;position:relative;}
   .buddy-home:empty{display:none;}
   .buddy-home.is-sleepy{background:linear-gradient(135deg,#eef2f6,#f3f6fa);}
+  /* 2日サボり＝暗転（責めない・純赤NG。しっとり暗くしてキャラがしょんぼり） */
+  .buddy-home.is-dim{background:linear-gradient(135deg,#33404f,#3d3742);border-color:#4a5361;
+    box-shadow:inset 0 0 40px rgba(0,0,0,.35);}
+  .buddy-home.is-dim .buddy-stage,.buddy-home.is-dim .buddy-lv,.buddy-home.is-dim .buddy-mood,
+  .buddy-home.is-dim .q-big,.buddy-home.is-dim .q-big b,.buddy-home.is-dim .q-sub{color:#e7edf3;}
+  .buddy-home.is-dim .buddy-weekhint,.buddy-home.is-dim .buddy-xptxt{color:#b6c0cc;}
+  .buddy-home.is-dim .buddy-svg{filter:brightness(.62) saturate(.7);}
+  .buddy-home.is-dim .buddy-streak{background:rgba(255,255,255,.14);color:#f0d7de;}
+  .home-buddy.is-dim{background:linear-gradient(135deg,#33404f,#3d3742);border-color:#4a5361;}
+  .home-buddy.is-dim .hb-msg{color:#f2e6ea;}
+  .home-buddy.is-dim .hb-sub{color:#b6c0cc;}
+  .home-buddy.is-dim .buddy-svg{filter:brightness(.62) saturate(.7);}
   .buddy-left{display:flex;flex-direction:column;align-items:center;justify-content:center;
     flex:0 0 108px;gap:4px;}
   .buddy-art{width:104px;height:104px;display:flex;align-items:center;justify-content:center;}
-  .buddy-svg{display:block;animation:buddyBob 3.2s ease-in-out infinite;transform-origin:50% 90%;}
+  .buddy-svg{display:block;animation:buddyBob 3.2s ease-in-out infinite;transform-origin:50% 90%;
+    image-rendering:pixelated;image-rendering:crisp-edges;}
   .buddy-home.is-happy .buddy-svg{animation:buddyHop .6s ease-in-out 2;}
   .buddy-home.is-sleepy .buddy-svg{animation:buddyBreath 4.4s ease-in-out infinite;opacity:.92;}
   @keyframes buddyBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
@@ -304,6 +317,18 @@
   .diag-why{background:var(--navy);color:#fff;border-radius:16px;padding:15px 16px;margin-bottom:14px;}
   .diag-why .dw-ttl{font-size:12px;font-weight:800;color:#b9cbe0;margin-bottom:7px;letter-spacing:.03em;}
   .diag-why .dw-txt{font-size:13px;line-height:1.85;color:#fff;}
+  /* 診断で生まれた卵の案内 */
+  .diag-egg-born{display:flex;align-items:center;gap:12px;background:var(--pinkbg);border:1px solid var(--pink);
+    border-radius:16px;padding:12px 14px;margin-bottom:14px;}
+  .diag-egg-born .deb-art{flex:0 0 72px;display:flex;align-items:center;justify-content:center;}
+  .diag-egg-born .deb-txt{font-size:12px;color:var(--ink);line-height:1.7;}
+  .diag-egg-born .deb-txt b{color:var(--pinkd);}
+  /* 出品の仕方 / モチベの保ち方 */
+  .diag-advice{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--pink);
+    border-radius:13px;padding:12px 14px;margin-bottom:10px;}
+  .diag-advice.motiv{border-left-color:var(--blue);}
+  .diag-advice .da-ttl{font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:5px;}
+  .diag-advice .da-txt{font-size:12.5px;color:var(--ink);line-height:1.8;}
 
   /* ルーティーン */
   .rt-head{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
@@ -519,7 +544,7 @@
 <body>
 <div class="app">
   <div class="hud">
-    <div class="logo">スマセル30日プログラム<small>まいにち1つずつ</small></div>
+    <div class="logo">30日集中フォローアッププログラム<small>Re:seller アシスタント</small></div>
     <div class="tools">
       <button class="iconbtn" onclick="exportJSON()">書出</button>
       <button class="iconbtn" onclick="document.getElementById('importFile').click()">読込</button>
@@ -1722,34 +1747,15 @@ function saveListing(item){
 function xpForLevel(lv){ return Math.round((lv-1)*lv/2); }
 function levelFromXp(xp){ var lv=1; while(xpForLevel(lv+1)<=xp && lv<99) lv++; return lv; }
 
-/* --- 進化ステージ：Lvで egg→hatch→grown。系統(species)はカテゴリ集計で自動分岐 --- */
-function stageFromLevel(lv){ if(lv>=6) return "grown"; if(lv>=3) return "hatch"; return "egg"; }
-/* items のカテゴリ集計から系統を判定（3〜4系統）。卵のうちは "egg" のまま */
+/* --- 進化ステージ：Lvで 卵→孵化→こども→成体（4段階）。キャラ1体を段階的に育てる。
+   egg: Lv1-2 / hatch: Lv3-4 / child: Lv5-7 / grown: Lv8+ --- */
+function stageFromLevel(lv){ if(lv>=8) return "grown"; if(lv>=5) return "child"; if(lv>=3) return "hatch"; return "egg"; }
+/* 相棒の見た目タイプ＝診断タイプが主軸（④ 庭/動物/草花・カテゴリ自動分岐は撤廃）。
+   診断前は空("")＝共通のたまご。診断後はタイプ別の卵→育成キャラに変わる。 */
 function detectSpecies(){
-  var count={};
-  state.items.forEach(function(it){
-    var c=(it.cat||"").trim(); if(!c) return;
-    count[c]=(count[c]||0)+1;
-  });
-  var groups={ chic:0, elegant:0, mecha:0, cozy:0 };
-  Object.keys(count).forEach(function(c){
-    var n=count[c];
-    if(/服|ファッション|アパレル|レディース服|メンズ服/.test(c)) groups.chic+=n;
-    else if(/バッグ|アクセ|靴|ジュエリー|時計/.test(c)) groups.elegant+=n;
-    else if(/家電|ガジェット|PC|カメラ|オーディオ|ゲーム/.test(c)) groups.mecha+=n;
-    else groups.cozy+=n; // キッズ・その他・生活雑貨など
-  });
-  var best="cozy", bestN=-1;
-  ["chic","elegant","mecha","cozy"].forEach(function(k){ if(groups[k]>bestN){ bestN=groups[k]; best=k; } });
-  // まだカテゴリ実績が無い（＝自動分岐できない）ときだけ、診断タイプで初期の寄りを味付け。
-  // 出品が積み上がれば↑のカテゴリ集計が主。既存の自動分岐は一切壊さない。
-  if(bestN<=0){ return speciesFromDiagnosis() || "cozy"; }
-  return best;
-}
-/* 診断タイプ→相棒系統の初期寄り（主導/分析=かしこ寄り、促進=おしゃれ寄り、支持=なごみ）。あくまで初期の味付け。 */
-function speciesFromDiagnosis(){
-  var d=state.diagnosis; if(!d) return null;
-  return {driving:"mecha", analytical:"mecha", expressive:"chic", amiable:"cozy"}[d.type]||null;
+  var d=state.diagnosis;
+  if(d && BUDDY_PAL[d.type]) return d.type;
+  return ""; // 診断前は共通の卵
 }
 
 /* --- 今日のクエスト：goals の出品数目標から「今日◯品」を逆算 --- */
@@ -1811,6 +1817,28 @@ function gameOnListing(){
   return { leveled:leveled, evolved:evolved, questJustDone:(!questWasDone), level:g.level, stage:g.stage, species:g.species };
 }
 
+/* --- ミッションクリア時の育成連動：XP+1・段階更新・mood回復（サボり暗転から明るく戻る）--- */
+function gameOnMissionClear(){
+  var g=state.game; if(!g){ state.game=defaultGame(); g=state.game; }
+  var t=today();
+  var prevStage=g.stage;
+  g.xp=(g.xp||0)+1;
+  g.level=levelFromXp(g.xp);
+  g.species=detectSpecies();
+  g.stage=stageFromLevel(g.level);
+  // 「今日ミッションをやった」＝活動日。ストリークは出品と同じ考え方で更新。
+  if(g.lastListDate){
+    var gap=daysBetween(g.lastListDate, t);
+    if(gap===0){ /* 同日は据え置き */ }
+    else if(gap===1){ g.streak=(g.streak||0)+1; }
+    else { g.streak=1; } // サボりからの再開も、ミッション1つで即・連続1に回復
+  } else { g.streak=1; }
+  g.lastListDate=t;
+  g.mood="happy"; // ★ミッションを1つやると、暗転（sleepy）から明るく戻る
+  save();
+  return { evolved:(g.stage!==prevStage), stage:g.stage, level:g.level };
+}
+
 /* --- 初期化時：日付が変わっていたら todayDone リセット、2日以上サボりで mood=sleepy --- */
 function gameDailyCheck(){
   var g=state.game; if(!g){ state.game=defaultGame(); g=state.game; }
@@ -1843,83 +1871,155 @@ function gameOnSold(take){
   showSoldCelebration(take);
 }
 
-/* ============ 相棒 SVG 描画（画像ファイル不使用・単体HTML維持）============ */
-/* 系統別カラー（スマセル配色ベース）。stage で形が変わる。 */
-function speciesColor(sp){
-  var map={
-    chic:   {body:"#cf8f9c", accent:"#bd7886"}, // おしゃれ系＝スモーキーピンク
-    elegant:{body:"#7fb0d2", accent:"#5f97be"}, // 上品系＝ブルー
-    mecha:  {body:"#26405f", accent:"#1d3149"}, // メカ系＝ネイビー
-    cozy:   {body:"#a9c7de", accent:"#7fb0d2"}  // なごみ系＝淡ブルー
-  };
-  return map[sp]||map.cozy;
+/* ============ 相棒 ドット絵 描画（昔のゲーム風・画像ファイル不使用・単体HTML維持）============
+   realize（dashboard.html / preview_10kittens.html）のドット絵手法を流用：
+   ・16x16 の <rect> ピクセルを shape-rendering="crispEdges" + image-rendering:pixelated で描く
+   ・realize は rect を手打ちしていたが、ここでは「文字マップ→rect生成」に一般化し、
+     4タイプ×4段階（卵→孵化→こども→成体）をプログラムで描き分ける（庭/動物/草花は無し・キャラ1体）。
+   ・species 引数＝診断タイプ（driving/analytical/amiable/expressive）を主軸にする。
+     診断前は species が無く共通の「たまご」、診断後はタイプ別の卵→育成キャラに変わる。
+   ============================================================================ */
+
+/* タイプ別パレット（ピンク主役の新パレットに馴染む配色）。
+   B=本体, D=濃い縁/影, L=明るいハイライト, C=チーク/差し色, K=ライン(#26405f) */
+var BUDDY_PAL = {
+  driving:   { B:"#cf8f9c", D:"#a5626f", L:"#e6b7c0", C:"#bd7886", K:"#26405f" }, // 主導＝スモーキーピンク
+  expressive:{ B:"#e5a3b4", D:"#c47e90", L:"#f4c9d4", C:"#e8b04c", K:"#26405f" }, // 促進＝あかるいピンク＋差しゴールド
+  amiable:   { B:"#8fbcda", D:"#5f97be", L:"#c2ddee", C:"#cf8f9c", K:"#26405f" }, // 支持＝やわらかブルー＋ピンク差し
+  analytical:{ B:"#5d7695", D:"#26405f", L:"#93a8c1", C:"#7fb0d2", K:"#1d3149" }  // 分析＝ネイビー系
+};
+var BUDDY_TYPE_NAME = { driving:"主導タイプ", expressive:"促進タイプ", amiable:"支持タイプ", analytical:"分析タイプ" };
+function speciesColor(sp){ return BUDDY_PAL[sp] || BUDDY_PAL.amiable; }
+function speciesName(sp){ return BUDDY_TYPE_NAME[sp] || "たまご"; }
+
+/* 診断タイプごとの卵の「もよう」マーク。共通の卵ボディに重ねる（各タイプで見分けがつく）。
+   座標は 16x16 セル基準の {x,y,w,h,c(パレットキー)}。 */
+var EGG_MARK = {
+  driving:   [ {x:7,y:7,w:2,h:1,c:"L"}, {x:6,y:8,w:4,h:1,c:"L"}, {x:7,y:9,w:2,h:2,c:"L"} ], // ▲＝前進
+  expressive:[ {x:7,y:6,w:2,h:1,c:"C"}, {x:6,y:7,w:4,h:1,c:"C"}, {x:7,y:8,w:2,h:1,c:"C"}, {x:6,y:9,w:1,h:1,c:"C"}, {x:9,y:9,w:1,h:1,c:"C"} ], // ★＝きらめき
+  amiable:   [ {x:6,y:7,w:1,h:1,c:"C"}, {x:9,y:7,w:1,h:1,c:"C"}, {x:6,y:8,w:4,h:1,c:"C"}, {x:7,y:9,w:2,h:1,c:"C"} ], // ♥＝やさしさ
+  analytical:[ {x:6,y:7,w:4,h:1,c:"L"}, {x:6,y:8,w:4,h:1,c:"L"}, {x:6,y:9,w:4,h:1,c:"L"}, {x:8,y:7,w:1,h:3,c:"D"}, {x:6,y:8,w:4,h:1,c:"D"} ] // ▦＝方眼
+};
+
+/* 目の描画（16x16セル）。normal=丸目 / happy=弧目(^ ^) / sleepy=閉じ目(- -)。 */
+function buddyEyes(mood, xL, xR, y, pal){
+  var K=pal.K;
+  if(mood==="sleepy"){
+    return px(xL,y+1,2,1,K)+px(xR,y+1,2,1,K);
+  }
+  if(mood==="happy"){
+    return px(xL,y+1,1,1,K)+px(xL+1,y,1,1,K)+px(xL+2,y+1,1,1,K)+
+           px(xR,y+1,1,1,K)+px(xR+1,y,1,1,K)+px(xR+2,y+1,1,1,K);
+  }
+  return px(xL,y,2,2,K)+px(xR,y,2,2,K)+px(xL,y,1,1,"#fff")+px(xR,y,1,1,"#fff");
 }
-function speciesName(sp){
-  return {chic:"おしゃれタイプ",elegant:"エレガントタイプ",mecha:"かしこタイプ",cozy:"なごみタイプ"}[sp]||"なごみタイプ";
+/* 口（16x16セル）。happy=にこ口、sleepy=ちいさな線、normal=ちょん。 */
+function buddyMouth(mood, cx, y, pal){
+  if(mood==="happy") return px(cx-1,y,1,1,pal.K)+px(cx,y+1,2,1,pal.K)+px(cx+2,y,1,1,pal.K);
+  if(mood==="sleepy") return px(cx,y,1,1,pal.D);
+  return px(cx,y,1,1,pal.K)+px(cx+1,y,1,1,pal.K);
 }
-/* 眠り/通常/喜びで表情を出し分け。size は px。 */
+/* rect 1個（16セル→scale倍でviewBox） */
+function px(x,y,w,h,c){ return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+c+'"/>'; }
+
+/* 段階×タイプでドット絵ボディを組み立て（16x16）。全段階でキャラ1体。 */
+function buddyPixels(stage, species, mood){
+  var pal = speciesColor(species);
+  var hasType = !!(species && BUDDY_PAL[species]);
+  var B=pal.B, D=pal.D, L=pal.L, C=pal.C, K=pal.K;
+  var s="";
+  var zzz = (mood==="sleepy") ? px(12,1,1,1,pal.C)+px(13,2,1,1,pal.C)+px(12,3,1,1,pal.C)+px(14,4,1,1,pal.C) : "";
+
+  if(stage==="egg"){
+    // たまご（16x16）：まるい殻＋タイプもよう。診断前(hasType=false)は無地の共通卵。
+    s += px(6,2,4,1,B)+px(5,3,6,1,B)+
+         px(4,4,8,1,B)+px(3,5,10,1,B)+
+         px(3,6,10,1,B)+px(3,7,10,1,B)+px(3,8,10,1,B)+px(3,9,10,1,B)+
+         px(3,10,10,1,B)+px(4,11,8,1,B)+px(5,12,6,1,B)+px(6,13,4,1,B);
+    // 縁取り（濃い色）＆ハイライト
+    s += px(6,2,1,1,D)+px(9,2,1,1,D)+px(3,6,1,4,D)+px(12,6,1,4,D)+px(6,13,4,1,D);
+    s += px(5,4,2,1,L)+px(4,5,1,2,L); // 左上ハイライト
+    // タイプもよう
+    if(hasType){ (EGG_MARK[species]||[]).forEach(function(m){ s+=px(m.x,m.y,m.w,m.h,pal[m.c]||m.c); }); }
+    // 眠りのときだけ zzz（卵はまだ顔なし。診断済みなら小さな寝息）
+    s += zzz;
+    return s;
+  }
+
+  if(stage==="hatch"){
+    // 孵化（16x16）：割れた殻の中から顔。ちいさなツノ2本。
+    // 殻（下半分・ギザギザ）
+    s += px(3,12,10,1,L)+px(2,13,12,1,B)+px(2,14,12,1,B);
+    s += px(3,12,1,1,D)+px(6,12,1,1,D)+px(9,12,1,1,D)+px(12,12,1,1,D);
+    // 頭
+    s += px(5,2,1,1,D)+px(10,2,1,1,D); // ツノ
+    s += px(5,3,6,1,B)+px(4,4,8,1,B)+
+         px(3,5,10,3,B)+px(3,8,10,2,B)+px(4,10,8,1,B)+px(5,11,6,1,B);
+    s += px(3,5,1,4,D)+px(12,5,1,4,D)+px(4,4,1,1,D)+px(11,4,1,1,D);
+    s += px(4,4,3,1,L); // ひかり
+    s += px(4,6,2,1,C)+px(10,6,2,1,C); // ほっぺ
+    s += buddyEyes(mood,5,9,6,pal);
+    s += buddyMouth(mood,7,9,pal);
+    s += zzz;
+    return s;
+  }
+
+  if(stage==="child"){
+    // こども（16x16）：頭＋小さなからだ＋手。タイプで耳/差し色が少し違う。
+    // 耳
+    if(species==="analytical"){ s+=px(4,1,2,2,D)+px(10,1,2,2,D); } // かくばった耳
+    else if(species==="expressive"){ s+=px(4,0,2,3,B)+px(10,0,2,3,B)+px(4,0,2,1,C)+px(10,0,2,1,C); } // ながい耳＋差し
+    else { s+=px(4,1,2,2,B)+px(10,1,2,2,B); }
+    // 頭
+    s += px(4,3,8,1,B)+px(3,4,10,4,B)+px(3,8,10,1,B)+px(4,9,8,1,B);
+    s += px(3,4,1,4,D)+px(12,4,1,4,D)+px(4,3,1,1,D)+px(11,3,1,1,D);
+    s += px(4,4,3,1,L);
+    s += px(4,6,1,1,C)+px(11,6,1,1,C); // ほっぺ
+    s += buddyEyes(mood,5,9,5,pal);
+    s += buddyMouth(mood,7,8,pal);
+    // からだ
+    s += px(5,10,6,3,B)+px(4,11,1,2,B)+px(11,11,1,2,B);
+    s += px(5,10,6,1,L);
+    s += px(4,13,2,1,D)+px(10,13,2,1,D); // あんよ
+    s += zzz;
+    return s;
+  }
+
+  // grown（成体・16x16）：大きめの頭＋からだ＋手＋しっぽ。タイプで耳・しっぽが変わる。
+  // 耳
+  if(species==="analytical"){ s+=px(3,1,2,2,D)+px(11,1,2,2,D); }
+  else if(species==="expressive"){ s+=px(3,0,2,3,B)+px(11,0,2,3,B)+px(3,0,2,1,C)+px(11,0,2,1,C); }
+  else if(species==="driving"){ s+=px(3,1,3,2,B)+px(10,1,3,2,B)+px(4,1,1,1,C)+px(11,1,1,1,C); }
+  else { s+=px(3,1,2,2,B)+px(11,1,2,2,B); }
+  // しっぽ
+  if(species==="analytical"){ s+=px(13,8,2,1,D)+px(14,7,1,2,D); }
+  else { s+=px(13,8,2,1,B)+px(13,7,1,1,C)+px(14,6,1,2,B); }
+  // 頭
+  s += px(4,2,8,1,B)+px(3,3,10,5,B)+px(3,8,10,1,B)+px(4,9,8,1,B);
+  s += px(3,3,1,5,D)+px(12,3,1,5,D)+px(4,2,1,1,D)+px(11,2,1,1,D);
+  s += px(4,3,3,1,L);
+  s += px(3,6,1,1,C)+px(12,6,1,1,C); // ほっぺ
+  s += buddyEyes(mood,5,9,5,pal);
+  s += buddyMouth(mood,7,8,pal);
+  // からだ
+  s += px(4,10,8,3,B)+px(3,11,1,2,B)+px(12,11,1,2,B);
+  s += px(4,10,8,1,L);
+  s += px(2,11,2,1,D)+px(12,11,2,1,D); // 手
+  s += px(4,13,3,1,D)+px(9,13,3,1,D); // あんよ
+  s += zzz;
+  return s;
+}
+
+/* 眠り/通常/喜びで表情を出し分け。size は px。species=診断タイプ。 */
 function buddySVG(stage, species, mood, size){
   size=size||120;
-  var col=speciesColor(species);
-  var sleepy=(mood==="sleepy");
-  var happy=(mood==="happy");
-  // 目：眠りは閉じ目、喜びは弧目、通常は丸目
-  function eyes(cx1,cx2,cy,r){
-    if(sleepy) return '<path d="M'+(cx1-r)+' '+cy+' q'+r+' '+r+' '+(2*r)+' 0" stroke="#26405f" stroke-width="2" fill="none" stroke-linecap="round"/>'+
-                      '<path d="M'+(cx2-r)+' '+cy+' q'+r+' '+r+' '+(2*r)+' 0" stroke="#26405f" stroke-width="2" fill="none" stroke-linecap="round"/>';
-    if(happy) return '<path d="M'+(cx1-r)+' '+(cy+1)+' q'+r+' -'+(r+1)+' '+(2*r)+' 0" stroke="#26405f" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+
-                     '<path d="M'+(cx2-r)+' '+(cy+1)+' q'+r+' -'+(r+1)+' '+(2*r)+' 0" stroke="#26405f" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
-    return '<circle cx="'+cx1+'" cy="'+cy+'" r="'+(r*0.7)+'" fill="#26405f"/><circle cx="'+cx2+'" cy="'+cy+'" r="'+(r*0.7)+'" fill="#26405f"/>';
-  }
-  var zzz = sleepy? '<text x="76" y="30" font-size="13" fill="#7fb0d2" font-weight="800" opacity=".9">z z</text>' : '';
-  var inner="";
-  if(stage==="egg"){
-    // たまご：スマセル配色のなめらかな卵。眠りは伏せ気味。
-    inner =
-      '<ellipse cx="50" cy="86" rx="26" ry="6" fill="#dce7f0"/>'+
-      '<path d="M50 20 C30 20 22 52 22 66 a28 30 0 0 0 56 0 C78 52 70 20 50 20 Z" fill="'+col.body+'"/>'+
-      '<path d="M50 20 C30 20 22 52 22 66 a28 30 0 0 0 56 0 C78 52 70 20 50 20 Z" fill="none" stroke="'+col.accent+'" stroke-width="2"/>'+
-      '<path d="M30 58 q8 6 16 0 q8 -6 16 0 q4 3 8 0" stroke="#ffffff" stroke-width="2.4" fill="none" opacity=".7" stroke-linecap="round"/>'+
-      eyes(42,58,58,4)+
-      (happy? '<path d="M44 68 q6 5 12 0" stroke="#26405f" stroke-width="2" fill="none" stroke-linecap="round"/>':'<path d="M46 68 q4 3 8 0" stroke="#26405f" stroke-width="1.8" fill="none" stroke-linecap="round"/>')+
-      zzz;
-  } else if(stage==="hatch"){
-    // 孵化：割れた殻から顔。耳っぽいツノ。
-    inner =
-      '<ellipse cx="50" cy="88" rx="24" ry="5" fill="#dce7f0"/>'+
-      '<path d="M28 88 L34 70 L40 88 L46 70 L52 88 L58 70 L64 88 L70 70 L72 88 Z" fill="#eef4fa" stroke="'+col.accent+'" stroke-width="1.5"/>'+
-      '<circle cx="50" cy="52" r="26" fill="'+col.body+'"/>'+
-      '<circle cx="50" cy="52" r="26" fill="none" stroke="'+col.accent+'" stroke-width="2"/>'+
-      '<path d="M34 34 l6 10" stroke="'+col.accent+'" stroke-width="4" stroke-linecap="round"/>'+
-      '<path d="M66 34 l-6 10" stroke="'+col.accent+'" stroke-width="4" stroke-linecap="round"/>'+
-      '<circle cx="40" cy="60" r="3.5" fill="'+col.accent+'" opacity=".5"/><circle cx="60" cy="60" r="3.5" fill="'+col.accent+'" opacity=".5"/>'+
-      eyes(42,58,52,4.5)+
-      (happy? '<path d="M43 62 q7 6 14 0" stroke="#26405f" stroke-width="2.2" fill="none" stroke-linecap="round"/>':'<path d="M46 62 q4 3 8 0" stroke="#26405f" stroke-width="2" fill="none" stroke-linecap="round"/>')+
-      zzz;
-  } else {
-    // 成長：体＋しっぽ＋手。系統でしっぽ形状を少し変える。
-    var tail = species==="mecha"
-      ? '<rect x="70" y="60" width="16" height="6" rx="3" fill="'+col.accent+'"/>'
-      : '<path d="M72 62 q14 -4 12 -16 q-6 8 -14 6" fill="'+col.accent+'"/>';
-    inner =
-      '<ellipse cx="50" cy="90" rx="26" ry="5" fill="#dce7f0"/>'+
-      tail +
-      '<ellipse cx="50" cy="62" rx="24" ry="22" fill="'+col.body+'"/>'+
-      '<ellipse cx="50" cy="62" rx="24" ry="22" fill="none" stroke="'+col.accent+'" stroke-width="2"/>'+
-      '<circle cx="34" cy="44" r="7" fill="'+col.body+'" stroke="'+col.accent+'" stroke-width="2"/>'+
-      '<circle cx="66" cy="44" r="7" fill="'+col.body+'" stroke="'+col.accent+'" stroke-width="2"/>'+
-      '<circle cx="28" cy="70" r="6" fill="'+col.accent+'" opacity=".85"/>'+
-      '<circle cx="72" cy="70" r="6" fill="'+col.accent+'" opacity=".85"/>'+
-      '<circle cx="40" cy="60" r="3.5" fill="'+col.accent+'" opacity=".45"/><circle cx="60" cy="60" r="3.5" fill="'+col.accent+'" opacity=".45"/>'+
-      eyes(42,58,60,5)+
-      (happy? '<path d="M42 70 q8 7 16 0" stroke="#26405f" stroke-width="2.4" fill="none" stroke-linecap="round"/>':'<path d="M45 70 q5 4 10 0" stroke="#26405f" stroke-width="2.2" fill="none" stroke-linecap="round"/>')+
-      zzz;
-  }
-  return '<svg viewBox="0 0 100 100" width="'+size+'" height="'+size+'" class="buddy-svg" aria-hidden="true">'+inner+'</svg>';
+  var inner=buddyPixels(stage, species, mood);
+  return '<svg viewBox="0 0 16 16" width="'+size+'" height="'+size+'" class="buddy-svg" '+
+         'shape-rendering="crispEdges" aria-hidden="true">'+inner+'</svg>';
 }
 
 /* ============ 相棒ホーム描画（在庫タブ上部）============ */
-function stageLabel(stage){ return {egg:"たまご",hatch:"孵化",grown:"成長"}[stage]||"たまご"; }
+function stageLabel(stage){ return {egg:"たまご",hatch:"孵化",child:"こども",grown:"成体"}[stage]||"たまご"; }
 function renderGame(){
   var el=document.getElementById("buddyHome"); if(!el) return;
   var g=state.game||defaultGame();
@@ -1930,8 +2030,9 @@ function renderGame(){
   var nextXp=xpForLevel(g.level+1), curBase=xpForLevel(g.level);
   var into=g.xp-curBase, span=Math.max(1,nextXp-curBase);
   var xpPct=Math.min(100, Math.round(into/span*100));
+  var dim=(g.mood==="sleepy"); // 2日サボり＝暗転
   var moodMsg;
-  if(g.mood==="sleepy") moodMsg="相棒が待ってた…！今日1品で会いに行こう";
+  if(dim) moodMsg="待っていました。ミッションを1つやると、また明るくなります☺";
   else if(questDone) moodMsg="今日のクエスト達成！ごきげんです";
   else moodMsg="今日の1品で、相棒がちょっと育ちます";
 
@@ -1939,12 +2040,13 @@ function renderGame(){
     ? '<div class="q-done">✓ 今日の1品 達成（'+doneN+'/'+target+'品）</div>'
     : '<div class="q-open"><span class="q-big">今日は<b>'+target+'品</b>出品しよう</span><span class="q-sub">今日 '+doneN+'/'+target+'品</span></div>';
 
-  el.className="buddy-home"+(g.mood==="sleepy"?" is-sleepy":"")+(questDone?" is-happy":"");
+  var typeName = (g.species && BUDDY_PAL[g.species]) ? '・'+esc(speciesName(g.species)) : '';
+  el.className="buddy-home"+(dim?" is-dim is-sleepy":"")+(questDone?" is-happy":"");
   el.innerHTML=
     '<div class="buddy-mini-av">'+avatarInner()+'</div>'+
     '<div class="buddy-left">'+
       '<div class="buddy-art">'+buddySVG(g.stage,g.species,g.mood,104)+'</div>'+
-      '<div class="buddy-stage">'+stageLabel(g.stage)+(g.stage!=="egg"?'・'+esc(speciesName(g.species)):'')+'</div>'+
+      '<div class="buddy-stage">'+stageLabel(g.stage)+typeName+'</div>'+
     '</div>'+
     '<div class="buddy-right">'+
       '<div class="buddy-lvrow"><span class="buddy-lv">Lv.'+g.level+'</span>'+
@@ -2135,24 +2237,32 @@ function scoreDiagnosis(answers){
 }
 function typeKey(label){ return {"主導":"driving","促進":"expressive","支持":"amiable","分析":"analytical"}[label]||"amiable"; }
 
-/* --- タイプ別メタ（ラベル/理論名/強み3つ/物販で輝く理由）--- */
+/* --- タイプ別メタ（ラベル/理論名/強み3つ/物販で輝く理由/出品の仕方/モチベの保ち方）--- */
 var DIAG_TYPE_INFO = {
   driving:{ label:"主導タイプ", en:"DRIVING", color:{body:"#cf8f9c",accent:"#bd7886"},
     cap:"決断が早く、行動的。結果に向かってぐいぐい進めるリーダー気質です。",
     strengths:["決めたらすぐ動ける行動力","目標から逆算して結果を出す力","迷わず値付け・出品できる決断力"],
-    why:"物販は「出品した数」がそのまま結果になる世界です。あなたの“考えるより先に動く”強みは、そのまま売上に直結します。数字で目標を決めて一気に進めれば、あなたのペースが一番のびます。" },
+    why:"物販は「出品した数」がそのまま結果になる世界です。あなたの“考えるより先に動く”強みは、そのまま売上に直結します。数字で目標を決めて一気に進めれば、あなたのペースが一番のびます。",
+    howTo:"完璧を待たず、まず出す。写真と最低限の説明でどんどん公開し、あとから直せばOK。出品はまとめて一気に片づけると、あなたのスピードが最大限に活きます。",
+    motiv:"「今月◯品・◯円」と数字の目標を決め、達成率が伸びるのを見るのが原動力。ダッシュボードでグラフが上がるのをゲーム感覚で追いかけると、勝手に手が動きます。" },
   expressive:{ label:"促進タイプ", en:"EXPRESSIVE", color:{body:"#cf8f9c",accent:"#bd7886"},
     cap:"アイデア豊富で楽しいことが大好き。人を巻き込むムードメーカーです。",
     strengths:["写真や見せ方を楽しく工夫できる発想力","前向きで場を明るくする力","楽しみながら続けられる推進力"],
-    why:"あなたは「楽しい」が原動力。写真を映えさせたり、売れた喜びを誰かと分かち合ったりすることで、自然と出品が続きます。ワクワクをそのまま出品に乗せられるのが、あなたの武器です。" },
+    why:"あなたは「楽しい」が原動力。写真を映えさせたり、売れた喜びを誰かと分かち合ったりすることで、自然と出品が続きます。ワクワクをそのまま出品に乗せられるのが、あなたの武器です。",
+    howTo:"写真を1枚だけこだわって「映え」させる。季節やイベントに乗せて出すと楽しさUP。「今日はこの2品を可愛くする！」とテーマを決めると、作業が遊びになります。",
+    motiv:"売れたら自分にごほうび。うれしさを仲間のグループLINEに共有すると、反応がもらえてまた続きます。飽きたら見せ方を変えて、いつも新鮮に。" },
   amiable:{ label:"支持タイプ", en:"AMIABLE", color:{body:"#7fb0d2",accent:"#5f97be"},
     cap:"聞き上手で協調的。人を支え、喜んでもらえることに幸せを感じるタイプです。",
     strengths:["ていねいで信頼される対応力","相手の気持ちに寄りそえる力","コツコツ無理なく続けられる持続力"],
-    why:"あなたの「誰かの役に立ちたい」という気持ちは、物販ととても相性がいいんです。あなたが手放した1品は、それを本当に必要としている誰かのもとへ届きます。ていねいな対応は購入者に伝わり、リピートや高評価という形でちゃんと返ってきます。無理に自分を奮い立たせなくて大丈夫。あなたのやさしさが、そのまま売れる理由になります。" },
+    why:"あなたの「誰かの役に立ちたい」という気持ちは、物販ととても相性がいいんです。あなたが手放した1品は、それを本当に必要としている誰かのもとへ届きます。ていねいな対応は購入者に伝わり、リピートや高評価という形でちゃんと返ってきます。無理に自分を奮い立たせなくて大丈夫。あなたのやさしさが、そのまま売れる理由になります。",
+    howTo:"1日1品でOK。「これを必要な誰かに届ける」気持ちで、説明はていねいに。焦らず、あなたのペースで一つずつ出していけば十分です。",
+    motiv:"がんばりすぎない。1品出せた日は、それだけで十分えらい。仲間と進みを共有して、はげまし合いながら続けると、無理なく長つづきします。" },
   analytical:{ label:"分析タイプ", en:"ANALYTICAL", color:{body:"#26405f",accent:"#1d3149"},
     cap:"慎重で正確。データと計画を大切に、着実に積み上げるタイプです。",
     strengths:["相場を調べて的確に値付けする力","記録をつけて改善できる力","計画的にコツコツ積み上げる力"],
-    why:"物販は、調べて・記録して・改善する人がいちばん強い世界です。あなたの「きちんと確かめてから動く」慎重さは、失敗を減らし利益をしっかり残す力になります。派手さより確実さ。あなたのやり方こそ、長く続けて伸びるタイプです。" }
+    why:"物販は、調べて・記録して・改善する人がいちばん強い世界です。あなたの「きちんと確かめてから動く」慎重さは、失敗を減らし利益をしっかり残す力になります。派手さより確実さ。あなたのやり方こそ、長く続けて伸びるタイプです。",
+    howTo:"出す前に相場を調べて、根拠のある値付けをする。売れた日数・価格を記録して、次に活かす。1日1品からでOK。調べる→出す→記録の型ができると強いです。",
+    motiv:"数値目標を1つ決めて（例：今月◯円）、週に1回ダッシュボードで振り返り。数字で改善点が見えると、次の一手が明確になって続けやすくなります。" }
 };
 
 /* --- タイプ別ルーティーン（くみこ資料の物販取組法・指導方法に準拠）--- */
@@ -2194,7 +2304,7 @@ var DIAG_ROUTINE = {
 };
 
 /* ============ 診断アイコン SVG（画像不使用・単体HTML維持）============ */
-/* 4タイプ×スマセル色。丸ベースのやさしいアイコン。矢/星/ハート/方眼で象限を表現。 */
+/* 4タイプ×ピンク主役パレット。丸ベースのやさしいアイコン。矢/星/ハート/方眼で象限を表現。 */
 function diagIconSVG(type, size){
   size=size||96;
   var c=(DIAG_TYPE_INFO[type]||DIAG_TYPE_INFO.amiable).color;
@@ -2272,13 +2382,15 @@ function finishDiagnosis(){
   // ルーティーンを生成（未編集なら診断タイプのテンプレを採用）
   var rt=DIAG_ROUTINE[r.type]||DIAG_ROUTINE.amiable;
   state.routine = { type:r.type, steps:rt.steps.slice(), dailyTarget:rt.dailyTarget, memo:rt.memo||"" };
+  // ★診断が終わると、そのタイプの卵が生まれる：相棒の見た目タイプを即反映
+  if(state.game){ state.game.species=detectSpecies(); }
   save();
   // 運営スプシへ診断結果を送信（サポート特性トータルはここに乗る。生徒画面には出さない）
   try{ postDiagnosis(); }catch(e){}
   closeModal("diagModal");
   renderDiagResult();
   openModal("diagResultModal");
-  renderDiag();
+  renderDiag(); renderGame(); renderHome();
 }
 /* 診断結果を運営スプシ「診断結果」タブへ送信（既存sheetPostと同方式・非干渉）。
    合計total・supportFlag も含めて運営が把握できるようにする。 */
@@ -2316,10 +2428,23 @@ function renderDiagResult(){
       '<div class="diag-res-en">'+esc(info.en)+'</div>'+
       '<div class="diag-res-cap">'+esc(info.cap)+'</div>'+
     '</div>'+
+    '<div class="diag-egg-born">'+
+      '<div class="deb-art">'+buddySVG("egg",d.type,"happy",72)+'</div>'+
+      '<div class="deb-txt"><b>あなたのタイプの「たまご」が生まれました。</b>'+
+        'ミッションを進めるほど、この子が段階的に育っていきます。</div>'+
+    '</div>'+
     '<div style="font-size:12px;font-weight:800;color:var(--navy);margin:0 2px 9px">あなたの強み</div>'+
     '<ul class="diag-strengths">'+
       info.strengths.map(function(s,i){ return '<li><span class="st-no">'+(i+1)+'</span>'+esc(s)+'</li>'; }).join("")+
     '</ul>'+
+    '<div class="diag-advice">'+
+      '<div class="da-ttl">あなたに合った「出品の仕方」</div>'+
+      '<div class="da-txt">'+esc(info.howTo||"")+'</div>'+
+    '</div>'+
+    '<div class="diag-advice motiv">'+
+      '<div class="da-ttl">「モチベーションの保ち方」</div>'+
+      '<div class="da-txt">'+esc(info.motiv||"")+'</div>'+
+    '</div>'+
     '<div class="diag-why"><div class="dw-ttl">あなたが物販で輝く理由</div><div class="dw-txt">'+esc(info.why)+'</div></div>';
 }
 function showRoutineFromResult(){ closeModal("diagResultModal"); openRoutine(); }
@@ -2528,7 +2653,7 @@ function renderMpHead(){
   document.getElementById("mpName").textContent = p.name ? p.name : "名前未設定";
   var days = p.join ? Math.max(0, daysBetween(p.join, today())) : null;
   document.getElementById("mpSub").textContent = (days!==null)
-    ? ("スマセル物販 "+days+"日目")
+    ? ("フォローアップ "+days+"日目")
     : "アイコンと名前を設定できます";
 }
 function renderMpLinkNote(){
@@ -2886,8 +3011,8 @@ function openLineForReport(){
 }
 
 /* ============================================================
-   ★ 30日プログラム（スマセル物販版・背骨）★
-   Re:che 30DAYSカリキュラムをスマセル物販版に再構成して埋め込み。
+   ★ 30日集中フォローアッププログラム（背骨）★
+   30DAYSカリキュラムを物販フォローアップ版に再構成して埋め込み。
    進行：日付ベースで1日1解放。過去の未クリアは「あとから追いつける」。未来はロック。
    遅れても責めない穏当演出（純赤・警告語NG）。
    type: submit / quiz / calc / action / report。
@@ -2895,7 +3020,7 @@ function openLineForReport(){
    データは state.program に集約（items/goals/profile/sheet/game/diagnosis は一切壊さない）。
    ============================================================ */
 var PROGRAM = [
-  { day:1, stage:"準備編", voice:"ようこそスマセルへ", title:"いまの1日のすごし方を書き出そう",
+  { day:1, stage:"準備編", voice:"ようこそ", title:"いまの1日のすごし方を書き出そう",
     detail:"まずは1週間のすごし方（平日・休日）をざっくり書きます。起きる時間から寝るまででOK。その中から「出品にあてられそうなすきま時間」に印をつけましょう。所要：約15分。書けたら記録の行動ログにも残せます。",
     type:"submit", points:100, badge:null, link:{page:"mypage",label:"記録（行動ログ）を開く"},
     placeholder:"例）平日 6:00おきる / 通勤7:30〜8:00 / 21:30〜22:00がすきま時間…" },
@@ -2915,9 +3040,9 @@ var PROGRAM = [
       { q:"Bさんは毎日9品ずつ30日出品し、98品売れました。はんばい率は何%？（小数第1位）", unit:"%", answer:36.3, tolerance:1.0, hint:"はんばい率 = はんばい数 ÷ 出品数 × 100（出品数は 9×30）", solution:"98 ÷ 270 × 100 ＝ 約36.3%" },
       { q:"目標利益17万円・利益率50%のとき、ひつような売上は何万円？", unit:"万円", answer:34, tolerance:1, hint:"売上 = 利益 ÷ 利益率 × 100", solution:"17万 ÷ 50 × 100 ＝ 34万円" }
     ] },
-  { day:5, stage:"仕入れ編", voice:"まず一歩ふみ出す", title:"仕入れをしてみよう（スマセル登録）",
-    detail:"まずは不用品からでOK。仕入れの第一歩として、スマセル（仕入れサイト）に会員登録します。登録できたら下のチェックを押してね。すでに不用品がある人は、それを出品じゅんびに回しましょう。所要：約10分。",
-    type:"action", points:120, badge:null, checklabel:"スマセルに登録できた／不用品を出品じゅんびした" },
+  { day:5, stage:"仕入れ編", voice:"まず一歩ふみ出す", title:"仕入れをしてみよう",
+    detail:"まずは不用品からでOK。仕入れの第一歩として、仕入れサイトに会員登録します。登録できたら下のチェックを押してね。すでに不用品がある人は、それを出品じゅんびに回しましょう。所要：約10分。",
+    type:"action", points:120, badge:null, checklabel:"仕入れサイトに登録できた／不用品を出品じゅんびした" },
   { day:6, stage:"数字編", voice:"目標から逆算する", title:"ひつような出品数を計算しよう",
     detail:"目標から逆算します。下の計算機に「月の目標利益・利益率・1品の平均たんか」を入れると、ひつような出品総額と1日あたりの出品数が出ます。出た数字を心に留めて出品していきましょう。",
     type:"calc", points:150, badge:null,
@@ -3075,7 +3200,7 @@ function renderHome(){
   var elapsed = Math.max(0, daysBetween(p.startDate, today()));
   document.getElementById("homeHi").innerHTML =
     (nm? esc(nm)+"さん、こんにちは" : "こんにちは")+
-    "<small>スマセル30日プログラム "+(elapsed+1)+"日目・まいにち1つずつでOKです</small>";
+    "<small>30日集中フォローアッププログラム "+(elapsed+1)+"日目・まいにち1つずつでOKです</small>";
   renderHomeAutoSaveBadge();
   renderMissionCard();
   renderHomeBuddy();
@@ -3148,14 +3273,18 @@ function renderHomeBuddy(){
   var done=isCleared(day);
   var d=state.diagnosis;
   var tone = d? d.type : null;
+  var dim=(g.mood==="sleepy" && !done); // 2日サボり＝暗転（今日クリア済みなら明るく）
   var msg;
-  if(done){ msg="今日のミッション、達成できましたね！"; }
+  if(dim){ msg="待っていました。今日のミッションを1つやると、また明るくなります☺"; }
+  else if(done){ msg="今日のミッション、達成できましたね！"; }
   else if(tone==="driving"){ msg="サクッと片づけちゃいましょう。あなたなら早い。"; }
   else if(tone==="analytical"){ msg="今日の1つを、ていねいに確かめながら。"; }
   else if(tone==="expressive"){ msg="今日の1つ、楽しんでいきましょう！"; }
   else if(tone==="amiable"){ msg="1日1つでじゅうぶん。むりせずいきましょうね。"; }
   else { msg="今日の1つで、相棒がちょっと育ちます。"; }
-  var sub = "Lv."+g.level+"・連続"+(g.streak||0)+"日"+(g.badges&&g.badges.length? "・出品バッジ"+g.badges.length : "");
+  var typeName = (g.species && BUDDY_PAL[g.species]) ? esc(speciesName(g.species))+"・" : "";
+  var sub = typeName+"Lv."+g.level+"・連続"+(g.streak||0)+"日"+(g.badges&&g.badges.length? "・バッジ"+g.badges.length : "");
+  el.className="home-buddy"+(dim?" is-dim":"");
   el.innerHTML=
     '<div class="hb-art">'+buddySVG(g.stage,g.species, done?"happy":g.mood, 62)+'</div>'+
     '<div class="hb-body"><div class="hb-msg">'+esc(msg)+'</div><div class="hb-sub">相棒 '+esc(sub)+'</div></div>';
@@ -3181,7 +3310,7 @@ function programShareText(){
   var def = last? programDayDef(last) : null;
   var sub = (last && p.submissions && p.submissions[last]) ? p.submissions[last] : "";
   var lines=[];
-  lines.push("【スマセル30日】"+(nm?nm+"さん":""));
+  lines.push("【30日集中フォローアップ】"+(nm?nm+"さん":""));
   lines.push("しんちょく "+doneN+"/30日 クリア");
   if(def){ lines.push("いちばん新しい提出：Day"+last+" "+def.title); }
   if(sub){ lines.push("→ "+sub); }
@@ -3365,13 +3494,13 @@ function showMissionCleared(def){
   l.classList.add("show");
   setTimeout(function(){ l.classList.remove("show"); }, 2200);
 }
-/* ミッション種別に応じた副作用：出品系→相棒XP、時間/行動系→行動ログ */
+/* ミッション種別に応じた副作用：ミッションクリア→相棒XP（育成連動）、時間/行動系→行動ログ */
 function programSideEffects(def){
-  // 出品直結のDayは相棒にXPを1入れて育成連動（出品実データが無くても達成感を返す）
-  var listingDays=[8,9,10,17,19,20,21,22,23,24,25];
-  if(listingDays.indexOf(def.day)>=0){
-    var res=gameOnListing(); renderGame();
-  }
+  // ★30日プログラムの進行そのものが相棒の育成につながる：
+  //   どのDayをクリアしても相棒にXPを1入れて段階的に育てる（出品実データが無くても達成感を返す）。
+  //   さらに「ミッションを1つやる」＝サボり暗転からの再開なので mood を回復させる。
+  gameOnMissionClear();
+  renderGame();
   // 時間・行動系Dayは行動ログに「学習」を自動で1つ立てる（当日レコードへ追記）
   var t=today();
   var arr=state.actlog || (state.actlog=[]);
