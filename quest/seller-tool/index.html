@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Re:seller アシスタント｜在庫＆売上ダッシュボード</title>
+<title>スマセル30日プログラム｜まいにち1つずつ</title>
 <style>
   :root{
-    --bg:#eaf3fa; --bg2:#f1f7fb; --pinkbg:#fbeef1; --paper:#ffffff;
+    /* ピンク主役パレット：背景=薄ピンクの暖色寄りグラデ、面=白、CTA/進捗/見出しアクセント=スモーキーピンク、ブルーは補助 */
+    --bg:#fdf1f4; --bg2:#faf0f2; --pinkbg:#fbe7ec; --paper:#ffffff;
     --navy:#26405f; --navy2:#1d3149; --pink:#cf8f9c; --pinkd:#bd7886;
-    --blue:#7fb0d2; --blued:#5f97be; --ink:#4a4446; --sub:#7d8794; --line:#dce7f0;
+    --blue:#7fb0d2; --blued:#5f97be; --ink:#4a4446; --sub:#8a7f84; --line:#f0dde3;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--bg);color:var(--ink);
+    background:linear-gradient(180deg,#fdf1f4 0%,#fbe9ee 55%,#f3f0f7 100%);color:var(--ink);
     font-family:"Yu Gothic","YuGothic","游ゴシック","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
     display:flex;justify-content:center;
     -webkit-font-smoothing:antialiased;
   }
-  .app{width:100%;max-width:480px;min-height:100vh;background:var(--bg);position:relative;padding-bottom:78px;}
+  .app{width:100%;max-width:480px;min-height:100vh;background:linear-gradient(180deg,#fdf1f4 0%,#fbe9ee 55%,#f3f0f7 100%);position:relative;padding-bottom:78px;}
 
   /* header */
   .hud{display:flex;align-items:center;gap:8px;padding:14px 18px;background:var(--paper);
@@ -403,12 +404,122 @@
     font-size:12.5px;line-height:1.75;color:var(--ink);white-space:pre-wrap;word-break:break-word;
     max-height:260px;overflow:auto;margin-bottom:12px;}
   .rep-deadline{font-size:10.5px;color:var(--sub);line-height:1.5;text-align:center;margin-top:8px;}
+
+  /* ============================================================
+     ★ 今日（ホーム）＝主役：今日のミッション1枚 ★
+     ============================================================ */
+  /* ごあいさつ */
+  .home-hi{font-size:13px;font-weight:800;color:var(--pinkd);margin:2px 2px 12px;letter-spacing:.02em;}
+  .home-hi small{display:block;color:var(--sub);font-weight:600;font-size:11px;margin-top:3px;letter-spacing:0;}
+
+  /* 進捗バー（◯/30） */
+  .prog-wrap{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-bottom:14px;}
+  .prog-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .prog-top .pt-l{font-size:12px;font-weight:800;color:var(--navy);}
+  .prog-top .pt-r{font-size:11px;color:var(--sub);font-weight:700;}
+  .prog-top .pt-r b{color:var(--pinkd);font-size:15px;}
+  .prog-track{height:12px;background:#f5e3e8;border-radius:20px;overflow:hidden;border:1px solid var(--line);}
+  .prog-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--pinkd));border-radius:20px;transition:width .5s;min-width:3px;}
+
+  /* 今日のミッションカード（大きく・主役） */
+  .mission{background:linear-gradient(160deg,#ffffff 0%,#fff5f8 100%);border:2px solid var(--pink);
+    border-radius:22px;padding:20px 18px 18px;margin-bottom:16px;box-shadow:0 6px 20px rgba(207,143,156,.18);position:relative;}
+  .mission.done-today{border-color:var(--line);background:linear-gradient(160deg,#ffffff,#f8fbfd);box-shadow:0 4px 14px rgba(38,64,95,.08);}
+  .mission .m-day{display:inline-flex;align-items:center;gap:7px;background:var(--pinkd);color:#fff;
+    border-radius:20px;padding:5px 14px;font-size:12.5px;font-weight:800;letter-spacing:.02em;margin-bottom:12px;}
+  .mission .m-day .m-stage{background:rgba(255,255,255,.28);border-radius:12px;padding:1px 8px;font-size:10.5px;font-weight:700;}
+  .mission .m-voice{font-size:11.5px;color:var(--sub);font-weight:700;margin-bottom:6px;}
+  .mission .m-title{font-size:20px;font-weight:800;color:var(--navy);line-height:1.45;margin-bottom:10px;}
+  .mission .m-detail{font-size:13.5px;color:var(--ink);line-height:1.9;margin-bottom:16px;}
+  .mission .m-cta{display:block;width:100%;border:none;cursor:pointer;padding:17px;border-radius:16px;
+    font-size:17px;font-weight:800;font-family:inherit;background:linear-gradient(135deg,var(--pink),var(--pinkd));
+    color:#fff;box-shadow:0 4px 0 #a76673;transition:transform .05s;letter-spacing:.03em;}
+  .mission .m-cta:active{transform:translateY(4px);box-shadow:0 0 0 #a76673;}
+  .mission .m-cta.sub{background:var(--paper);color:var(--pinkd);border:2px solid var(--pink);box-shadow:0 3px 0 #e7c4cd;font-size:14px;padding:13px;margin-top:10px;}
+  .mission .m-cta.sub:active{transform:translateY(3px);box-shadow:0 0 0 #e7c4cd;}
+  .mission .m-clear{display:flex;align-items:center;gap:10px;background:var(--pinkbg);border-radius:14px;
+    padding:13px 15px;margin-bottom:14px;}
+  .mission .m-clear .mc-check{flex:0 0 34px;height:34px;border-radius:50%;background:var(--pinkd);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;}
+  .mission .m-clear .mc-txt{font-size:13px;font-weight:800;color:var(--pinkd);line-height:1.5;}
+  .mission .m-clear .mc-txt small{display:block;color:var(--sub);font-weight:600;font-size:10.5px;margin-top:2px;}
+  .mission .m-next{font-size:12px;color:var(--sub);line-height:1.6;text-align:center;margin-top:2px;}
+
+  /* 相棒の応援（ミッションのそば） */
+  .home-buddy{display:flex;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);
+    border-radius:18px;padding:12px 14px;margin-bottom:16px;}
+  .home-buddy .hb-art{flex:0 0 66px;display:flex;align-items:center;justify-content:center;}
+  .home-buddy .hb-body{flex:1;min-width:0;}
+  .home-buddy .hb-msg{font-size:13px;font-weight:800;color:var(--navy);line-height:1.5;}
+  .home-buddy .hb-sub{font-size:10.5px;color:var(--sub);font-weight:600;margin-top:3px;line-height:1.5;}
+
+  /* きのうの提出をLINEに貼る導線 */
+  .home-share{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 15px;margin-bottom:14px;}
+  .home-share .hs-ttl{font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+  .home-share .hs-sub{font-size:11px;color:var(--sub);line-height:1.6;margin-bottom:11px;}
+  .home-share .hs-row{display:flex;gap:9px;}
+  .home-share .hs-row .btn{margin:0;}
+
+  /* ミッション実行モーダル：タイプ別UI */
+  .mm-head{background:var(--pinkbg);border-radius:14px;padding:13px 15px;margin-bottom:14px;}
+  .mm-head .mm-day{font-size:11.5px;font-weight:800;color:var(--pinkd);margin-bottom:4px;}
+  .mm-head .mm-title{font-size:16px;font-weight:800;color:var(--navy);line-height:1.5;}
+  .mm-detail{font-size:13px;color:var(--ink);line-height:1.85;background:var(--bg2);border-radius:12px;padding:13px;margin-bottom:14px;}
+  /* action チェック */
+  .mm-check{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--line);border-radius:14px;
+    padding:15px;cursor:pointer;background:var(--paper);margin-bottom:14px;transition:border-color .15s,background .15s;}
+  .mm-check.on{border-color:var(--pink);background:var(--pinkbg);}
+  .mm-check .mk-box{flex:0 0 26px;height:26px;border-radius:8px;border:2px solid var(--pink);background:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--pinkd);}
+  .mm-check.on .mk-box{background:var(--pinkd);color:#fff;border-color:var(--pinkd);}
+  .mm-check .mk-lbl{font-size:14px;font-weight:700;color:var(--navy);line-height:1.5;}
+  /* quiz */
+  .mm-quiz-q{font-size:14.5px;font-weight:800;color:var(--navy);line-height:1.6;margin-bottom:4px;}
+  .mm-quiz-hint{font-size:11px;color:var(--sub);line-height:1.6;margin-bottom:10px;}
+  .mm-quiz-in{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .mm-quiz-in input{flex:1;padding:13px;border:2px solid var(--line);border-radius:11px;font-size:16px;color:var(--navy);font-family:inherit;background:var(--paper);}
+  .mm-quiz-in input:focus{outline:none;border-color:var(--pink);}
+  .mm-quiz-in .qu-unit{font-size:13px;font-weight:800;color:var(--sub);flex-shrink:0;}
+  .mm-quiz-res{font-size:12.5px;font-weight:700;line-height:1.7;border-radius:11px;padding:11px 13px;margin-top:8px;}
+  .mm-quiz-res.ok{background:var(--pinkbg);color:var(--pinkd);}
+  .mm-quiz-res.ng{background:#eef4fa;color:var(--blued);}
+  .mm-qwrap{border-bottom:1px dashed var(--line);padding-bottom:14px;margin-bottom:14px;}
+  .mm-qwrap:last-of-type{border-bottom:none;}
+  /* calc / report */
+  .mm-calc-out{background:var(--navy);color:#fff;border-radius:14px;padding:14px 16px;margin:6px 0 14px;}
+  .mm-calc-out .co-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;}
+  .mm-calc-out .co-row .co-k{font-size:12px;color:#b9cbe0;font-weight:700;}
+  .mm-calc-out .co-row .co-v{font-size:19px;font-weight:800;color:#fff;}
+  .mm-calc-out .co-row .co-v small{font-size:12px;font-weight:600;margin-left:2px;color:#dfe8f2;}
+
+  /* 卒業/全解放バッジコレクション */
+  .home-badges{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 15px;margin-bottom:14px;}
+  .home-badges .hb-ttl{font-size:12.5px;font-weight:800;color:var(--navy);margin-bottom:11px;}
+  .badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+  .badge-cell{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;}
+  .badge-ic{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:var(--pinkbg);border:2px solid var(--pink);}
+  .badge-cell.lock .badge-ic{background:var(--bg2);border:2px dashed var(--line);opacity:.55;}
+  .badge-nm{font-size:9px;color:var(--navy);font-weight:700;line-height:1.3;}
+  .badge-cell.lock .badge-nm{color:var(--sub);}
+
+  /* 道具箱：ランチャー */
+  .box-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px;}
+  .box-tile{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 14px;cursor:pointer;
+    display:flex;flex-direction:column;gap:8px;font-family:inherit;text-align:left;transition:transform .05s,border-color .15s;}
+  .box-tile:active{transform:scale(.98);}
+  .box-tile .bt-ic{width:40px;height:40px;border-radius:12px;background:var(--pinkbg);display:flex;align-items:center;justify-content:center;}
+  .box-tile .bt-ic svg{width:22px;height:22px;}
+  .box-tile.blue .bt-ic{background:#e8f1f8;}
+  .box-tile .bt-nm{font-size:14px;font-weight:800;color:var(--navy);line-height:1.3;}
+  .box-tile .bt-sub{font-size:10.5px;color:var(--sub);line-height:1.5;}
+  .box-tile.wide{grid-column:1 / -1;flex-direction:row;align-items:center;}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="hud">
-    <div class="logo">Re:seller アシスタント<small>スマセル物販</small></div>
+    <div class="logo">スマセル30日プログラム<small>まいにち1つずつ</small></div>
     <div class="tools">
       <button class="iconbtn" onclick="exportJSON()">書出</button>
       <button class="iconbtn" onclick="document.getElementById('importFile').click()">読込</button>
@@ -416,8 +527,67 @@
     <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importJSON(event)">
   </div>
 
+  <!-- ========== 今日（ホーム）＝主役 ========== -->
+  <section class="page active" id="page-home">
+    <div id="homeAutoSaveBadge" style="display:none"></div>
+    <div class="home-hi" id="homeHi"></div>
+
+    <!-- 進捗 ◯/30 -->
+    <div class="prog-wrap">
+      <div class="prog-top">
+        <span class="pt-l">30日のあゆみ</span>
+        <span class="pt-r"><b id="progDone">0</b> / 30日</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+
+    <!-- 今日のミッション（主役1枚） -->
+    <div id="missionCard"></div>
+
+    <!-- 相棒の応援 -->
+    <div id="homeBuddy"></div>
+
+    <!-- きのうの提出をLINEへ -->
+    <div id="homeShare"></div>
+
+    <!-- バッジコレクション -->
+    <div id="homeBadges"></div>
+  </section>
+
+  <!-- ========== 道具箱（写真・出品・在庫・売上）＝入口ランチャー ========== -->
+  <section class="page" id="page-box">
+    <div class="sec-title">道具箱<small>使いたいときに開く</small></div>
+    <div class="box-grid">
+      <button type="button" class="box-tile" onclick="openWizard()">
+        <div class="bt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#bd7886" stroke-width="1.8"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg></div>
+        <div class="bt-nm">出品する</div>
+        <div class="bt-sub">写真→文章→登録まで</div>
+      </button>
+      <button type="button" class="box-tile blue" onclick="openPhotoTool()">
+        <div class="bt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#5f97be" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="M4 15l4-4 3 3 4-5 5 6"/><circle cx="9" cy="9" r="1.5"/></svg></div>
+        <div class="bt-nm">写真をきれいに</div>
+        <div class="bt-sub">白ぬき・文字入れ（別タブ）</div>
+      </button>
+      <button type="button" class="box-tile" onclick="go('stock')">
+        <div class="bt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#bd7886" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg></div>
+        <div class="bt-nm">在庫を見る</div>
+        <div class="bt-sub">出品中・売れた商品</div>
+      </button>
+      <button type="button" class="box-tile blue" onclick="go('dash')">
+        <div class="bt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#5f97be" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+        <div class="bt-nm">売上を見る</div>
+        <div class="bt-sub">目標と実績のグラフ</div>
+      </button>
+      <button type="button" class="box-tile wide" onclick="go('help')">
+        <div class="bt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#bd7886" stroke-width="1.8"><path d="M12 3l1.9 5.6H20l-4.9 3.6 1.9 5.6L12 14.9 7 17.4l1.9-5.6L4 8.6h5.9z"/></svg></div>
+        <div style="flex:1"><div class="bt-nm">おたすけライト君</div><div class="bt-sub">商品名からタイトル・説明文の下書きを作る</div></div>
+      </button>
+    </div>
+    <div class="note">道具はいつでもここから。まずは「今日」のミッションを1つ終わらせるのが近道です。</div>
+  </section>
+
   <!-- ========== 在庫 ========== -->
-  <section class="page active" id="page-stock">
+  <section class="page" id="page-stock">
     <div id="autoSaveBadge" style="display:none"></div>
     <div id="diagHome"></div>
     <div id="buddyHome" class="buddy-home"></div>
@@ -503,7 +673,7 @@
 
   <!-- ========== 設定（基本情報）は下タブから ========== -->
   <section class="page" id="page-set">
-    <div class="sec-title">設定<small>基本情報・写真加工</small></div>
+    <div class="sec-title">わたし<small>基本情報・タイプ診断</small></div>
     <div class="card">
       <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:12px;">基本情報</div>
       <div class="field"><label>名前</label><input id="p-name" placeholder="山田 花子"></div>
@@ -557,7 +727,7 @@
 
   <!-- ========== マイページ ========== -->
   <section class="page" id="page-mypage">
-    <div class="sec-title">マイページ<small>プロフィール・行動ログ・週報月報</small></div>
+    <div class="sec-title">記録<small>きろく・カレンダー・週報月報</small></div>
 
     <!-- プロフィールヘッダー -->
     <div class="mp-head">
@@ -624,27 +794,23 @@
     </div>
   </section>
 
-  <!-- ========== bottom tabs ========== -->
+  <!-- ========== bottom tabs（小学生語：今日／道具箱／記録／わたし）========== -->
   <nav class="tabbar">
-    <button class="on" data-p="stock" onclick="go('stock')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
-      <span class="tl">在庫</span>
+    <button class="on" data-p="home" onclick="go('home')">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg>
+      <span class="tl">今日</span>
     </button>
-    <button data-p="dash" onclick="go('dash')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>
-      <span class="tl">売上</span>
-    </button>
-    <button data-p="help" onclick="go('help')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M12 3l1.9 5.6H20l-4.9 3.6 1.9 5.6L12 14.9 7 17.4l1.9-5.6L4 8.6h5.9z"/></svg>
-      <span class="tl">下書き</span>
+    <button data-p="box" onclick="go('box')">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg>
+      <span class="tl">道具箱</span>
     </button>
     <button data-p="mypage" onclick="go('mypage')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
-      <span class="tl">マイページ</span>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+      <span class="tl">記録</span>
     </button>
     <button data-p="set" onclick="go('set')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
-      <span class="tl">設定</span>
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+      <span class="tl">わたし</span>
     </button>
   </nav>
 </div>
@@ -853,6 +1019,21 @@
   </div>
 </div>
 
+<!-- ===== 今日のミッション実行モーダル（タイプ別）===== -->
+<div class="modal" id="missionModal">
+  <div class="sheet">
+    <div class="grab"></div>
+    <div class="mm-head">
+      <div class="mm-day" id="mmDay"></div>
+      <div class="mm-title" id="mmTitle"></div>
+    </div>
+    <div class="mm-detail" id="mmDetail"></div>
+    <div id="mmBody"></div>
+    <button class="btn pink" id="mmClearBtn" onclick="missionClear()">できた！（クリア）</button>
+    <button class="close" onclick="closeModal('missionModal')">あとで（とじる）</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -869,7 +1050,21 @@ var GAS_URL = "";  // ★デプロイ後にここへ .../exec を貼る（全生
 /* ============ storage ============ */
 var KEY = "seller_tool_v1";
 function defaultGame(){ return { xp:0, level:1, species:"egg", stage:"egg", streak:0, lastListDate:"", badges:[], todayDone:false, mood:"normal" }; }
-var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false}, game:defaultGame(), diagnosis:null, routine:null, actlog:[] };
+/* 30日プログラムの既定：startDate は初回起動/専用URLで確定。cleared=クリア済みDay番号、submissions={day:提出テキスト}。 */
+function defaultProgram(){ return { startDate:"", cleared:[], points:0, badges:[], submissions:{} }; }
+var state = { items:[], goals:{}, profile:{}, sheet:{url:"",sheetId:"",enabled:false}, game:defaultGame(), diagnosis:null, routine:null, actlog:[], program:defaultProgram() };
+/* program オブジェクトの欠損を埋める（既存ユーザーが program を持たない場合も安全に） */
+function normalizeProgram(p){
+  var d=defaultProgram();
+  if(!p||typeof p!=="object") return d;
+  return {
+    startDate: p.startDate||"",
+    cleared: Array.isArray(p.cleared)? p.cleared.slice() : [],
+    points: (typeof p.points==="number")? p.points : 0,
+    badges: Array.isArray(p.badges)? p.badges.slice() : [],
+    submissions: (p.submissions && typeof p.submissions==="object")? p.submissions : {}
+  };
+}
 function load(){
   try{ var raw = localStorage.getItem(KEY); if(raw){ var p=JSON.parse(raw);
     state.items = p.items||[]; state.goals = p.goals||{}; state.profile = p.profile||{};
@@ -877,7 +1072,8 @@ function load(){
     state.game = normalizeGame(p.game);
     state.diagnosis = p.diagnosis || null;
     state.routine = p.routine || null;
-    state.actlog = Array.isArray(p.actlog)? p.actlog : []; } }catch(e){}
+    state.actlog = Array.isArray(p.actlog)? p.actlog : [];
+    state.program = normalizeProgram(p.program); } }catch(e){}
 }
 /* game オブジェクトの欠損を埋める（既存ユーザーが game を持たない場合も安全に） */
 function normalizeGame(g){
@@ -915,10 +1111,14 @@ function takeHome(it){
 function num(v){ v=parseFloat(v); return isNaN(v)?0:v; }
 
 /* ============ nav ============ */
+/* タブ⇔ページの対応。道具箱の中の在庫/売上/下書きに入ったときは「道具箱」タブを点灯 */
+var PAGE_TAB = { home:"home", box:"box", stock:"box", dash:"box", help:"box", mypage:"mypage", set:"set" };
 function go(p){
   document.querySelectorAll(".page").forEach(function(el){el.classList.remove("active");});
   document.getElementById("page-"+p).classList.add("active");
-  document.querySelectorAll(".tabbar button").forEach(function(b){ b.classList.toggle("on", b.dataset.p===p); });
+  var activeTab = PAGE_TAB[p] || p;
+  document.querySelectorAll(".tabbar button").forEach(function(b){ b.classList.toggle("on", b.dataset.p===activeTab); });
+  if(p==="home") renderHome();
   if(p==="dash") renderDash();
   if(p==="stock"){ renderItems(); renderAutoSaveBadge(); renderGame(); renderDiag(); }
   if(p==="set") renderDiagSetting();
@@ -2241,7 +2441,8 @@ function importJSON(e){
       state.diagnosis = p.diagnosis || null;
       state.routine = p.routine || null;
       state.actlog = Array.isArray(p.actlog)? p.actlog : [];
-      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderAutoSaveBadge(); renderGame(); renderDiag(); renderMypage(); toast("読み込みました");
+      state.program = normalizeProgram(p.program);
+      save(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderAutoSaveBadge(); renderGame(); renderDiag(); renderMypage(); renderHome(); toast("読み込みました");
     }catch(err){ toast("読み込めませんでした"); }
     e.target.value="";
   };
@@ -2684,8 +2885,504 @@ function openLineForReport(){
   setTimeout(function(){ window.open("https://line.me/R/","_blank"); }, 250);
 }
 
+/* ============================================================
+   ★ 30日プログラム（スマセル物販版・背骨）★
+   Re:che 30DAYSカリキュラムをスマセル物販版に再構成して埋め込み。
+   進行：日付ベースで1日1解放。過去の未クリアは「あとから追いつける」。未来はロック。
+   遅れても責めない穏当演出（純赤・警告語NG）。
+   type: submit / quiz / calc / action / report。
+   既存機能に直結：写真ツール/出品ウィザード/在庫/売上/行動ログ/マイページURL/LINEコピペ。
+   データは state.program に集約（items/goals/profile/sheet/game/diagnosis は一切壊さない）。
+   ============================================================ */
+var PROGRAM = [
+  { day:1, stage:"準備編", voice:"ようこそスマセルへ", title:"いまの1日のすごし方を書き出そう",
+    detail:"まずは1週間のすごし方（平日・休日）をざっくり書きます。起きる時間から寝るまででOK。その中から「出品にあてられそうなすきま時間」に印をつけましょう。所要：約15分。書けたら記録の行動ログにも残せます。",
+    type:"submit", points:100, badge:null, link:{page:"mypage",label:"記録（行動ログ）を開く"},
+    placeholder:"例）平日 6:00おきる / 通勤7:30〜8:00 / 21:30〜22:00がすきま時間…" },
+  { day:2, stage:"準備編", voice:"りそうの毎日をイメージ", title:"出品する時間を決めよう",
+    detail:"きのうの表を見ながら、出品作業を入れる時間を決めます。作業は「①さつえい・加工 ②商品リサーチ ③タイトル・説明文づくり ④出品」。すきま時間にどれを入れるか書き出しましょう。所要：約10分。",
+    type:"submit", points:100, badge:null, link:{page:"mypage",label:"記録（行動ログ）を開く"},
+    placeholder:"例）通勤中=リサーチ / お昼=加工 / 夜22:00=出品 …" },
+  { day:3, stage:"準備編", voice:"なんのためにやる？", title:"目標の金額と目的を決めよう",
+    detail:"「何のために・いくらほしいか」を数字で書きます。①目的（例：習い事代/自分へのごほうび/返済）②ほしい金額 ③そのためにやめるムダづかい。ふわっとではなく数字で。例）習い事2万＋自己投資3万＝月5万の利益目標。所要：約10分。",
+    type:"submit", points:120, badge:"はじめの一歩",
+    placeholder:"例）目的=◯◯ / 月の利益目標=50,000円 / やめるもの=◯◯ …" },
+  { day:4, stage:"数字編", voice:"数字を味方にする", title:"はんばい率・利益率クイズ（全3問）",
+    detail:"数字を味方にする回。はんばい率＝はんばい数÷出品数×100。利益率＝利益額÷売上額×100。下の3問に答えてね。電卓OK！全問正解でボーナスポイント。",
+    type:"quiz", points:150, badge:"数字に強い",
+    quiz:[
+      { q:"Aさんは月17万円が利益目標。在庫20万円分を何%の利益率で売ればいい？", unit:"%", answer:85, tolerance:1, hint:"利益率 = 目標利益 ÷ 在庫(売上) × 100", solution:"17万 ÷ 20万 × 100 ＝ 85%" },
+      { q:"Bさんは毎日9品ずつ30日出品し、98品売れました。はんばい率は何%？（小数第1位）", unit:"%", answer:36.3, tolerance:1.0, hint:"はんばい率 = はんばい数 ÷ 出品数 × 100（出品数は 9×30）", solution:"98 ÷ 270 × 100 ＝ 約36.3%" },
+      { q:"目標利益17万円・利益率50%のとき、ひつような売上は何万円？", unit:"万円", answer:34, tolerance:1, hint:"売上 = 利益 ÷ 利益率 × 100", solution:"17万 ÷ 50 × 100 ＝ 34万円" }
+    ] },
+  { day:5, stage:"仕入れ編", voice:"まず一歩ふみ出す", title:"仕入れをしてみよう（スマセル登録）",
+    detail:"まずは不用品からでOK。仕入れの第一歩として、スマセル（仕入れサイト）に会員登録します。登録できたら下のチェックを押してね。すでに不用品がある人は、それを出品じゅんびに回しましょう。所要：約10分。",
+    type:"action", points:120, badge:null, checklabel:"スマセルに登録できた／不用品を出品じゅんびした" },
+  { day:6, stage:"数字編", voice:"目標から逆算する", title:"ひつような出品数を計算しよう",
+    detail:"目標から逆算します。下の計算機に「月の目標利益・利益率・1品の平均たんか」を入れると、ひつような出品総額と1日あたりの出品数が出ます。出た数字を心に留めて出品していきましょう。",
+    type:"calc", points:150, badge:null,
+    calc:{ inputs:[ {key:"profit",label:"月の目標利益",unit:"円",value:50000}, {key:"rate",label:"利益率",unit:"%",value:40}, {key:"price",label:"1品の平均はんばいたんか",unit:"円",value:1500} ],
+      outputs:[ {label:"ひつような出品総額（目安）",formula:"profit / (rate/100)",unit:"円"}, {label:"1日あたりの出品数（30日）",formula:"(profit / (rate/100)) / 30 / price",unit:"品",ceil:true} ] } },
+  { day:7, stage:"基礎編", voice:"つづけるコツ", title:"プロフィールを作ろう",
+    detail:"アカウントの「お顔」＝プロフィールを整えます。①あいさつ ②取引のスタンス ③発送・返品/キャンセルたいおう ④たばこ/ペットの有無。さいしょの1〜2行に安心ワードを。できたらメルカリのプロフィールURLをはって提出。所要：約15分。",
+    type:"submit", points:120, badge:"お店オープン", link:{page:"mypage",label:"メルカリ・URLを登録/開く"},
+    placeholder:"プロフィールURL（例：https://jp.mercari.com/user/profile/…）" },
+  { day:8, stage:"基礎編", voice:"まず出すのが大事", title:"出品にかかる時間をはかろう①",
+    detail:"じっさいに商品を出品し、1品にかかった時間（さつえい〜加工〜リサーチ〜説明文〜出品まで）をはかります。完ぺきをめざさず、まず出すのが大事。1品の平均時間を提出しましょう。「出品する」から進めてOK。",
+    type:"submit", points:120, badge:null, link:{action:"openWizard",label:"出品する（ウィザード）"},
+    placeholder:"例）1品あたり 約40分（さつえい10/加工10/リサーチ10/説明文10）" },
+  { day:9, stage:"基礎編", voice:"くり返すほど速くなる", title:"出品にかかる時間をはかろう②",
+    detail:"きのうのつづき。今日も出品して、1品あたりの平均出品時間を提出します。くり返すほどスピードは上がります。きのうとの差も書いてみてね。",
+    type:"submit", points:120, badge:null, link:{action:"openWizard",label:"出品する（ウィザード）"},
+    placeholder:"例）1品あたり 約30分（きのうより10分たんしゅく）" },
+  { day:10, stage:"基礎編", voice:"やってみると変わる", title:"1時間で何品出せるかチャレンジ",
+    detail:"タイマーを1時間にセット！その中で何品出品できるかにチャレンジします。スピードを知ると、つぎに進む目安になります。出せた品数を提出してね。",
+    type:"submit", points:150, badge:"スピードアップ", link:{action:"openWizard",label:"出品する（ウィザード）"},
+    placeholder:"例）1時間で 3品 出品できた！" },
+  { day:11, stage:"基礎編", voice:"あたまを使おう", title:"在庫かんり表を作ってみよう",
+    detail:"売上かんりと在庫かんりは別もの。①商品がさがしやすい ②売れのこりがふせげる ③つぎの仕入れ計画が立つ。このアプリの在庫にいまある仕入れ品・不用品を入れてみましょう。まずは作るのが目標。",
+    type:"action", points:120, badge:null, checklabel:"在庫に商品を入れはじめた", link:{page:"stock",label:"在庫を開く"} },
+  { day:12, stage:"基礎編", voice:"おうえんされる人に", title:"在庫かんり表をていしゅつ（そえん削あり）",
+    detail:"在庫を仕上げて提出します。チェック：出品価格はリサーチずみ？／売れた額は入れた？／仕入れ値・出品中の商品も入れた？ できたら在庫の内容（スプシURLでもOK）をはってね。本日中の提出がそえん削たいしょう。",
+    type:"submit", points:150, badge:"在庫マスター", link:{page:"stock",label:"在庫を開く"},
+    placeholder:"在庫かんり表のURL（Googleスプレッドシート）または メモ" },
+  { day:13, stage:"基礎編", voice:"動機をたくさん作ろう", title:"在庫のトータル金額を計算",
+    detail:"①在庫の仕入れ原価トータル（出品中もふくむ。不用品は0円でOK）②メルカリではんばい中の商品トータル金額。この2つを出すと、しさんと売上よそうが見えます。下に2つの金額を入力。",
+    type:"report", points:150, badge:null,
+    report:[ {key:"stockCost",label:"在庫の原価トータル",unit:"円"}, {key:"listing",label:"はんばい中商品のトータル",unit:"円"} ] },
+  { day:14, stage:"振り返り編", voice:"数字で今を知る", title:"ちゅうかん報告（数字を出す）",
+    detail:"ここまでの数字をたな卸し。売上・利益・出品数・はんばい数を入れると、利益率・はんばい率・平均たんかが自動で出ます。今を正しくつかむのがつぎの一手の地図になります。売上ダッシュボードでも数字を見られます。",
+    type:"report", points:200, badge:"折り返し地点", link:{page:"dash",label:"売上ダッシュボードを見る"},
+    report:[ {key:"sales",label:"売上額",unit:"円"}, {key:"profit",label:"利益額",unit:"円"}, {key:"listed",label:"出品数",unit:"品"}, {key:"sold",label:"はんばい数",unit:"品"} ],
+    auto:[ {label:"利益率",formula:"profit / sales * 100",unit:"%"}, {label:"はんばい率",formula:"sold / listed * 100",unit:"%"}, {label:"平均出品たんか",formula:"sales / sold",unit:"円"} ] },
+  { day:15, stage:"振り返り編", voice:"つまりを言葉に", title:"じぶんの課題とかいぜん点をあげる",
+    detail:"11〜14日の数字から、いま詰まっている所を言葉に。よくあるのは「出品数が足りない」「出品金額が少ない」「在庫が足りない」。目標とのギャップを見て、課題とかいぜん策を1つ提出しましょう。",
+    type:"submit", points:150, badge:null,
+    placeholder:"例）課題=出品数が足りない / かいぜん=リサーチを10分にして1日3品出す" },
+  { day:16, stage:"振り返り編", voice:"学びを言葉にする", title:"数字に強くなる勉強会（アウトプット）",
+    detail:"配布の勉強会どうがを見て、①気づいたこと ②明日からやること を書きます。数字を知れば売上が見え、数字を使えば未来が変わる。学びを言葉にして提出してね。",
+    type:"submit", points:150, badge:null,
+    placeholder:"気づき：… ／ 明日からやること：…" },
+  { day:17, stage:"基礎編", voice:"手を動かして覚える", title:"出品の基本作業を身につける",
+    detail:"「基本の作業こうもく」を見ながら、商品ページを1つ作ります。写真・タイトル・説明文・価格のながれを、手じゅんどおりに。明日のていしゅつに向けた練習です。「出品する」ウィザードで型どおりに進められます。",
+    type:"action", points:120, badge:null, checklabel:"基本作業を見ながら商品ページを1つ作った", link:{action:"openWizard",label:"出品する（ウィザード）"} },
+  { day:18, stage:"基礎編", voice:"少しずつ良くする", title:"商品ページをていしゅつ（そえん削あり）",
+    detail:"「1番高く売れた／1番高い金額で出品中」の商品ページURLと、えつらん数・いいね数・けんさく数の3つを提出。写真→タイトル→説明文→価格のじゅんでよくしていきます。本日中の提出がそえん削たいしょう。",
+    type:"submit", points:180, badge:"出品の型",
+    placeholder:"商品URL ／ えつらん数◯ いいね◯ けんさく数◯" },
+  { day:19, stage:"出品WEEK", voice:"じゅんび8割", title:"出品WEEK 1日目｜じゅんび8割",
+    detail:"1週間で30品チャレンジ開始！カギはじゅんび8割・行動2割。①今週のよていかくにん ②1日どの時間を出品にあてるか ③出品する商品こうほをストック。今日の出品数も記録してね。",
+    type:"submit", points:150, badge:"出品WEEK突入", link:{action:"openWizard",label:"出品する（ウィザード）"},
+    placeholder:"今日の出品数◯品／るいけい◯品／気づき…" },
+  { day:20, stage:"出品WEEK", voice:"写真で9割", title:"出品WEEK 2日目｜写真で9割",
+    detail:"今日のテーマは写真。1枚目（トップ画像）でいんしょうが決まります。明るさ・はいけい・角度・うつりを意識。「ほしい！」と思える1枚を。今日の出品数を記録して提出。写真をきれいにするツールも道具箱に。",
+    type:"submit", points:150, badge:null, link:{action:"openPhotoTool",label:"写真をきれいにする（別タブ）"},
+    placeholder:"今日の出品数◯品／るいけい◯品／写真のくふう…" },
+  { day:21, stage:"出品WEEK", voice:"見つけてもらう", title:"出品WEEK 3日目｜タイトル&説明文",
+    detail:"けんさくに引っかかるキーワードを。タイトルは40文字をうめる意識で（ブランド・サイズ・色・じょうたい）。説明文はシンプルで親切に。今日の出品数を記録して提出。おたすけライト君で下書きも作れます。",
+    type:"submit", points:150, badge:null, link:{page:"help",label:"おたすけライト君を開く"},
+    placeholder:"今日の出品数◯品／るいけい◯品／使ったキーワード…" },
+  { day:22, stage:"出品WEEK", voice:"価格は戦略", title:"出品WEEK 4日目｜価格は戦略",
+    detail:"そうばをリサーチし、利益をのこしつつ売れる価格たいに。ねびきこうしょうをそうていして少し上から設定するのもコツ。今日の出品数を記録して提出。",
+    type:"submit", points:150, badge:null, link:{action:"openWizard",label:"出品する（ウィザード）"},
+    placeholder:"今日の出品数◯品／るいけい◯品／価格のこんきょ…" },
+  { day:23, stage:"出品WEEK", voice:"力の配分", title:"出品WEEK 5日目｜一軍・二軍",
+    detail:"一軍＝利益が見こめる/きせつ物/人気/きれいな商品。二軍＝回転じゅうし・在庫せいり向け。毎日ぜんぶに全力ではなくバランスを。今日の出品数を記録して提出。",
+    type:"submit", points:150, badge:null, link:{action:"openWizard",label:"出品する（ウィザード）"},
+    placeholder:"今日の出品数◯品／るいけい◯品／一軍・二軍のふりわけ…" },
+  { day:24, stage:"出品WEEK", voice:"70点で出す", title:"出品WEEK 6日目｜70点で出す",
+    detail:"完ぺきしゅぎで止まらないこと。70%のできでOK、まず出す。1つでも前進すればきのうのじぶんをこえています。今日の出品数を記録して提出。",
+    type:"submit", points:150, badge:null, link:{action:"openWizard",label:"出品する（ウィザード）"},
+    placeholder:"今日の出品数◯品／るいけい◯品／今日の前進…" },
+  { day:25, stage:"出品WEEK", voice:"出し切ろう", title:"出品WEEK 7日目｜ラストスパート",
+    detail:"いよいよ最終日！一軍・二軍のバランスを意識して出し切ろう。1週間の合計出品数をふり返って提出。走りきったじぶんをねぎらってね。",
+    type:"submit", points:200, badge:"30品チャレンジ完走", link:{action:"openWizard",label:"出品する（ウィザード）"},
+    placeholder:"1週間の合計出品数◯品／やりきったかんそう…" },
+  { day:26, stage:"出品WEEK", voice:"勝ちパターンを見つける", title:"出品WEEKをふり返る",
+    detail:"1週間のけっかを数字でかくにん。①出品できた数 ②売れた数 ③気づいた勝ちパターン。つづけられるしくみ（出品のしゅうかん化）を1つ決めて提出しましょう。",
+    type:"submit", points:150, badge:null, link:{page:"dash",label:"売上ダッシュボードを見る"},
+    placeholder:"出品◯／はんばい◯／勝ちパターン…／つづけるしくみ…" },
+  { day:27, stage:"飛躍編", voice:"ムダなく流れで", title:"勉強会のアウトプット",
+    detail:"配布どうがを見て、①気づき ②明日からやること を提出。一つひとつの作業を「ムダなく・ながれで」。学びを行動に変えるのがひやくの入口です。",
+    type:"submit", points:150, badge:null,
+    placeholder:"気づき：… ／ 明日からやること：…" },
+  { day:28, stage:"飛躍編", voice:"whyからはじめよ", title:"月報を出す（数字＋3ヶ月計画）",
+    detail:"1ヶ月のふり返り。売上・利益・出品数・はんばい数を入れて、できたこと/できなかったことを言葉に。さらに3ヶ月後のマイルストーンを1ヶ月ごとに書きましょう。記録の月報も使えます。",
+    type:"report", points:220, badge:"1ヶ月完走", link:{page:"mypage",label:"記録（月報）を開く"},
+    report:[ {key:"sales",label:"今月の売上額",unit:"円"}, {key:"profit",label:"今月の利益額",unit:"円"}, {key:"listed",label:"今月の出品数",unit:"品"}, {key:"sold",label:"今月のはんばい数",unit:"品"} ],
+    auto:[ {label:"利益率",formula:"profit / sales * 100",unit:"%"}, {label:"はんばい率",formula:"sold / listed * 100",unit:"%"} ] },
+  { day:29, stage:"飛躍編", voice:"事実と気もちを分ける", title:"成果を記録してていしゅつ",
+    detail:"月報フォームにそって数字を提出します。よてい（行動）と成果（数字）を結びつけて見ると、つぎのかいぜん点がクリアに。毎月のふり返りが、そつぎょう後ものびつづける自走力になります。",
+    type:"submit", points:150, badge:null, link:{page:"mypage",label:"記録（月報）を開く"},
+    placeholder:"ていしゅつメモ：今月のふり返り・来月の目標…" },
+  { day:30, stage:"飛躍編", voice:"ここからが本番", title:"そつぎょう｜つぎの一歩をせんげん",
+    detail:"30日間、本当におつかれさま！基礎の力はしっかり身につきました。さいごに「つぎの3ヶ月でたっせいしたい目標」を具体的にせんげんしましょう。書き出すほど、げんじつになります。ここからが本番です。",
+    type:"submit", points:300, badge:"30DAYS 完走",
+    placeholder:"つぎの3ヶ月の目標：… ／ そのための行動：…" }
+];
+/* バッジ定義（表示じゅん＝カリキュラムじゅん） */
+var PROGRAM_BADGES = [
+  { id:"はじめの一歩", day:3 }, { id:"数字に強い", day:4 }, { id:"お店オープン", day:7 },
+  { id:"スピードアップ", day:10 }, { id:"在庫マスター", day:12 }, { id:"折り返し地点", day:14 },
+  { id:"出品の型", day:18 }, { id:"出品WEEK突入", day:19 }, { id:"30品チャレンジ完走", day:25 },
+  { id:"1ヶ月完走", day:28 }, { id:"30DAYS 完走", day:30 }
+];
+var PROGRAM_TOTAL = 30;
+
+/* ---- program 初期化：初回起動 or 専用URLで startDate を確定 ---- */
+function ensureProgramStart(){
+  if(!state.program) state.program = defaultProgram();
+  if(!state.program.startDate){ state.program.startDate = today(); save(); }
+}
+/* 解放：日付ベースで当日まで解放。過去未クリアはキャッチアップ可、未来ロック。 */
+function programUnlockedThrough(){
+  var p=state.program; if(!p||!p.startDate) return 1;
+  var elapsed = daysBetween(p.startDate, today()); // 0=初日
+  return Math.max(1, Math.min(PROGRAM_TOTAL, elapsed+1));
+}
+function programDayDef(day){ for(var i=0;i<PROGRAM.length;i++){ if(PROGRAM[i].day===day) return PROGRAM[i]; } return null; }
+function isCleared(day){ return state.program && state.program.cleared.indexOf(day)>=0; }
+function programStatus(day){
+  if(isCleared(day)) return "done";
+  var u=programUnlockedThrough();
+  if(day>u) return "locked";
+  if(day===u) return "today";
+  return "open"; // 過去・未クリア（追いつける）
+}
+/* 「今日のミッション」＝まだクリアしていない最小の解放済みDay。全部済みなら最後のDay。 */
+function currentMissionDay(){
+  var u=programUnlockedThrough();
+  for(var d=1; d<=u; d++){ if(!isCleared(d)) return d; }
+  return Math.min(u, PROGRAM_TOTAL); // 解放ぶんは全部クリア済み→今日ぶんは完了
+}
+
+/* ---- 計算式の安全評価（calc/report auto用）---- */
+function programEval(formula, vars){
+  var keys=Object.keys(vars), vals=keys.map(function(k){ return Number(vars[k])||0; });
+  try{ var r=Function.apply(null, keys.concat(["return ("+formula+");"])).apply(null, vals); return isFinite(r)? r : 0; }
+  catch(e){ return 0; }
+}
+
+/* ============ 今日（ホーム）描画 ============ */
+function renderHome(){
+  ensureProgramStart();
+  var p=state.program;
+  var doneN = p.cleared.length;
+  document.getElementById("progDone").textContent = doneN;
+  document.getElementById("progFill").style.width = Math.round(doneN/PROGRAM_TOTAL*100)+"%";
+  // あいさつ
+  var nm = (state.profile && state.profile.name) ? state.profile.name : "";
+  var elapsed = Math.max(0, daysBetween(p.startDate, today()));
+  document.getElementById("homeHi").innerHTML =
+    (nm? esc(nm)+"さん、こんにちは" : "こんにちは")+
+    "<small>スマセル30日プログラム "+(elapsed+1)+"日目・まいにち1つずつでOKです</small>";
+  renderHomeAutoSaveBadge();
+  renderMissionCard();
+  renderHomeBuddy();
+  renderHomeShare();
+  renderHomeBadges();
+}
+/* ホーム上部にも自動保存バッジ（在庫ホームと同内容） */
+function renderHomeAutoSaveBadge(){
+  var el=document.getElementById("homeAutoSaveBadge"); if(!el) return;
+  var s=state.sheet||{};
+  if(s.enabled && s.sheetId){
+    var nm=(state.profile && state.profile.name)? state.profile.name : "あなた";
+    el.className="savebadge"; el.style.display="flex";
+    el.innerHTML='<span class="dot"></span><span class="txt">'+esc(nm)+'さんの記録に自動保存中</span>';
+  } else { el.style.display="none"; el.className=""; el.innerHTML=""; }
+}
+function stageBadgeName(day){
+  var def=programDayDef(day); return def? def.stage : "";
+}
+function renderMissionCard(){
+  var el=document.getElementById("missionCard"); if(!el) return;
+  var u=programUnlockedThrough();
+  var allDoneToday = true;
+  for(var d=1; d<=u; d++){ if(!isCleared(d)){ allDoneToday=false; break; } }
+  var day=currentMissionDay();
+  var def=programDayDef(day);
+  if(!def){ el.innerHTML=""; return; }
+
+  // 解放ぶんを全部クリア済み（今日のぶんは完了）：穏当に「またあした」
+  if(allDoneToday && isCleared(day)){
+    if(u>=PROGRAM_TOTAL){
+      // 30日そつぎょう
+      el.innerHTML=
+        '<div class="mission done-today">'+
+          '<div class="m-clear"><div class="mc-check">🎓</div><div class="mc-txt">30日プログラム、ぜんぶ達成！<small>本当におつかれさまでした</small></div></div>'+
+          '<div class="m-title" style="font-size:17px">つぎの3ヶ月も、あなたのペースで。</div>'+
+          '<button class="m-cta sub" onclick="openMission('+PROGRAM_TOTAL+')">Day30をもう一度ひらく</button>'+
+        '</div>';
+    } else {
+      el.innerHTML=
+        '<div class="mission done-today">'+
+          '<div class="m-clear"><div class="mc-check">✓</div><div class="mc-txt">今日のぶんは達成ずみです<small>相棒もごきげん。よくがんばりました</small></div></div>'+
+          '<div class="m-next">つづきの Day'+Math.min(u+1,PROGRAM_TOTAL)+' は、あしたひらきます。<br>今日は道具箱で出品してもOKです。</div>'+
+          '<button class="m-cta sub" onclick="go(\'box\')">道具箱をひらく</button>'+
+        '</div>';
+    }
+    return;
+  }
+
+  // 今日のミッション（主役）。遅れて追いつくDayは穏当メッセージを添える。
+  var st=programStatus(day);
+  var behindMsg = (st==="open")
+    ? '<div class="m-clear"><div class="mc-check">🌱</div><div class="mc-txt">Day'+day+'から追いつきましょう<small>遅れても大丈夫。相棒が待っていました</small></div></div>'
+    : "";
+  el.innerHTML=
+    '<div class="mission">'+
+      behindMsg+
+      '<div class="m-day">Day '+day+'<span class="m-stage">'+esc(def.stage)+'</span></div>'+
+      '<div class="m-voice">今日のひとこと：'+esc(def.voice)+'</div>'+
+      '<div class="m-title">'+esc(def.title)+'</div>'+
+      '<div class="m-detail">'+esc(def.detail)+'</div>'+
+      '<button class="m-cta" onclick="openMission('+day+')">やってみる</button>'+
+    '</div>';
+}
+/* 相棒の応援（ホーム）。診断タイプで声かけの寄りを変える。既存 game を流用。 */
+function renderHomeBuddy(){
+  var el=document.getElementById("homeBuddy"); if(!el) return;
+  var g=state.game||defaultGame();
+  var day=currentMissionDay();
+  var done=isCleared(day);
+  var d=state.diagnosis;
+  var tone = d? d.type : null;
+  var msg;
+  if(done){ msg="今日のミッション、達成できましたね！"; }
+  else if(tone==="driving"){ msg="サクッと片づけちゃいましょう。あなたなら早い。"; }
+  else if(tone==="analytical"){ msg="今日の1つを、ていねいに確かめながら。"; }
+  else if(tone==="expressive"){ msg="今日の1つ、楽しんでいきましょう！"; }
+  else if(tone==="amiable"){ msg="1日1つでじゅうぶん。むりせずいきましょうね。"; }
+  else { msg="今日の1つで、相棒がちょっと育ちます。"; }
+  var sub = "Lv."+g.level+"・連続"+(g.streak||0)+"日"+(g.badges&&g.badges.length? "・出品バッジ"+g.badges.length : "");
+  el.innerHTML=
+    '<div class="hb-art">'+buddySVG(g.stage,g.species, done?"happy":g.mood, 62)+'</div>'+
+    '<div class="hb-body"><div class="hb-msg">'+esc(msg)+'</div><div class="hb-sub">相棒 '+esc(sub)+'</div></div>';
+}
+/* きのう提出したことをLINEグループにはる導線（既存LINEコピペ流用） */
+function renderHomeShare(){
+  var el=document.getElementById("homeShare"); if(!el) return;
+  el.innerHTML=
+    '<div class="home-share">'+
+      '<div class="hs-ttl">きのうの提出を、グループLINEにはろう</div>'+
+      '<div class="hs-sub">「今日やったこと」をコピーして、そのままLINEにはるだけ。仲間と共有すると続きます。</div>'+
+      '<div class="hs-row">'+
+        '<button class="btn pink sm" onclick="copyProgramShare()">コピーする</button>'+
+        '<button class="btn blue sm" onclick="openLineWithProgramShare()">LINEを開く</button>'+
+      '</div>'+
+    '</div>';
+}
+function programShareText(){
+  var p=state.program||defaultProgram();
+  var nm=(state.profile && state.profile.name)? state.profile.name : "";
+  var doneN=p.cleared.length;
+  var last = p.cleared.length? Math.max.apply(null, p.cleared) : 0;
+  var def = last? programDayDef(last) : null;
+  var sub = (last && p.submissions && p.submissions[last]) ? p.submissions[last] : "";
+  var lines=[];
+  lines.push("【スマセル30日】"+(nm?nm+"さん":""));
+  lines.push("しんちょく "+doneN+"/30日 クリア");
+  if(def){ lines.push("いちばん新しい提出：Day"+last+" "+def.title); }
+  if(sub){ lines.push("→ "+sub); }
+  lines.push("今日もコツコツいきます！");
+  return lines.join("\n");
+}
+function copyProgramShare(){
+  var txt=programShareText();
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ toast("コピーしました。LINEにはってね"); }, function(){ fallbackCopy(txt); });
+  } else { fallbackCopy(txt); }
+}
+function openLineWithProgramShare(){ copyProgramShare(); setTimeout(function(){ window.open("https://line.me/R/","_blank"); }, 250); }
+/* バッジコレクション（30日プログラムの11バッジ） */
+function renderHomeBadges(){
+  var el=document.getElementById("homeBadges"); if(!el) return;
+  var p=state.program||defaultProgram();
+  var cells=PROGRAM_BADGES.map(function(b){
+    var got=p.badges.indexOf(b.id)>=0;
+    var ic = got? '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#bd7886" stroke-width="1.8"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5L7 21l5-2.5L17 21l-1.5-7.5"/></svg>'
+                : '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#c9bcc1" stroke-width="1.8"><rect x="6" y="10" width="12" height="9" rx="2"/><path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"/></svg>';
+    return '<div class="badge-cell'+(got?"":" lock")+'"><div class="badge-ic">'+ic+'</div><div class="badge-nm">'+esc(b.id)+'</div></div>';
+  }).join("");
+  el.innerHTML=
+    '<div class="home-badges"><div class="hb-ttl">あつめたバッジ <span style="color:var(--pinkd)">'+p.badges.length+'</span> / '+PROGRAM_BADGES.length+'</div>'+
+    '<div class="badge-grid">'+cells+'</div></div>';
+}
+
+/* ============ ミッション実行モーダル（タイプ別UI）============ */
+var mmDay=null, mmType=null, mmActionChecked=false, mmQuizState=null;
+function openMission(day){
+  var def=programDayDef(day); if(!def) return;
+  if(programStatus(day)==="locked"){ toast("このミッションはまだ先です"); return; }
+  mmDay=day; mmType=def.type; mmActionChecked=false; mmQuizState=null;
+  document.getElementById("mmDay").textContent = "Day "+day+"・"+def.stage;
+  document.getElementById("mmTitle").textContent = def.title;
+  document.getElementById("mmDetail").textContent = def.detail;
+  var body=document.getElementById("mmBody");
+  var clearBtn=document.getElementById("mmClearBtn");
+  clearBtn.style.display="block";
+  clearBtn.textContent = isCleared(day)? "もう一度クリアにする" : "できた！（クリア）";
+  var savedSub = (state.program.submissions && state.program.submissions[day]) || "";
+
+  // 直結リンク（写真ツール/出品/在庫/売上/マイページ）
+  var linkBtn="";
+  if(def.link){
+    var onclk = def.link.action ? (def.link.action==="openWizard"?"closeModal('missionModal');openWizard()"
+                                 : def.link.action==="openPhotoTool"?"openPhotoTool()" : "")
+                                : ("closeModal('missionModal');go('"+def.link.page+"')");
+    linkBtn = '<button class="btn blue sm" style="margin-bottom:12px" onclick="'+onclk+'">'+esc(def.link.label)+'</button>';
+  }
+
+  if(def.type==="submit"){
+    body.innerHTML = linkBtn+
+      '<div class="field"><label>ここに書いて提出（あとから直せます）</label>'+
+      '<textarea id="mm-sub" style="min-height:110px" placeholder="'+esc(def.placeholder||"")+'">'+esc(savedSub)+'</textarea></div>';
+  } else if(def.type==="action"){
+    body.innerHTML = linkBtn+
+      '<div class="mm-check" id="mmCheck" onclick="mmToggleCheck()"><div class="mk-box" id="mmCheckBox"></div>'+
+      '<div class="mk-lbl">'+esc(def.checklabel||"できたらチェック")+'</div></div>';
+    mmActionChecked = isCleared(day);
+    mmRenderCheck();
+    clearBtn.textContent = isCleared(day)? "クリアずみ（もう一度）" : "チェックしてクリア";
+  } else if(def.type==="quiz"){
+    mmQuizState = def.quiz.map(function(){ return {val:"", ok:false, shown:false}; });
+    body.innerHTML = linkBtn + def.quiz.map(function(q,i){
+      return '<div class="mm-qwrap"><div class="mm-quiz-q">Q'+(i+1)+'. '+esc(q.q)+'</div>'+
+        '<div class="mm-quiz-hint">ヒント：'+esc(q.hint||"")+'</div>'+
+        '<div class="mm-quiz-in"><input type="text" inputmode="decimal" id="mmq-'+i+'" oninput="mmQuizCheck('+i+')"><span class="qu-unit">'+esc(q.unit||"")+'</span></div>'+
+        '<div class="mm-quiz-res" id="mmqr-'+i+'" style="display:none"></div></div>';
+    }).join("");
+    clearBtn.textContent = "答えあわせしてクリア";
+  } else if(def.type==="calc"){
+    body.innerHTML = linkBtn +
+      def.calc.inputs.map(function(inp){
+        return '<div class="field"><label>'+esc(inp.label)+'（'+esc(inp.unit)+'）</label>'+
+          '<input type="number" inputmode="numeric" id="mmc-'+inp.key+'" value="'+(inp.value!=null?inp.value:"")+'" oninput="mmCalcRun()"></div>';
+      }).join("") +
+      '<div class="mm-calc-out" id="mmCalcOut"></div>';
+    mmCalcRun();
+  } else if(def.type==="report"){
+    body.innerHTML = linkBtn +
+      def.report.map(function(r){
+        return '<div class="field"><label>'+esc(r.label)+'（'+esc(r.unit)+'）</label>'+
+          '<input type="number" inputmode="numeric" id="mmr-'+r.key+'" oninput="mmReportRun()"></div>';
+      }).join("") +
+      (def.auto? '<div class="mm-calc-out" id="mmReportOut"></div>' : "");
+    if(def.auto) mmReportRun();
+  }
+  openModal("missionModal");
+  var sh=document.querySelector("#missionModal .sheet"); if(sh) sh.scrollTop=0;
+}
+function mmToggleCheck(){ mmActionChecked=!mmActionChecked; mmRenderCheck(); }
+function mmRenderCheck(){
+  var c=document.getElementById("mmCheck"), b=document.getElementById("mmCheckBox");
+  if(!c) return;
+  c.classList.toggle("on", mmActionChecked);
+  b.textContent = mmActionChecked? "✓":"";
+}
+function mmQuizCheck(i){
+  var def=programDayDef(mmDay); if(!def||!def.quiz) return;
+  var q=def.quiz[i];
+  var raw=document.getElementById("mmq-"+i).value.trim();
+  var res=document.getElementById("mmqr-"+i);
+  if(raw===""){ res.style.display="none"; mmQuizState[i]={val:"",ok:false,shown:false}; return; }
+  var v=parseFloat(raw.replace(/,/g,""));
+  var ok = !isNaN(v) && Math.abs(v-q.answer)<=(q.tolerance||0);
+  mmQuizState[i]={val:raw, ok:ok, shown:true};
+  res.style.display="block";
+  res.className="mm-quiz-res "+(ok?"ok":"ng");
+  res.innerHTML = ok? ("せいかい！ "+esc(q.solution||"")) : ("もう少し。ヒント："+esc(q.hint||"")+"　こたえ："+esc(q.solution||""));
+}
+function mmCalcRun(){
+  var def=programDayDef(mmDay); if(!def||!def.calc) return;
+  var vars={};
+  def.calc.inputs.forEach(function(inp){ vars[inp.key]=num(document.getElementById("mmc-"+inp.key).value); });
+  var out=document.getElementById("mmCalcOut");
+  out.innerHTML = def.calc.outputs.map(function(o){
+    var r=programEval(o.formula, vars); if(o.ceil) r=Math.ceil(r);
+    var val = o.unit==="円"? Math.round(r).toLocaleString("ja-JP") : (Math.round(r*10)/10);
+    return '<div class="co-row"><span class="co-k">'+esc(o.label)+'</span><span class="co-v">'+val+'<small>'+esc(o.unit)+'</small></span></div>';
+  }).join("");
+}
+function mmReportRun(){
+  var def=programDayDef(mmDay); if(!def||!def.auto) return;
+  var vars={};
+  def.report.forEach(function(r){ vars[r.key]=num(document.getElementById("mmr-"+r.key).value); });
+  var out=document.getElementById("mmReportOut");
+  out.innerHTML = def.auto.map(function(o){
+    var r=programEval(o.formula, vars);
+    var val = o.unit==="円"? Math.round(r).toLocaleString("ja-JP") : (Math.round(r*10)/10);
+    return '<div class="co-row"><span class="co-k">'+esc(o.label)+'</span><span class="co-v">'+val+'<small>'+esc(o.unit)+'</small></span></div>';
+  }).join("");
+}
+/* クリア確定：ポイント加算・バッジ獲得・提出保存・翌日解放。相棒にXP/actlog連動。 */
+function missionClear(){
+  var day=mmDay; var def=programDayDef(day); if(!def) return;
+  // action は未チェックだと促す
+  if(def.type==="action" && !mmActionChecked){ toast("できたらチェックを押してね"); return; }
+  var p=state.program;
+  // 提出テキスト保存
+  if(def.type==="submit"){
+    var v=(document.getElementById("mm-sub")||{}).value||"";
+    p.submissions[day]=v.trim();
+  } else if(def.type==="report"){
+    var parts=[];
+    def.report.forEach(function(r){ var val=document.getElementById("mmr-"+r.key).value; if(val!=="") parts.push(r.label+" "+val+r.unit); });
+    p.submissions[day]=parts.join(" / ");
+  } else if(def.type==="quiz"){
+    var okN=mmQuizState.filter(function(x){return x&&x.ok;}).length;
+    p.submissions[day]="クイズ "+okN+"/"+def.quiz.length+"問せいかい";
+  } else if(def.type==="calc"){
+    p.submissions[day]="計算機で確認";
+  }
+  var wasCleared=isCleared(day);
+  if(!wasCleared){
+    p.cleared.push(day);
+    p.points=(p.points||0)+(def.points||0);
+    if(def.badge && p.badges.indexOf(def.badge)<0) p.badges.push(def.badge);
+  }
+  save();
+  // 相棒・行動ログ連動（既存の game/actlog を壊さない範囲で）
+  try{ programSideEffects(def); }catch(e){}
+  closeModal("missionModal");
+  renderHome();
+  // 演出：新規クリアのときだけ穏当に
+  if(!wasCleared){ showMissionCleared(def); }
+  else { toast("クリアにしました"); }
+}
+/* クリア演出（純赤・警告NG／相棒が育つ穏当トーン） */
+function showMissionCleared(def){
+  var g=state.game, l=ensureFxLayer();
+  var badgeLine = def.badge? '<div class="fx-mini">バッジ「'+esc(def.badge)+'」を手に入れた！</div>' : '<div class="fx-mini">相棒がちょっと育ちました。</div>';
+  l.innerHTML=
+    '<div class="fx-card fx-pop">'+
+      '<div class="fx-art">'+buddySVG(g.stage,g.species,"happy",120)+'</div>'+
+      '<div class="fx-head">クリア！</div>'+
+      '<div class="fx-sub">Day'+def.day+' 達成（+'+(def.points||0)+'pt）</div>'+
+      badgeLine+
+    '</div>';
+  l.classList.add("show");
+  setTimeout(function(){ l.classList.remove("show"); }, 2200);
+}
+/* ミッション種別に応じた副作用：出品系→相棒XP、時間/行動系→行動ログ */
+function programSideEffects(def){
+  // 出品直結のDayは相棒にXPを1入れて育成連動（出品実データが無くても達成感を返す）
+  var listingDays=[8,9,10,17,19,20,21,22,23,24,25];
+  if(listingDays.indexOf(def.day)>=0){
+    var res=gameOnListing(); renderGame();
+  }
+  // 時間・行動系Dayは行動ログに「学習」を自動で1つ立てる（当日レコードへ追記）
+  var t=today();
+  var arr=state.actlog || (state.actlog=[]);
+  var rec=actLogFor(t);
+  if(!rec){ rec={date:t, tags:[], memo:""}; arr.push(rec); }
+  if(rec.tags.indexOf("学習")<0){ rec.tags.push("学習"); }
+  save();
+}
+
 /* ============ init ============ */
-load(); applyLinkParams(); gameDailyCheck(); loadProfile(); loadSheetSettings(); renderItems(); renderDash(); renderGame(); renderDiag();
+load(); applyLinkParams(); ensureProgramStart(); gameDailyCheck(); loadProfile(); loadSheetSettings(); renderHome(); renderItems(); renderDash(); renderGame(); renderDiag();
 </script>
 </body>
 </html>
