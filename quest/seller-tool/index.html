@@ -770,6 +770,11 @@
         <button class="btn ghost sm" onclick="document.getElementById('importFile').click()">JSON読み込み</button>
       </div>
     </div>
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">さいしょからやり直す</div>
+      <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">診断・相棒・記録などを<b style="color:var(--pinkd)">ぜんぶ消して、まっさらな状態</b>に戻します。デモや動作確認、他の人にわたす前などに使ってください。（消すと元にはもどせません）</div>
+      <button class="btn ghost sm" style="border-color:var(--pinkd);color:var(--pinkd)" onclick="resetAll()">最初からやり直す（ぜんぶ消す）</button>
+    </div>
   </section>
 
   <!-- ========== マイページ ========== -->
@@ -2581,6 +2586,11 @@ function exportJSON(){
   var url=URL.createObjectURL(blob), a=document.createElement("a");
   a.href=url; a.download="seller_tool_backup_"+today()+".json"; a.click();
   URL.revokeObjectURL(url); toast("JSONを書き出しました");
+}
+function resetAll(){
+  if(!confirm("診断・相棒・記録などをぜんぶ消して、最初からやり直します。よろしいですか？（元にはもどせません）"))return;
+  try{ localStorage.removeItem("seller_tool_v1"); }catch(e){}
+  location.reload();
 }
 function importJSON(e){
   var file=e.target.files[0]; if(!file) return;
