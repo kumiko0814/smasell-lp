@@ -153,12 +153,16 @@
   .tabbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
     background:var(--paper);border-top:1px solid var(--line);display:flex;z-index:20;
     padding-bottom:env(safe-area-inset-bottom);}
-  .tabbar button{flex:1;border:none;background:none;padding:9px 4px 8px;cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;gap:3px;font-family:inherit;color:var(--sub);}
-  .tabbar button .ic{width:22px;height:22px;}
-  .tabbar button .tl{font-size:10px;font-weight:700;}
+  .tabbar button{flex:1;border:none;background:none;padding:10px 3px 8px;cursor:pointer;position:relative;
+    display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;color:var(--sub);}
+  .tabbar button .ic{width:26px;height:26px;transition:transform .18s ease;}
+  .tabbar button .tl{font-size:9.5px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;}
   .tabbar button.on{color:var(--pinkd);}
-  .tabbar button.on svg{stroke:var(--pinkd);}
+  .tabbar button.on .ic{transform:translateY(-1px) scale(1.08);}
+  .tabbar button.on .ic svg{filter:drop-shadow(0 2px 5px rgba(189,120,134,.4));}
+  .tabbar button.on::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:24px;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,#F5A6C8,#B98BEA);}
+  /* 診断前などアイコンをそっと沈める（未診断のグレーアウトは使わない） */
 
   /* modal */
   .modal{position:fixed;inset:0;background:rgba(29,49,73,.5);display:none;align-items:flex-end;
@@ -558,10 +562,154 @@
   .box-tile .bt-nm{font-size:14px;font-weight:800;color:var(--navy);line-height:1.3;}
   .box-tile .bt-sub{font-size:10.5px;color:var(--sub);line-height:1.5;}
   .box-tile.wide{grid-column:1 / -1;flex-direction:row;align-items:center;}
+
+  /* ===== はじめての説明書（オンボーディング） ===== */
+  .intro-ov{position:fixed;inset:0;z-index:60;overflow-y:auto;display:none;
+    background:radial-gradient(120% 70% at 50% 0%,#fef4f7 0%,#fbe9ef 52%,#f1edf8 100%);}
+  .intro-ov.show{display:block;}
+  .intro-wrap{max-width:480px;margin:0 auto;padding:40px 24px 44px;min-height:100%;}
+  .intro-hero{text-align:center;margin-bottom:24px;}
+  .intro-fly{width:92px;height:92px;margin:0 auto 12px;display:block;filter:drop-shadow(0 8px 18px rgba(201,155,232,.38));}
+  .intro-eyebrow{font-size:12px;font-weight:800;color:var(--pinkd);letter-spacing:.16em;margin-bottom:8px;}
+  .intro-ttl{font-size:25px;font-weight:800;color:var(--navy);line-height:1.36;letter-spacing:.01em;}
+  .intro-ttl b{background:linear-gradient(90deg,#e07aaa,#9B5DE5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .intro-lead{font-size:13.5px;color:var(--ink);line-height:1.9;margin-top:14px;}
+  .intro-h{font-size:12px;font-weight:800;color:var(--pinkd);letter-spacing:.06em;margin:6px 2px 12px;
+    display:flex;align-items:center;gap:9px;}
+  .intro-h::before,.intro-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#e6c3d2,transparent);}
+  .intro-steps{display:flex;flex-direction:column;gap:12px;margin:0 0 26px;}
+  .istep{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+    border-radius:18px;padding:15px 15px;box-shadow:0 6px 18px rgba(150,90,95,.07);}
+  .istep .no{flex:none;width:26px;height:26px;border-radius:50%;color:#fff;font-size:13px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#F5A6C8,#B98BEA);margin-top:2px;}
+  .istep .ic{flex:none;width:38px;height:38px;}
+  .istep .bd{flex:1;}
+  .istep .bd .t{font-size:14.5px;font-weight:800;color:var(--navy);line-height:1.35;}
+  .istep .bd .s{font-size:12px;color:var(--sub);line-height:1.72;margin-top:3px;}
+  .intro-cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:none;cursor:pointer;
+    font-family:inherit;font-size:17px;font-weight:800;color:#fff;padding:17px;border-radius:16px;letter-spacing:.04em;
+    background:linear-gradient(135deg,#F5A6C8,#B98BEA);box-shadow:0 10px 24px rgba(155,93,229,.28);}
+  .intro-cta:active{transform:translateY(2px);}
+  .intro-note{text-align:center;font-size:11px;color:var(--sub);margin-top:13px;line-height:1.7;}
+
+  /* ===== ルーティン・セットアップ（目標出品数＋スタート日） ===== */
+  .rt-setup{background:var(--pinkbg);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:12px;}
+  .rt-setup-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;}
+  .rsu-l{display:flex;flex-direction:column;}
+  .rsu-t{font-size:13px;font-weight:800;color:var(--navy);}
+  .rsu-s{font-size:10.5px;color:var(--sub);margin-top:1px;}
+  .rsu-num{display:flex;align-items:center;gap:6px;}
+  .rsu-num button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--pinkd);font-size:18px;font-weight:800;cursor:pointer;line-height:1;}
+  .rsu-num button:active{transform:translateY(1px);}
+  .rsu-num input{width:46px;text-align:center;border:1px solid var(--line);border-radius:9px;padding:6px 2px;font-size:16px;font-weight:800;color:var(--navy);font-family:inherit;background:#fff;}
+  .rsu-unit{font-size:12px;font-weight:700;color:var(--sub);}
+  .rsu-date{border:1px solid var(--line);border-radius:9px;padding:8px 10px;font-size:14px;font-family:inherit;color:var(--navy);background:#fff;}
+  .rt-goal-hint{font-size:12px;color:var(--pinkd);font-weight:800;text-align:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;margin:4px 0;}
+  .rt-goal-hint b{font-size:15px;}
+
+  /* ===== くみこ本人からの応援（日替わり写真＋一言＋ボイス） ===== */
+  .home-morikumi{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(135deg,#ffffff,#fdf3f6);
+    border:1px solid var(--line);border-radius:18px;padding:14px;margin:4px 0 14px;box-shadow:0 6px 18px rgba(150,90,95,.07);}
+  .hm-photo{width:66px;height:66px;border-radius:16px;object-fit:cover;object-position:center 22%;flex:none;
+    border:2px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.08);background:#f0dde3;}
+  .hm-body{flex:1;min-width:0;}
+  .hm-name{font-size:11px;font-weight:800;color:var(--pinkd);margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+  .hm-name::before{content:"";width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#F5A6C8,#B98BEA);flex:none;}
+  .hm-quote{font-size:13px;color:var(--ink);line-height:1.72;font-weight:600;}
+  .hm-voice{margin-top:10px;}
+  .hm-voice .vlbl{font-size:10.5px;font-weight:800;color:var(--navy);margin-bottom:5px;display:flex;align-items:center;gap:6px;}
+  .hm-voice .vlbl .vdot{width:7px;height:7px;border-radius:50%;background:var(--pinkd);}
+  .hm-voice audio{width:100%;height:36px;}
+
+  /* ===== サボり暗転：30日プログラム画面ぜんぶをしっとり暗く（責めない・純赤NG） ===== */
+  /* 画面ぜんぶをしっとり暗く：ビューポート固定のネイビー薄幕（クリックは透過、タブバーの上には出ない） */
+  .home-dim-veil{position:fixed;left:50%;transform:translateX(-50%);top:0;bottom:56px;width:100%;max-width:480px;
+    background:linear-gradient(180deg,rgba(28,38,54,.5),rgba(34,30,42,.44));pointer-events:none;z-index:15;display:none;}
+  .home-dim-veil.show{display:block;}
+  #page-home.is-dim{position:relative;background:linear-gradient(160deg,#3a4655 0%,#443d4b 100%);
+    margin:-14px -16px 0;padding:14px 16px 30px;border-radius:0;}
+  #page-home.is-dim .home-hi,#page-home.is-dim .home-hi small{color:#eef3f8;}
+  #page-home.is-dim .home-morikumi{background:linear-gradient(135deg,#3f4b5b,#4a4350);border-color:#55606f;}
+  #page-home.is-dim .hm-quote{color:#eef3f8;}
+  #page-home.is-dim .hm-name{color:#f2c9d6;}
+  #page-home.is-dim .prog-wrap .pt-l,#page-home.is-dim .prog-wrap .pt-r{color:#e7edf3;}
+  .home-dimnote{display:flex;gap:11px;align-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+    border-radius:16px;padding:14px;margin:2px 0 14px;color:#f4e9ee;}
+  .home-dimnote .dn-ic{width:40px;height:40px;flex:none;}
+  .home-dimnote .dn-t{font-size:13.5px;font-weight:800;line-height:1.5;}
+  .home-dimnote .dn-s{font-size:11.5px;color:#cdd6e0;line-height:1.6;margin-top:3px;}
+
+  /* ===== タブ見出しの可愛いグラフィック ===== */
+  .tab-hero{display:flex;align-items:center;gap:13px;background:linear-gradient(135deg,#fdf0f5,#f3edfa);
+    border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin:2px 2px 16px;}
+  .tab-hero .th-ic{width:48px;height:48px;flex:none;filter:drop-shadow(0 4px 8px rgba(201,155,232,.28));}
+  .tab-hero .th-tx{font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.55;}
+  .tab-hero .th-tx small{display:block;font-size:11px;font-weight:700;color:var(--sub);margin-top:2px;}
+
+  /* ===== 修了証（30日そつぎょう） ===== */
+  .cert-wrap{background:linear-gradient(160deg,#fffdf7,#fdf4ee);border:2px solid var(--gold,#D9A441);border-radius:18px;
+    padding:22px 20px;position:relative;overflow:hidden;}
+  .cert-wrap::before{content:"";position:absolute;inset:6px;border:1px solid rgba(217,164,65,.4);border-radius:12px;pointer-events:none;}
+  .cert-badge{width:76px;height:76px;margin:0 auto 8px;display:block;}
+  .cert-ttl{text-align:center;font-size:20px;font-weight:800;color:#b8862d;letter-spacing:.14em;}
+  .cert-sub{text-align:center;font-size:11px;color:var(--sub);letter-spacing:.1em;margin-bottom:14px;}
+  .cert-name{text-align:center;font-size:17px;font-weight:800;color:var(--navy);margin-bottom:12px;}
+  .cert-name span{border-bottom:2px solid var(--gold,#D9A441);padding:0 14px 3px;}
+  .cert-stats{display:flex;justify-content:center;gap:8px;margin:0 0 14px;}
+  .cert-stat{flex:1;background:#fff;border:1px solid #f0e2c8;border-radius:12px;padding:9px 4px;text-align:center;}
+  .cert-stat .cv{font-size:19px;font-weight:800;color:#b8862d;line-height:1.1;}
+  .cert-stat .cl{font-size:9.5px;color:var(--sub);font-weight:700;margin-top:2px;}
+  .cert-msg{font-size:12.5px;color:var(--ink);line-height:1.85;background:#fff;border-radius:12px;padding:14px;border:1px solid #f0e2c8;}
+  .cert-sign{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:14px;}
+  .cert-sign .cs-nm{font-size:13px;font-weight:800;color:var(--navy);}
+  .cert-sign .cs-seal{width:40px;height:40px;border-radius:50%;border:2px solid #C25B3F;color:#C25B3F;
+    display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;transform:rotate(-8deg);text-align:center;line-height:1.1;}
 </style>
 </head>
 <body>
+
+<!-- ========== はじめての説明書（オンボーディング・初回のみ） ========== -->
+<div class="intro-ov" id="introScreen">
+  <div class="intro-wrap">
+    <div class="intro-hero">
+      <svg class="intro-fly" viewBox="0 0 96 96" fill="none"><defs><linearGradient id="flyG" x1="0" y1="0" x2="96" y2="96"><stop offset="0" stop-color="#F5A6C8"/><stop offset=".5" stop-color="#C99BE8"/><stop offset="1" stop-color="#8FC0EC"/></linearGradient></defs><path d="M48 82c-1.4-12-9.4-20-21.4-22C15 58 10 51 13.4 43.5c3-6.7 11-8.7 17-4.4C34.6 42 44 47.6 48 59c4-11.4 13.4-17 17.6-19.9 6-4.3 14-2.3 17 4.4C89 51 84 58 72.4 60c-12 2-20 10-21.4 22z" fill="url(#flyG)"/><circle cx="48" cy="24" r="7.4" fill="url(#flyG)"/><circle cx="44.5" cy="22.5" r="1.7" fill="#fff" opacity=".85"/></svg>
+      <div class="intro-eyebrow">Re:seller アシスタント</div>
+      <h1 class="intro-ttl">30日で、<b>出品が習慣</b>になる<br>あなただけの相棒アプリ</h1>
+      <p class="intro-lead">ひとりだと続かない出品も、この子と一緒なら大丈夫。<br>1分の診断からはじめて、まいにち1つずつ。<br>気づけば、出品があたりまえになっています☺</p>
+    </div>
+
+    <div class="intro-h">はじめかた</div>
+    <div class="intro-steps">
+      <div class="istep">
+        <div class="no">1</div>
+        <svg class="ic" viewBox="0 0 40 40" fill="none"><defs><linearGradient id="isE" x1="0" y1="0" x2="40" y2="40"><stop offset="0" stop-color="#F5A6C8"/><stop offset="1" stop-color="#C99BE8"/></linearGradient></defs><ellipse cx="20" cy="22" rx="12" ry="14.5" fill="url(#isE)"/><path d="M13 22c1.6 2 4.2 3.2 7 3.2s5.4-1.2 7-3.2" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="15.6" cy="18" r="1.5" fill="#fff"/><circle cx="24.4" cy="18" r="1.5" fill="#fff"/></svg>
+        <div class="bd"><div class="t">1分でタイプ診断</div><div class="s">かんたんな質問に答えるだけ。あなたのタイプの相棒（たまご）が生まれます。</div></div>
+      </div>
+      <div class="istep">
+        <div class="no">2</div>
+        <svg class="ic" viewBox="0 0 40 40" fill="none"><defs><linearGradient id="isH" x1="0" y1="0" x2="40" y2="40"><stop offset="0" stop-color="#F7B7A0"/><stop offset="1" stop-color="#E79BC0"/></linearGradient></defs><path d="M20 32c-.5-4-3.1-6.6-7-7.2-3.5-.6-5-3-4-5.6 1-2.2 3.6-2.8 5.6-1.4C16 19 19 21 20 24c1-3 4-5 5.4-6.2 2-1.4 4.6-.8 5.6 1.4 1 2.6-.5 5-4 5.6-3.9.6-6.5 3.2-7 7.2z" fill="url(#isH)"/></svg>
+        <div class="bd"><div class="t">専用ルーティン＆目標を決める</div><div class="s">あなたに合った続けやすい出品ペースと、30日間の目標出品数を設定します。</div></div>
+      </div>
+      <div class="istep">
+        <div class="no">3</div>
+        <svg class="ic" viewBox="0 0 40 40" fill="none"><defs><linearGradient id="isC" x1="0" y1="0" x2="40" y2="40"><stop offset="0" stop-color="#F5A6C8"/><stop offset="1" stop-color="#9FC8EC"/></linearGradient></defs><rect x="7" y="9" width="26" height="24" rx="5" fill="url(#isC)"/><path d="M7 15h26" stroke="#fff" stroke-width="2"/><path d="M13 6v6M27 6v6" stroke="url(#isC)" stroke-width="3" stroke-linecap="round"/><path d="M15 24l3.4 3.4L26 20" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <div class="bd"><div class="t">スタート日を決めてスタート</div><div class="s">はじめたい日を選ぶだけ。その日から30日プログラムがスタートします。</div></div>
+      </div>
+      <div class="istep">
+        <div class="no">4</div>
+        <svg class="ic" viewBox="0 0 40 40" fill="none"><defs><linearGradient id="isG" x1="0" y1="0" x2="40" y2="40"><stop offset="0" stop-color="#EFA8D0"/><stop offset="1" stop-color="#B98BEA"/></linearGradient></defs><circle cx="20" cy="20" r="13" fill="url(#isG)"/><path d="M14 21c1.4 1.8 3.6 2.8 6 2.8s4.6-1 6-2.8" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="15.8" cy="17" r="1.6" fill="#fff"/><circle cx="24.2" cy="17" r="1.6" fill="#fff"/><path d="M20 6c.6-1 2.2-1.1 2.8 0 .3.7 0 1.4-1.4 2.4-1.4-1-1.7-1.7-1.4-2.4z" fill="#fff" opacity=".6"/></svg>
+        <div class="bd"><div class="t">まいにち1つ、相棒が育つ</div><div class="s">ミッションや出品を続けると相棒が成長。サボると元気がなくなるので、まいにち会いにきてね。</div></div>
+      </div>
+    </div>
+
+    <button class="intro-cta" onclick="startFromIntro()">はじめる（1分の診断へ）&nbsp;▶</button>
+    <p class="intro-note">※あとから「マイページ」でいつでも見直せます</p>
+  </div>
+</div>
+
 <div class="app">
+  <!-- サボり暗転：画面ぜんぶを覆うネイビー薄幕（30日プログラムをサボった時だけ） -->
+  <div class="home-dim-veil" id="homeDimVeil"></div>
   <div class="hud">
     <div class="logo">30日集中フォローアッププログラム<small>Re:seller アシスタント</small></div>
     <div class="tools">
@@ -578,6 +726,12 @@
 
     <!-- 診断ファースト：診断がまだのとき、ここに「まず診断」カードを主役表示 -->
     <div id="homeDiagFirst"></div>
+
+    <!-- サボり暗転時のメッセージ -->
+    <div id="homeDimNote"></div>
+
+    <!-- くみこ本人からの応援（日替わり写真＋一言＋ボイス） -->
+    <div id="homeMorikumi"></div>
 
     <!-- 進捗 ◯/30 -->
     <div class="prog-wrap" id="homeProgWrap">
@@ -603,7 +757,11 @@
 
   <!-- ========== 道具箱（写真・出品・在庫・売上）＝入口ランチャー ========== -->
   <section class="page" id="page-box">
-    <div class="sec-title">道具箱<small>使いたいときに開く</small></div>
+    <div class="sec-title">出品サポート<small>使いたいときに開く</small></div>
+    <div class="tab-hero">
+      <svg class="th-ic" viewBox="0 0 48 48" fill="none"><defs><linearGradient id="crownG" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#F5A6C8"/><stop offset=".5" stop-color="#C99BE8"/><stop offset="1" stop-color="#8FC0EC"/></linearGradient></defs><path d="M8 34l-3-16 9 6 10-14 10 14 9-6-3 16z" fill="url(#crownG)"/><rect x="8" y="34" width="32" height="6" rx="3" fill="url(#crownG)"/><circle cx="24" cy="10" r="3" fill="url(#crownG)"/><circle cx="5" cy="18" r="2.4" fill="url(#crownG)"/><circle cx="43" cy="18" r="2.4" fill="url(#crownG)"/></svg>
+      <div class="th-tx">写真も、文章も、価格も。<small>この子がぜんぶおてつだいします☺</small></div>
+    </div>
     <div class="box-grid">
       <button type="button" class="box-tile" onclick="openWizard()">
         <div class="bt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#bd7886" stroke-width="1.8"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg></div>
@@ -720,7 +878,7 @@
 
   <!-- ========== 設定（基本情報）は下タブから ========== -->
   <section class="page" id="page-set">
-    <div class="sec-title">わたし<small>基本情報・タイプ診断</small></div>
+    <div class="sec-title">マイページ<small>基本情報・タイプ診断</small></div>
     <div class="card">
       <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:12px;">基本情報</div>
       <div class="field"><label>名前</label><input id="p-name" placeholder="山田 花子"></div>
@@ -735,6 +893,16 @@
       <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">あなたのタイプ診断<span style="color:var(--sub);font-weight:600;font-size:11px;margin-left:6px">1分・全12問</span></div>
       <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">かんたんな質問に答えると、あなたに合った続けやすい出品のペースとやり方（あなた専用ルーティーン）が出ます。いつでも受け直せます。</div>
       <div id="diagSetting"></div>
+    </div>
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">はじめかた・修了証</div>
+      <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">説明書をもう一度見たり、30日そつぎょうの修了証を確認できます。</div>
+      <button class="btn blue sm" onclick="openIntroAgain()" style="margin-bottom:8px">はじめかたをもう一度見る</button>
+      <button class="btn navy sm" onclick="openCert()">修了証をプレビュー</button>
+    </div>
+    <div class="card">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">同期ランキング<span style="color:var(--sub);font-weight:600;font-size:11px;margin-left:6px">仲間とゆるくつながる</span></div>
+      <div id="syncRank"></div>
     </div>
     <div class="card">
       <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">写真加工ツール</div>
@@ -780,6 +948,10 @@
   <!-- ========== マイページ ========== -->
   <section class="page" id="page-mypage">
     <div class="sec-title">記録<small>きろく・カレンダー・週報月報</small></div>
+    <div class="tab-hero">
+      <svg class="th-ic" viewBox="0 0 48 48" fill="none"><defs><linearGradient id="recG" x1="0" y1="0" x2="48" y2="48"><stop offset="0" stop-color="#F7B7A0"/><stop offset=".55" stop-color="#E79BC0"/><stop offset="1" stop-color="#B98BEA"/></linearGradient></defs><path d="M24 40c-.7-6-4.8-10-11-11-5.5-.9-8-4.8-6.4-9 1.6-4 6-4.6 9.4-1.8C18 20.5 22 24 24 29c2-5 6-8.5 8-10.6 3.4-2.8 7.8-2.2 9.4 1.8 1.6 4.2-.9 8.1-6.4 9-6.2 1-10.3 5-11 11z" fill="url(#recG)"/><path d="M18 26l3.6 3.6L30 21" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <div class="th-tx">がんばりは、ぜんぶ残ります。<small>きろくが増えるほど、相棒も育ちます🌱</small></div>
+    </div>
 
     <!-- プロフィールヘッダー -->
     <div class="mp-head">
@@ -846,23 +1018,23 @@
     </div>
   </section>
 
-  <!-- ========== bottom tabs（小学生語：今日／道具箱／記録／わたし）========== -->
+  <!-- ========== bottom tabs（30日プログラム／出品サポート／記録／マイページ）========== -->
   <nav class="tabbar">
     <button class="on" data-p="home" onclick="go('home')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg>
-      <span class="tl">今日</span>
+      <svg class="ic" viewBox="0 0 28 28" fill="none"><defs><linearGradient id="tabG1" x1="0" y1="0" x2="28" y2="28"><stop offset="0" stop-color="#F5A6C8"/><stop offset=".5" stop-color="#C99BE8"/><stop offset="1" stop-color="#8FC0EC"/></linearGradient></defs><path d="M14 24c-.4-3.6-2.8-6-6.4-6.6C4.4 16.9 3 14.7 4 12.4c.9-2 3.3-2.6 5.1-1.3C10.4 12 13 13.6 14 17c1-3.4 3.6-5 4.9-5.9 1.8-1.3 4.2-.7 5.1 1.3 1 2.3-.4 4.5-3.6 5-3.6.6-6 3-6.4 6.6z" fill="url(#tabG1)"/><circle cx="14" cy="7.2" r="2.3" fill="url(#tabG1)"/></svg>
+      <span class="tl">30日プログラム</span>
     </button>
     <button data-p="box" onclick="go('box')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg>
-      <span class="tl">道具箱</span>
+      <svg class="ic" viewBox="0 0 28 28" fill="none"><defs><linearGradient id="tabG2" x1="0" y1="0" x2="28" y2="28"><stop offset="0" stop-color="#F7B7A0"/><stop offset=".55" stop-color="#E79BC0"/><stop offset="1" stop-color="#B98BEA"/></linearGradient></defs><path d="M13.4 3.6 4.2 6.1c-.5.1-.8.5-.8 1l.3 9.3c0 .4.2.7.5 1l8.9 7.2c.5.4 1.2.4 1.7-.1l7.9-8.4c.4-.4.4-1 .1-1.5L17.4 4.1c-.3-.4-.7-.6-1.2-.6l-2.8.1z" fill="url(#tabG2)"/><circle cx="17.4" cy="9.1" r="1.9" fill="#fff"/></svg>
+      <span class="tl">出品サポート</span>
     </button>
     <button data-p="mypage" onclick="go('mypage')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+      <svg class="ic" viewBox="0 0 28 28" fill="none"><defs><linearGradient id="tabG3" x1="0" y1="0" x2="28" y2="28"><stop offset="0" stop-color="#F5A6C8"/><stop offset="1" stop-color="#9FC8EC"/></linearGradient></defs><path d="M6.5 4h11.2c.5 0 1 .2 1.4.6l3 3c.3.4.5.9.5 1.4V23a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 5.5 23V5A1 1 0 0 1 6.5 4z" fill="url(#tabG3)"/><path d="M9 11h10M9 15h10M9 19h6.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
       <span class="tl">記録</span>
     </button>
     <button data-p="set" onclick="go('set')">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#7d8794" stroke-width="1.8"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
-      <span class="tl">わたし</span>
+      <svg class="ic" viewBox="0 0 28 28" fill="none"><defs><linearGradient id="tabG4" x1="0" y1="0" x2="28" y2="28"><stop offset="0" stop-color="#EFA8D0"/><stop offset="1" stop-color="#B98BEA"/></linearGradient></defs><circle cx="14" cy="9.4" r="4.4" fill="url(#tabG4)"/><path d="M5.4 23.4c.3-4.6 4-7.4 8.6-7.4s8.3 2.8 8.6 7.4c0 .6-.4 1.1-1 1.1H6.4c-.6 0-1-.5-1-1.1z" fill="url(#tabG4)"/><path d="M14 6.9c.5-.9 2-1 2.5 0 .3.6 0 1.2-1.2 2.1-1.2-.9-1.6-1.5-1.3-2.1z" fill="#fff" opacity=".55"/></svg>
+      <span class="tl">マイページ</span>
     </button>
   </nav>
 </div>
@@ -1042,12 +1214,41 @@
     <div class="grab"></div>
     <h2>あなた専用の出品ルーティーン</h2>
     <div id="routineView"></div>
-    <div class="rt-edit" style="margin-top:6px">
+
+    <!-- セットアップ：目標出品数＋スタート日 -->
+    <div class="rt-setup">
+      <div class="rt-setup-row">
+        <div class="rsu-l"><span class="rsu-t">1日の出品目標</span><span class="rsu-s">むりのないペースでOK</span></div>
+        <div class="rsu-num">
+          <button type="button" onclick="rtStep(-1)">−</button>
+          <input id="rt-daily" type="number" min="1" max="10" value="1" inputmode="numeric" onchange="rtRecalc()" oninput="rtRecalc()">
+          <button type="button" onclick="rtStep(1)">＋</button>
+          <span class="rsu-unit">品</span>
+        </div>
+      </div>
+      <div class="rt-goal-hint">30日間の目標出品数は およそ <b id="rt-30">30</b> 品です☺</div>
+      <div class="rt-setup-row">
+        <div class="rsu-l"><span class="rsu-t">スタート日</span><span class="rsu-s">この日から30日プログラム開始</span></div>
+        <input id="rt-start" type="date" class="rsu-date">
+      </div>
+    </div>
+
+    <div class="rt-edit" style="margin-top:12px">
       <div class="field" style="margin-bottom:8px"><label>自由にメモ・書きかえOK（あなた仕様に）</label>
         <textarea id="rt-memo" placeholder="ここにメモを書けます"></textarea></div>
     </div>
-    <button class="btn navy" style="margin-top:6px" onclick="saveRoutine()">このルーティーンで保存<span style="font-weight:600;font-size:11px;opacity:.85;margin-left:6px">今日の目標にも反映</span></button>
-    <button class="close" onclick="closeModal('routineModal');renderHome()">閉じる</button>
+    <button class="btn navy" style="margin-top:6px" onclick="saveRoutine()">この内容で30日プログラムをはじめる<span style="font-weight:600;font-size:11px;opacity:.85;margin-left:6px">▶</span></button>
+    <button class="close" onclick="closeModal('routineModal');renderHome()">あとで</button>
+  </div>
+</div>
+
+<!-- 修了証（30日そつぎょう） -->
+<div class="modal" id="certModal">
+  <div class="sheet">
+    <div class="grab"></div>
+    <div id="certView"></div>
+    <button class="btn navy" style="margin-top:12px" onclick="window.print()">保存・印刷する</button>
+    <button class="close" onclick="closeModal('certModal')">閉じる</button>
   </div>
 </div>
 
@@ -1166,6 +1367,8 @@ function num(v){ v=parseFloat(v); return isNaN(v)?0:v; }
 /* タブ⇔ページの対応。道具箱の中の在庫/売上/下書きに入ったときは「道具箱」タブを点灯 */
 var PAGE_TAB = { home:"home", box:"box", stock:"box", dash:"box", help:"box", mypage:"mypage", set:"set" };
 function go(p){
+  // 暗転の薄幕は「30日プログラム」タブでだけ出す（他タブに移ったら消す）
+  var _veil=document.getElementById("homeDimVeil"); if(_veil && p!=="home") _veil.classList.remove("show");
   document.querySelectorAll(".page").forEach(function(el){el.classList.remove("active");});
   document.getElementById("page-"+p).classList.add("active");
   var activeTab = PAGE_TAB[p] || p;
@@ -1173,7 +1376,7 @@ function go(p){
   if(p==="home") renderHome();
   if(p==="dash") renderDash();
   if(p==="stock"){ renderItems(); renderAutoSaveBadge(); renderGame(); renderDiag(); }
-  if(p==="set") renderDiagSetting();
+  if(p==="set"){ renderDiagSetting(); renderSyncRank(); }
   if(p==="mypage") renderMypage();
   window.scrollTo(0,0);
 }
@@ -2499,17 +2702,46 @@ function openRoutine(){
       rt.steps.map(function(s){ return '<li><span class="rt-dot"></span><span>'+s+'</span></li>'; }).join("")+
     '</ul>';
   document.getElementById("rt-memo").value = rt.memo||"";
+  // セットアップ初期値：1日の出品目標＋スタート日
+  var dEl=document.getElementById("rt-daily"); if(dEl) dEl.value = rt.dailyTarget||1;
+  var sEl=document.getElementById("rt-start");
+  if(sEl){ ensureProgramStart(); sEl.min=today(); sEl.value=(state.program&&state.program.startDate)?state.program.startDate:today(); }
+  rtRecalc();
   openModal("routineModal");
+}
+/* 1日の出品目標を±で調整 */
+function rtStep(delta){
+  var el=document.getElementById("rt-daily"); if(!el) return;
+  var v=parseInt(el.value,10); if(isNaN(v)) v=1;
+  v=Math.max(1, Math.min(10, v+delta)); el.value=v; rtRecalc();
+}
+/* 30日間の目標出品数を再計算表示 */
+function rtRecalc(){
+  var el=document.getElementById("rt-daily"); var out=document.getElementById("rt-30"); if(!el||!out) return;
+  var v=parseInt(el.value,10); if(isNaN(v)||v<1) v=1; if(v>10) v=10;
+  out.textContent = v*30;
 }
 function saveRoutine(){
   if(!state.routine){ closeModal("routineModal"); return; }
   state.routine.memo = document.getElementById("rt-memo").value;
-  // dailyTarget を「今日の1品クエスト」/ goals の出品数目標に反映
-  applyRoutineToGoals(state.routine.dailyTarget);
+  // 1日の出品目標（編集値）を採用
+  var dEl=document.getElementById("rt-daily");
+  var daily=dEl?parseInt(dEl.value,10):state.routine.dailyTarget;
+  if(isNaN(daily)||daily<1) daily=1; if(daily>10) daily=10;
+  state.routine.dailyTarget=daily;
+  // 30日間の目標出品数を保存（プロフィールに保持）
+  if(!state.profile) state.profile={};
+  state.profile.targetListings = daily*30;
+  // スタート日を確定（選んだ日から30日プログラム開始）
+  var sEl=document.getElementById("rt-start");
+  ensureProgramStart();
+  if(sEl && sEl.value){ state.program.startDate = sEl.value; }
+  // dailyTarget を goals の出品数目標に反映
+  applyRoutineToGoals(daily);
   save();
   closeModal("routineModal");
   renderGame(); renderDash(); renderDiag(); renderHome();
-  toast("ルーティーンを保存＋今日の目標に反映したよ");
+  toast("目標とスタート日を保存しました☺ 30日プログラム開始！");
 }
 /* dailyTarget→今月の goals.listed（未設定のときだけ月換算で埋める。既存目標は上書きしない）。 */
 function applyRoutineToGoals(dailyTarget){
@@ -3227,6 +3459,126 @@ function programEval(formula, vars){
 }
 
 /* ============ 今日（ホーム）描画 ============ */
+/* ===== くみこ本人からの応援：日替わり写真＋一言＋Day別ボイス（reche-30日から移植） ===== */
+var MORIKUMI_LINES=[
+  "困っていることがあったら、どんな内容でも遠慮なく言ってくださいね。引いたりしませんから☺",
+  "周りがなんと言おうと、「自分がどうありたいか」が一番大切です。",
+  "うまくできなくても、やってみたいなら挑戦してみましょう。執着せず、ワクワクを大切に。",
+  "結果が出なくても、「やってみた」という経験はちゃんと残ります。",
+  "発想を逆転して、みんながやらないことをやってみましょう。",
+  "モチベーションに頼らなくて大丈夫です。歯磨きのように、習慣にしてしまいましょう。",
+  "価値観を変えないと、結果は変わりません。",
+  "今までと違う自分になりたいなら、今までと違う選択を。",
+  "何のために稼ぎたいのか。目的を見失わないでくださいね。",
+  "1つでいいので、自分の“異常値”をつくってみましょう。",
+  "「知っている」と「できる」は違います。まずは素直にやってみましょう。",
+  "大丈夫、伸びますよ。続けた人から、ちゃんと変わっていきます。",
+  "すべては自分次第です。人のせいにしないと決めた瞬間、変われます。",
+  "できたことに目を向けてみてください。あなたはちゃんと前に進んでいます。",
+  "出ましたね、不安おばけ。そんな時は、目標を見直してみましょう。",
+  "1日30分でいいんです。それだけで、未来は変わっていきますよ。",
+  "白黒つけなくて大丈夫です。グレーもOK。自分を許してあげてくださいね。",
+  "あれこれ手を出すより、ひとつをやり抜きましょう。",
+  "メンタル＞継続＞結果。まずは、続けることから。",
+  "与える人になりましょう。あなたの一言が、誰かを動かします。",
+  "行動の基準値を、少しだけ上げてみましょう。",
+  "大切なのは“モノの価値”ではなく、どう価値をつけるか、です。",
+  "ここは物販を教えるだけの場所ではありません。いつでも帰ってきていい場所です。",
+  "お金を稼ぐ動機は、多いほど続きます。たくさん持っておきましょう。",
+  "Re:＝何度でもやり直せる、という意味です。人生だって、何度でも。",
+  "「逃げたい」が出てきたら、少し立ち止まっても大丈夫。それは頑張っている証です。",
+  "悩んでいても1円にもなりません。まず、動いてみましょう☺",
+  "「どんな人から買いたいですか？」その視点が、あなたを変えます。",
+  "負け癖をつけないこと。あなたなら、できます。",
+  "今日が一番若い日です。今日やらなくて、いつやりますか？"
+];
+function pad2(n){ return ("0"+n).slice(-2); }
+function renderHomeMorikumi(day){
+  var el=document.getElementById("homeMorikumi"); if(!el) return;
+  var d=Math.max(1, Math.min(30, day||1));
+  var photo="assets/morikumi/day"+pad2(d)+".png";
+  var quote=MORIKUMI_LINES[(d-1)%MORIKUMI_LINES.length];
+  var voice="assets/voice/day"+pad2(d)+".m4a";
+  el.innerHTML=
+    '<div class="home-morikumi">'+
+      '<img class="hm-photo" src="'+photo+'" alt="森川くみこ" loading="lazy" onerror="this.style.visibility=\'hidden\'">'+
+      '<div class="hm-body">'+
+        '<div class="hm-name">森川くみこ より</div>'+
+        '<div class="hm-quote">'+esc(quote)+'</div>'+
+        '<div class="hm-voice">'+
+          '<div class="vlbl"><span class="vdot"></span>今日の音声メッセージ ｜ Day '+d+'</div>'+
+          '<audio controls preload="none" src="'+voice+'"></audio>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+}
+/* サボり暗転時のメッセージ（責めず、光の戻し方を伝える） */
+function renderHomeDimNote(dim){
+  var el=document.getElementById("homeDimNote"); if(!el) return;
+  if(!dim){ el.innerHTML=""; return; }
+  el.innerHTML=
+    '<div class="home-dimnote">'+
+      '<svg class="dn-ic" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" fill="#5a6474"/><path d="M14 22c1.4 1.4 3.6 2.2 6 2.2s4.6-.8 6-2.2" stroke="#cdd6e0" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="15.6" cy="17.5" r="1.5" fill="#cdd6e0"/><circle cx="24.4" cy="17.5" r="1.5" fill="#cdd6e0"/></svg>'+
+      '<div><div class="dn-t">相棒が元気をなくしています…</div>'+
+      '<div class="dn-s">今日のミッションを1つ、または出品を1つ終えると、<br>画面に光が戻って相棒もまた元気になりますよ☺</div></div>'+
+    '</div>';
+}
+
+/* ===== 修了証（30日そつぎょう・reche-30日から移植） ===== */
+function certDoneCount(){ return (state.program && state.program.cleared) ? state.program.cleared.length : 0; }
+function certGoalText(){
+  try{
+    var sub=state.program.submissions||{};
+    var v=sub[3]||sub["3"]||"";
+    if(typeof v==="object"&&v) v=v.value||v.text||"";
+    return (typeof v==="string")? v.trim() : "";
+  }catch(e){ return ""; }
+}
+function buildCertMessage(){
+  var nm=(state.profile && state.profile.name)? state.profile.name : "あなた";
+  var done=certDoneCount(), streak=(state.game&&state.game.streak)||0;
+  var goal=certGoalText();
+  var m = nm+"さんへ。\n\n30日間、本当におつかれさまでした。まいにち相棒に会いにきて、"+done+"個のミッションをやり遂げましたね。";
+  if(streak>=3) m += "とちゅうで"+streak+"日つづけて走れた日もありました。";
+  if(goal) m += "\n\nスタートのとき、あなたはこう書いていました。「"+ (goal.length>40? goal.slice(0,40)+"…" : goal) +"」。その気持ちは、ちゃんと形になりはじめています。";
+  m += "\n\nここは、物販を教えるだけの場所ではありません。あなたが「わたしにもできる」と思えた、その一歩こそが宝物です。これからも、あなたのペースで。いつでも帰ってきていいですからね☺";
+  return m;
+}
+/* 同期ランキング（reche-30日から移植・仲間の記録がそろうと表示） */
+function renderSyncRank(){
+  var el=document.getElementById("syncRank"); if(!el) return;
+  var done=certDoneCount();
+  var pts=(state.program&&state.program.points)||0;
+  el.innerHTML=
+    '<div style="display:flex;gap:8px;margin-bottom:10px">'+
+      '<div class="cert-stat" style="flex:1;border-color:var(--line)"><div class="cv" style="color:var(--pinkd)">'+done+'</div><div class="cl">やりとげた日</div></div>'+
+      '<div class="cert-stat" style="flex:1;border-color:var(--line)"><div class="cv" style="color:var(--pinkd)">'+pts+'</div><div class="cl">ポイント</div></div>'+
+    '</div>'+
+    '<div class="note">同じ時期にはじめた仲間の記録がそろうと、ここにランキングが表示されます。<br>まずは、あなたのペースで今日の一歩を♡</div>';
+}
+function openCert(){
+  var nm=(state.profile && state.profile.name)? state.profile.name : "あなた";
+  var done=certDoneCount();
+  var streak=(state.game&&state.game.streak)||0;
+  var badges=(state.game&&state.game.badges)? state.game.badges.length : 0;
+  var sp=(state.game&&state.game.species)||"amiable";
+  document.getElementById("certView").innerHTML=
+    '<div class="cert-wrap">'+
+      '<div class="cert-badge">'+buddySVG("grown", sp, "happy", 76)+'</div>'+
+      '<div class="cert-ttl">修 了 証</div>'+
+      '<div class="cert-sub">CERTIFICATE OF COMPLETION</div>'+
+      '<div class="cert-name"><span>'+esc(nm)+' さん</span></div>'+
+      '<div class="cert-stats">'+
+        '<div class="cert-stat"><div class="cv">'+done+'</div><div class="cl">やりとげた日</div></div>'+
+        '<div class="cert-stat"><div class="cv">'+streak+'</div><div class="cl">最高連続</div></div>'+
+        '<div class="cert-stat"><div class="cv">'+badges+'</div><div class="cl">あつめたバッジ</div></div>'+
+      '</div>'+
+      '<div class="cert-msg">'+esc(buildCertMessage()).replace(/\n/g,"<br>")+'</div>'+
+      '<div class="cert-sign"><span class="cs-nm">森川 くみこ</span><span class="cs-seal">修了<br>認定</span></div>'+
+    '</div>';
+  openModal("certModal");
+}
+
 /* 診断ファースト：診断がまだのユーザーは、今日のミッションではなく
    「まず、あなたのタイプを知ろう」を主役表示し、診断に集中してもらう。 */
 function renderHome(){
@@ -3238,6 +3590,9 @@ function renderHome(){
   if(!diagDone){
     // 診断まだ：進捗・ミッション・LINE導線などは出さず、診断カードだけに集中させる
     showEls(false);
+    var ph0=document.getElementById("page-home"); if(ph0) ph0.classList.remove("is-dim");
+    var mk0=document.getElementById("homeMorikumi"); if(mk0) mk0.innerHTML="";
+    var dn0=document.getElementById("homeDimNote"); if(dn0) dn0.innerHTML="";
     var nm = (state.profile && state.profile.name) ? state.profile.name : "";
     document.getElementById("homeHi").innerHTML =
       (nm? esc(nm)+"さん、ようこそ" : "ようこそ")+
@@ -3261,6 +3616,13 @@ function renderHome(){
     (nm? esc(nm)+"さん、こんにちは" : "こんにちは")+
     "<small>30日集中フォローアッププログラム "+(elapsed+1)+"日目・まいにち1つずつでOKです</small>";
   renderHomeAutoSaveBadge();
+  // サボり暗転（2日以上サボり＝相棒sleepy）を30日プログラム画面ぜんぶに適用
+  var dim = !!(state.game && state.game.mood==="sleepy");
+  var ph=document.getElementById("page-home"); if(ph) ph.classList.toggle("is-dim", dim);
+  var veil=document.getElementById("homeDimVeil"); if(veil) veil.classList.toggle("show", dim);
+  renderHomeDimNote(dim);
+  // くみこ本人の日替わり応援（写真＋一言＋Day別ボイス）
+  renderHomeMorikumi(Math.max(1, Math.min(PROGRAM_TOTAL, elapsed+1)));
   renderHomeWelcome();
   renderMissionCard();
   renderHomeBuddy();
@@ -3330,6 +3692,7 @@ function renderMissionCard(){
         '<div class="mission done-today">'+
           '<div class="m-clear"><div class="mc-check">🎓</div><div class="mc-txt">30日プログラム、ぜんぶ達成！<small>本当におつかれさまでした</small></div></div>'+
           '<div class="m-title" style="font-size:17px">つぎの3ヶ月も、あなたのペースで。</div>'+
+          '<button class="m-cta" onclick="openCert()">🎓 修了証を受け取る</button>'+
           '<button class="m-cta sub" onclick="openMission('+PROGRAM_TOTAL+')">Day30をもう一度ひらく</button>'+
         '</div>';
     } else {
@@ -3604,7 +3967,15 @@ function programSideEffects(def){
 }
 
 /* ============ init ============ */
+/* ===== はじめての説明書（オンボーディング） ===== */
+function showIntro(){ var el=document.getElementById("introScreen"); if(el) el.classList.add("show"); window.scrollTo(0,0); }
+function hideIntro(){ var el=document.getElementById("introScreen"); if(el) el.classList.remove("show"); }
+function startFromIntro(){ try{ state.introSeen=true; save(); }catch(e){} hideIntro(); startDiagnosis(); }
+function openIntroAgain(){ showIntro(); }
+
 load(); applyLinkParams(); ensureProgramStart(); gameDailyCheck(); loadProfile(); loadSheetSettings(); renderHome(); renderItems(); renderDash(); renderGame(); renderDiag();
+/* 初回（診断まだ＆説明書を見ていない）だけ、説明書を主役表示 */
+if(!state.diagnosis && !state.introSeen){ showIntro(); }
 </script>
 </body>
 </html>
