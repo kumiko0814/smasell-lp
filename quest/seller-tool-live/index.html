@@ -696,6 +696,10 @@
   .ke-nudge-tag{background:#f2fbf4;border:1px solid #cdeccf;color:#33604a;}
   .ke-nudge-tag b{color:#2e7d52;}
   .ke-nudge-tag u{text-decoration-color:#8cd0a4;}
+  .ke-mkt.ke-mkt-ff{background:linear-gradient(135deg,#5f97be,#3f6f92);}
+  .ke-research{background:#fff7ea;border:1px solid #f0dcb8;border-radius:11px;padding:11px 13px;margin:0 0 10px;font-size:12px;line-height:1.7;color:var(--ink);}
+  .ke-research b{color:#b8862d;}
+  .ke-research u{text-decoration-color:#e0b74a;}
 </style>
 </head>
 <body>
@@ -1885,7 +1889,38 @@ var MERO_KE = (function(){
       cats:{ "ダウン":[13250,24000] },
       triv:["ダウンベストは控えめ、薄手ダウンジャケットが動きやすい価格帯。"],
       blurb:"実用アウトドアの定番。回転しやすい価格帯。",
-      year:"none", auth:"ロゴ刺繍・タグ・ジップを確認。" }
+      year:"none", auth:"ロゴ刺繍・タグ・ジップを確認。" },
+    /* ===== ファストファッション：cats は「メルカリ中古"実売"相場」[安値,高値]（落札相場ではない） ===== */
+    { key:"UNIQLO", re:/uniqlo|ユニクロ/i, disp:"UNIQLO / ユニクロ", val:0, sell:true,
+      cats:{ "Tシャツ":[400,900],"パーカー":[600,1600],"ニット":[600,1600],"パンツ":[600,1500],"ワンピース":[700,2000],"コート":[1200,4000],"ダウン":[1500,5000],"シャケット":[800,2500] },
+      triv:["ユニクロは回転が命。相場（¥300〜1,000前後）で最初から出すのが早いです。コラボ(+J/UT人気柄/ルメール)は高くなることがあります。"],
+      blurb:"定番で探す人が多く回転しやすい。基本は相場どおりの値付けで数を回すのが正解。",
+      year:"none", auth:"タグの品質表示（2016年12月〜=絵表示のみ）で年代の目安に。" },
+    { key:"GU", re:/(^|[^a-z])gu([^a-z]|$)|ジーユー/i, disp:"GU / ジーユー", val:0, sell:true,
+      cats:{ "Tシャツ":[300,700],"ニット":[400,1200],"パンツ":[400,1200],"ワンピース":[500,1500],"コート":[800,2500] },
+      triv:["GUは単価が低いので、送料と手数料で赤字にならないラインを死守。まとめ売りも有効です。"],
+      blurb:"プチプラの代表。低単価なので回転・まとめ売り前提で。",
+      year:"none", auth:"品質表示タグで年代の目安。" },
+    { key:"MUJI", re:/無印|muji/i, disp:"無印良品 / MUJI", val:0, sell:true,
+      cats:{ "Tシャツ":[400,900],"ニット":[600,1600],"パンツ":[600,1500],"ワンピース":[700,1800],"コート":[1000,3000] },
+      triv:["無印はシンプル人気。素材（オーガニックコットン等）を書くと刺さります。"],
+      blurb:"シンプル好きに安定需要。素材訴求が効く。",
+      year:"none", auth:"品質表示タグで年代の目安。" },
+    { key:"ZARA", re:/zara|ザラ/i, disp:"ZARA / ザラ", val:1, sell:true,
+      cats:{ "Tシャツ":[500,1200],"ニット":[700,1800],"パンツ":[700,1800],"ワンピース":[800,2500],"コート":[1500,4000],"シャケット":[1000,3000] },
+      triv:["ZARAはトレンド命。旬のデザイン・完売品は高くなります。型落ちは早めに。"],
+      blurb:"トレンドに敏感な層に人気。旬・完売デザインはプレミア、型落ちは回転重視。",
+      year:"none", auth:"品質表示タグで年代の目安。" },
+    { key:"HM", re:/h&m|h＆m|エイチアンドエム/i, disp:"H&M", val:0, sell:true,
+      cats:{ "Tシャツ":[300,700],"ニット":[400,1200],"ワンピース":[500,1500],"コート":[800,2500] },
+      triv:["H&Mは低単価。デザイナーコラボ(当時話題の回)は例外的に高いことがあります。"],
+      blurb:"プチプラ。基本は回転・まとめ売り、コラボは要リサーチ。",
+      year:"none", auth:"品質表示タグで年代の目安。" },
+    { key:"SHIMAMURA", re:/しまむら|shimamura/i, disp:"しまむら", val:0, sell:true,
+      cats:{ "Tシャツ":[300,600],"ニット":[400,900],"ワンピース":[400,1000] },
+      triv:["しまむらは単価が低いので、まとめ売りや送料込みの採算を最優先に。"],
+      blurb:"超プチプラ。単品より、まとめ売りで手残りを作る。",
+      year:"none", auth:"品質表示タグで年代の目安。" }
   ];
   var HIGH_KW = [
     {re:/ミンク|ファー|フォックス|毛皮|ムートン/,label:"高級ファー/毛皮"},
@@ -1906,9 +1941,17 @@ var MERO_KE = (function(){
   function norm(s){ return (s||"").toString(); }
   function detectBrand(text){ text=norm(text); for(var i=0;i<B.length;i++){ if(B[i].re.test(text)) return B[i]; } return null; }
   function detectCat(text){ text=norm(text); for(var i=0;i<CAT_RE.length;i++){ if(CAT_RE[i][1].test(text)) return CAT_RE[i][0]; } return ""; }
-  function marketFor(brand,cat){ if(!brand||!brand.cats) return null; if(cat&&brand.cats[cat]) return {cat:cat,avg:brand.cats[cat][0],max:brand.cats[cat][1]};
-    // カテゴリ不明ならそのブランドの中央的な相場を返す
-    var ks=Object.keys(brand.cats); if(!ks.length) return null; var k=ks[0]; return {cat:k,avg:brand.cats[k][0],max:brand.cats[k][1]}; }
+  /* 送料の目安（サイズ別）：Tシャツ等の薄手=ネコポス215、標準=380、大物/バッグ=700 */
+  function shipFor(cat){ cat=norm(cat);
+    if(/コート|ダウン|ジャケット|シャケット|ブルゾン|バッグ|ブーツ|セットアップ|スーツ/.test(cat)) return 700;
+    if(/靴|パンプス|サンダル|スニーカー|パンツ|スカート|ワンピース|ニット|セーター|パーカー/.test(cat)) return 380;
+    return 215; }
+  /* 相場参照。kind="sell"＝メルカリ実売相場(ファストファッション)、"buy"＝落札(仕入れ)相場(ハイブランド) */
+  function marketFor(brand,cat){ if(!brand||!brand.cats) return null;
+    var kind = brand.sell? "sell":"buy";
+    var pick=function(k){ return {cat:k, kind:kind, a:brand.cats[k][0], b:brand.cats[k][1]}; };
+    if(cat&&brand.cats[cat]) return pick(cat);
+    var ks=Object.keys(brand.cats); if(!ks.length) return null; return pick(ks[0]); }
   function highValue(brand,text){ var reasons=[]; var lvl=0;
     if(brand){ lvl+=brand.val; if(brand.val>=3) reasons.push(brand.disp.split(" / ")[0]+"は高値ブランド"); }
     for(var i=0;i<HIGH_KW.length;i++){ if(HIGH_KW[i].re.test(norm(text))){ reasons.push(HIGH_KW[i].label); lvl+=1; } }
@@ -1943,15 +1986,16 @@ var MERO_KE = (function(){
     }
     return null;
   }
-  // 仕入れ値→利益率30-40%の出品価格（手取り=売価*0.9-送料700-仕入れ）
-  function pricePlan(cost){ cost=parseFloat(cost)||0; if(cost<=0) return null;
-    var sell = function(rate){ return Math.round(((cost+700)/(0.9-rate))/100)*100; };
+  // 採算ライン：手取り=売価*0.9-送料(cat)-仕入れ が 利益率rate 以上になる"最低"売価。原価積み上げは目標でなく下限。
+  function pricePlan(cost,cat){ cost=parseFloat(cost)||0; if(cost<=0) return null;
+    var ship=shipFor(cat);
+    var sell = function(rate){ return Math.round(((cost+ship)/(0.9-rate))/100)*100; };
     var s30=sell(0.30), s40=sell(0.40);
-    return { cost:cost, sell30:s30, sell40:s40, list30:s30*2, list40:s40*2 }; }
-  // 相場(=仕入れ落札平均)から想定出品レンジ
-  function sellFromMarket(avg){ if(!avg) return null; var pp=pricePlan(avg); return pp? {buy:avg, sell30:pp.sell30, sell40:pp.sell40}:null; }
+    return { cost:cost, ship:ship, sell30:s30, sell40:s40, list30:s30*2, list40:s40*2 }; }
+  // 落札(仕入れ)相場から、その値で仕入れた場合の想定実売
+  function sellFromMarket(avg,cat){ if(!avg) return null; var pp=pricePlan(avg,cat); return pp? {buy:avg, sell30:pp.sell30, sell40:pp.sell40}:null; }
   return { detectBrand:detectBrand, detectCat:detectCat, marketFor:marketFor, highValue:highValue,
-           estYear:estYear, pricePlan:pricePlan, sellFromMarket:sellFromMarket, brands:B };
+           estYear:estYear, pricePlan:pricePlan, sellFromMarket:sellFromMarket, shipFor:shipFor, brands:B };
 })();
 
 /* ============ おたすけライト君（ルールベース＋知識エンジン） ============ */
@@ -2014,6 +2058,14 @@ function buildDraft(inp){
   var keHV    = MERO_KE.highValue(keBrand, allText);
   var keTriv  = (keBrand && keBrand.triv && keBrand.triv.length) ? keBrand.triv[ name.length % keBrand.triv.length ] : "";
 
+  // 価格は「市場相場」を主役に。原価積み上げの暴走を防ぎ、採算下限だけは割らない。
+  if(keMkt){
+    if(keMkt.kind==="sell"){ base=Math.round(((keMkt.a+keMkt.b)/2)/100)*100; fast=keMkt.a; high=keMkt.b; }
+    else { var _sm=MERO_KE.sellFromMarket(keMkt.a, keCat); if(_sm){ base=_sm.sell30; fast=Math.round(base*0.85/100)*100; high=_sm.sell40; } }
+    var _fl=MERO_KE.pricePlan(cost, keCat);
+    if(_fl && cost>0 && base<_fl.sell30){ base=_fl.sell30; belowCost=true; }
+  }
+
   // 説明文に必ずブランド知識・年式・真贋を入れる
   if(keBrand){
     desc += "\n\n━━━━━━━━\n【このブランドについて】\n"+keBrand.blurb;
@@ -2046,7 +2098,7 @@ function priceFloor(cost){
   return Math.ceil(p/100)*100;
 }
 /* 手取り目安: 売値 - 手数料10% - 送料700 - 仕入れ値（runPrice の profit() を踏襲） */
-function estTake(price, cost){ return Math.round(num(price)*0.9 - 700 - num(cost)); }
+function estTake(price, cost, cat){ var ship=(typeof MERO_KE!=="undefined" && MERO_KE.shipFor)? MERO_KE.shipFor(cat) : 700; return Math.round(num(price)*0.9 - ship - num(cost)); }
 
 /* --- 下書きタブ（おたすけ君と同ロジック） --- */
 var lastGen=null;
@@ -2066,7 +2118,7 @@ function runGen(){
     caretag: ctEl? ctEl.value : ""
   });
   lastGen = d;
-  var take = estTake(d.price, d.cost);
+  var take = estTake(d.price, d.cost, d.keCat||d.cat);
   var out=document.getElementById("genOut");
   out.style.display="block";
   out.innerHTML =
@@ -2095,24 +2147,40 @@ function keHotBanner(d){
     '<div class="ke-hot-note">相場を確認して、強気の価格でいきましょう！</div>'+
     '</div>';
 }
-/* 相場（YBA落札=仕入れ相場）＋ 利益率30-40%の出品価格 */
+/* 相場ブロック：市場価格を主役に。原価積み上げは"採算ライン(下限)"に降格。相場データが無ければリサーチ手順を案内 */
 function keMarketBlock(d){
   var html="";
-  var b=d.keBrand;
-  if(b && d.keMkt){
-    var m=d.keMkt;
-    html += '<div class="g-lbl">相場のめやす（'+esc(b.disp.split(" / ")[0])+'・'+esc(m.cat)+'）</div>'+
-      '<div class="ke-mkt"><span>YBA落札(仕入れ)平均 <b>'+yen(m.avg)+'</b></span><span>最高 '+yen(m.max)+'</span></div>';
-    // 相場から想定出品レンジ（この相場で仕入れた場合）
-    var sm=MERO_KE.sellFromMarket(m.avg);
-    if(sm) html += '<div class="ke-mkt-sell">この相場で仕入れたら → メルカリ実売 <b>'+yen(sm.sell30)+'〜'+yen(sm.sell40)+'</b>（利益率30〜40%）</div>';
+  var b=d.keBrand, m=d.keMkt;
+  var cat=d.keCat||d.cat||"";
+  var pp=MERO_KE.pricePlan(d.cost, cat);
+  if(b && m){
+    if(m.kind==="sell"){
+      // ファストファッション等：メルカリ実売相場が主役
+      html += '<div class="g-lbl">メルカリ中古相場（'+esc(b.disp.split(" / ")[0])+'・'+esc(m.cat)+'）</div>'+
+        '<div class="ke-mkt ke-mkt-ff"><span>実売のめやす</span><span><b>'+yen(m.a)+'〜'+yen(m.b)+'</b></span></div>'+
+        '<div class="ke-mkt-sell">まず高め <b>'+yen(m.b)+'</b> で出して、セール・100円値下げで <b>'+yen(m.a)+'</b> まで。低単価は回転重視で。</div>';
+    } else {
+      // ハイブランド：落札(仕入れ)相場→想定実売
+      html += '<div class="g-lbl">相場のめやす（'+esc(b.disp.split(" / ")[0])+'・'+esc(m.cat)+'）</div>'+
+        '<div class="ke-mkt"><span>YBA落札(仕入れ)平均 <b>'+yen(m.a)+'</b></span><span>最高 '+yen(m.b)+'</span></div>';
+      var sm=MERO_KE.sellFromMarket(m.a, cat);
+      if(sm) html += '<div class="ke-mkt-sell">この相場で仕入れたら → メルカリ実売 <b>'+yen(sm.sell30)+'〜'+yen(sm.sell40)+'</b>（利益率30〜40%）</div>';
+    }
+  } else if(!b){
+    // 相場データなし：適当な数字を出さず、リサーチ手順を案内
+    var kw=(d.brand||d.name||"").toString().split(/\s+/).slice(0,3).join(" ");
+    html += '<div class="ke-research"><b>📊 相場は自分でリサーチしてね</b><br>'+
+      'メルカリで <b>「'+esc(kw||"ブランド 商品名")+'」＋売り切れ＋新しい順</b> で検索し、同じ状態の<u>上限・下限</u>を確認。'+
+      'ノーブランド／ファストファッション等は、自動見積りより実データが正確です。</div>';
   }
-  // 仕入れ値を入れていれば、その値からの出品価格
-  var pp=MERO_KE.pricePlan(d.cost);
+  // 採算ライン（下限）：赤字回避のための最低売価。目標ではなく"これ以上で"。
   if(pp){
-    html += '<div class="g-lbl">あなたの仕入れ '+yen(pp.cost)+' からの出品価格</div>'+
-      '<div class="ke-price"><div>実売ねらい <b>'+yen(pp.sell30)+'〜'+yen(pp.sell40)+'</b>（利益率30〜40%）</div>'+
-      '<div class="ke-price-list">掲載価格は <b>'+yen(pp.list30)+'〜'+yen(pp.list40)+'</b> で出して、セール・交渉で実売へ（掲載＝実売×2の運用）</div></div>';
+    var warn = (b && m && m.kind==="sell" && m.a < pp.sell30);
+    html += '<div class="g-lbl">採算ライン（仕入れ '+yen(pp.cost)+'・送料めやす'+yen(pp.ship)+'）</div>'+
+      '<div class="ke-price"><div>これ<b>以上</b>で売れば利益率30〜40% → <b>'+yen(pp.sell30)+'〜'+yen(pp.sell40)+'</b></div>'+
+      (warn? '<div class="ke-price-list" style="color:var(--pinkd);font-weight:700">⚠ 相場の安値側が採算ラインを下回ります。'+yen(pp.sell30)+'以上を狙うか、まとめ売り／損切りの判断を。</div>'
+           : '<div class="ke-price-list">相場がこれより高ければ、その差が上乗せ利益。掲載は高めスタート→セールで着地。</div>')+
+      '</div>';
   }
   return html;
 }
@@ -2227,7 +2295,7 @@ function wizTitleLen(){
   document.getElementById("wzTitleLen").textContent="（"+v.length+"字/40）";
 }
 function wizTake(){
-  var take=estTake(document.getElementById("wz-price").value, wizDraft?wizDraft.cost:0);
+  var take=estTake(document.getElementById("wz-price").value, wizDraft?wizDraft.cost:0, wizDraft?(wizDraft.keCat||wizDraft.cat):document.getElementById("wz-cat").value);
   var el=document.getElementById("wz-take");
   el.value=yen(take);
   el.style.color = take<0? "var(--pinkd)":"var(--navy)";
@@ -2240,7 +2308,7 @@ function wizRenderConfirm(){
   var price=num(document.getElementById("wz-price").value);
   var cond=document.getElementById("wz-cond").value;
   var cat=document.getElementById("wz-cat").value.trim();
-  var take=estTake(price, wizDraft?wizDraft.cost:0);
+  var take=estTake(price, wizDraft?wizDraft.cost:0, cat);
   var thumb=wizPhoto? '<img src="'+wizPhoto+'" style="width:72px;height:72px;object-fit:cover;border-radius:12px;border:1px solid var(--line)">'
     : '<div style="width:72px;height:72px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:10px">写真なし</div>';
   document.getElementById("wizConfirm").innerHTML=
