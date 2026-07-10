@@ -665,15 +665,29 @@
   .cert-sign .cs-seal{width:40px;height:40px;border-radius:50%;border:2px solid #C25B3F;color:#C25B3F;
     display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;transform:rotate(-8deg);text-align:center;line-height:1.1;}
 
-  /* ===== 体験リンクの有効期限（3日間限定） ===== */
-  .expired-ov{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:30px;
-    background:radial-gradient(120% 70% at 50% 0%,#fef4f7 0%,#fbe9ef 52%,#f1edf8 100%);}
-  .expired-ov.show{display:flex;}
-  .expired-card{max-width:360px;text-align:center;}
-  .expired-card .ex-ic{width:96px;height:96px;margin:0 auto 18px;display:block;filter:drop-shadow(0 8px 18px rgba(201,155,232,.32));}
-  .expired-card h2{font-size:21px;font-weight:800;color:var(--navy);line-height:1.5;margin-bottom:12px;}
-  .expired-card p{font-size:13.5px;color:var(--ink);line-height:1.9;}
-  .expired-card .ex-note{font-size:11.5px;color:var(--sub);margin-top:18px;line-height:1.7;}
+  /* ===== おたすけ君・知識エンジン表示（確変/相場/豆知識） ===== */
+  .ke-hot{position:relative;overflow:hidden;border-radius:14px;padding:13px 12px;margin:0 0 12px;text-align:center;color:#fff;
+    background:linear-gradient(120deg,#F5A6C8,#F6C750,#8FC0EC,#B98BEA,#F5A6C8);background-size:300% 100%;
+    animation:keShimmer 3s linear infinite;box-shadow:0 6px 20px rgba(201,155,232,.42);}
+  @keyframes keShimmer{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+  .ke-hot::before,.ke-hot::after{content:"✨";position:absolute;top:7px;font-size:15px;animation:keTwinkle 1.1s ease-in-out infinite alternate;}
+  .ke-hot::before{left:11px}.ke-hot::after{right:11px}
+  @keyframes keTwinkle{from{opacity:.35;transform:scale(.8)}to{opacity:1;transform:scale(1.25)}}
+  .ke-hot-spark{font-size:11px;letter-spacing:6px;opacity:.9;}
+  .ke-hot-ttl{font-size:16.5px;font-weight:800;margin:2px 0;text-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .ke-hot-sub{font-size:11.5px;font-weight:800;background:rgba(255,255,255,.26);border-radius:20px;display:inline-block;padding:3px 12px;margin:2px 0;}
+  .ke-hot-note{font-size:11.5px;font-weight:700;margin-top:4px;}
+  .ke-mkt{display:flex;justify-content:space-between;gap:8px;background:var(--navy);color:#fff;border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;}
+  .ke-mkt b{color:#f0dcb8;font-size:14px;}
+  .ke-mkt-sell{font-size:11.5px;color:var(--navy);font-weight:700;background:#eef5fb;border-radius:8px;padding:6px 10px;margin-top:5px;}
+  .ke-mkt-sell b{color:var(--pinkd);}
+  .ke-price{background:#fff0f5;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:12px;color:var(--navy);font-weight:700;}
+  .ke-price b{color:var(--pinkd);font-size:14px;}
+  .ke-price-list{font-size:11px;color:var(--sub);font-weight:600;margin-top:3px;}
+  .ke-price-list b{color:var(--navy);}
+  .ke-triv{display:flex;gap:9px;align-items:flex-start;background:#fffdf3;border:1px solid #f0e2c8;border-radius:11px;padding:10px 12px;margin:10px 0;font-size:12px;line-height:1.65;color:var(--ink);}
+  .ke-triv-ic{font-size:16px;flex:none;}
+  .ke-triv b{color:#b8862d;}
 </style>
 </head>
 <body>
@@ -714,16 +728,6 @@
 
     <button class="intro-cta" onclick="startFromIntro()">はじめる（1分の診断へ）&nbsp;▶</button>
     <p class="intro-note">※あとから「マイページ」でいつでも見直せます</p>
-  </div>
-</div>
-
-<!-- ========== 体験リンクの有効期限（3日間限定・期限切れ画面） ========== -->
-<div class="expired-ov" id="expiredScreen">
-  <div class="expired-card">
-    <svg class="ex-ic" viewBox="0 0 96 96" fill="none"><defs><linearGradient id="exG" x1="0" y1="0" x2="96" y2="96"><stop offset="0" stop-color="#F5A6C8"/><stop offset=".5" stop-color="#C99BE8"/><stop offset="1" stop-color="#8FC0EC"/></linearGradient></defs><circle cx="48" cy="48" r="30" fill="url(#exG)"/><path d="M34 52c3 3.4 8 5.4 14 5.4s11-2 14-5.4" stroke="#fff" stroke-width="3.4" stroke-linecap="round" fill="none"/><path d="M36 40h8M52 40h8" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg>
-    <h2>この体験リンクは<br>終了しました</h2>
-    <p>3日間の無料体験にご参加いただき、<br>ありがとうございました☺</p>
-    <div class="ex-note">引き続きご利用をご希望の方は、<br>ご案内元（公式LINE）までお知らせくださいね。</div>
   </div>
 </div>
 
@@ -886,13 +890,16 @@
         <div class="field"><label>ブランド（任意）</label><input id="gen-brand" placeholder="CHANEL など"></div>
         <div class="field"><label>色・サイズ（任意）</label><input id="gen-opt" placeholder="ベージュ / 37 など"></div>
       </div>
-      <div class="field"><label>仕入れ値（円・任意）</label><input id="gen-cost" type="number" inputmode="numeric" placeholder="0"></div>
-      <button class="btn blue sm" style="margin-bottom:10px" onclick="runGen()">下書きを作る</button>
+      <div class="row2">
+        <div class="field"><label>仕入れ値（円・任意）</label><input id="gen-cost" type="number" inputmode="numeric" placeholder="0"></div>
+        <div class="field"><label>型番・シリアル（任意）</label><input id="gen-serial" placeholder="P76 / CT3141 / 5391 など"></div>
+      </div>
+      <button class="btn blue sm" style="margin-bottom:10px" onclick="runGen()">下書きを作る（年式・相場・豆知識つき）</button>
       <div class="genout" id="genOut" style="display:none"></div>
       <button class="btn pink sm" id="genToWizardBtn" style="display:none;margin-top:10px" onclick="genToWizard()">この内容で出品フローに進む</button>
     </div>
     <div class="note">
-      キーワードから型に沿って文章を組み立てる<b>デモ版</b>です。本実装では、撮影した写真をAIが解析して、状態・ブランド・相場から自動でタイトル・説明文・推奨価格まで生成します。「＋出品する」フローの<b>おたすけ君</b>と同じロジックです。
+      商品名・ブランド・型番から、<b>年式・相場・ブランド豆知識</b>を自動で判定して下書きに反映します。高く売れそうな品は<b>「安売り注意」でお知らせ</b>。相場は弊社の落札データ、真贋・年式は真贋マニュアルに基づく目安です（最終判断はご自身で）。型番/シリアル例：シャネル洋服=P76、ヴィトン=CT3141、エルメス=電話下4桁5391、モンクレール=-18。
     </div>
   </section>
 
@@ -1154,10 +1161,12 @@
         </div>
         <div class="field" style="margin-bottom:0"><label>仕入れ値（円・任意）</label><input id="wz-cost" type="number" inputmode="numeric" placeholder="0"></div>
       </div>
-      <button class="btn blue" style="margin-bottom:12px" onclick="wizGenerate()">作成する</button>
+      <div class="field"><label>型番・シリアル（任意）</label><input id="wz-serial" placeholder="P76 / CT3141 / 5391 / -18 など（年式・相場に反映）"></div>
+      <button class="btn blue" style="margin-bottom:12px" onclick="wizGenerate()">作成する（年式・相場・豆知識つき）</button>
 
       <!-- editable generated result -->
       <div id="wizGenBox" style="display:none">
+        <div id="wizKeBox"></div>
         <div class="card">
           <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:10px;">生成結果（そのまま編集できます）</div>
           <div class="field"><label>タイトル<span id="wzTitleLen" style="color:var(--sub);font-weight:600;margin-left:4px"></span></label><input id="wz-title" oninput="wizTitleLen()" maxlength="40"></div>
@@ -1737,9 +1746,194 @@ function testSheet(){
   toast("送信しました。スプシの出品明細タブを確認してね");
 }
 
-/* ============ おたすけライト君（ルールベース・共通ロジック） ============ */
+/* ============================================================
+   MERO 知識エンジン（年式図鑑＋相場＋豆知識＋高値検出）
+   ・読み込んだナレッジ（YBAブランド×カテゴリ相場／真贋マニュアル／
+     年式／ブランド歴史）をコード化。おたすけ君の出力に反映する。
+============================================================ */
+var MERO_KE = (function(){
+  // 相場は YBAブランド×カテゴリ落札(=仕入れ)相場 [平均, 最高]。円。
+  var B = [
+    { key:"CHANEL", re:/chanel|シャネル/i, disp:"CHANEL / シャネル", val:3,
+      cats:{ "シャケット":[137000,770000],"ワンピース":[67978,220000],"Tシャツ":[51667,88000],"パンツ":[40357,150000],"パーカー":[25000,40000] },
+      triv:["ロゴのEは横線の長さが上・中・下でバラバラ（上=2番目/中=1番短い/下=一番長い）。ここが均一だと要注意。",
+            "ココマークは必ず『Cが上』で交差します。マメ刻印のC/T/S/A/Vはクルーズ/春夏/ハイサマー/秋冬/定番の意味。",
+            "定番の『マトラッセ』は1929年考案。両手を自由に使えるように、が由来です。"],
+      blurb:"1929年考案のマトラッセに代表される、ブランドアイコンの宝庫。ロゴのE・ココマークの交差・シリアルシールのX切り込みが本物の証。",
+      year:"chanel", auth:"ロゴのEの横線が上中下でバラつくか／ココマークはCが上で交差／シリアルシールに『X』切り込み＋ブラックライトで赤反応。" },
+    { key:"LOUISVUITTON", re:/louis\s*vuitton|ヴィトン|ルイヴィトン|ルイ・ヴィトン|\blv\b/i, disp:"LOUIS VUITTON / ルイヴィトン", val:3,
+      cats:{ "コート":[65500,150000],"パーカー":[76333,170000],"ワンピース":[50545,134000],"シャケット":[75857,200000],"パンツ":[30800,85000],"Tシャツ":[29784,80000] },
+      triv:["モノグラムはルーペで見ると『米粒の集合』で描かれています（コピーは塗りつぶし）。LVロゴは切れないように裁断されます。",
+            "売れすぎてコピーが横行したため、モノグラムや名入れで対策をした世界初のブランドです。",
+            "リベットには必ず縦長字体の『LOUIS VUITTON』刻印。金具はドーム状に盛り上がっています。"],
+      blurb:"モノグラムは米粒状ドットの集合体。デカロゴ・デニム素材は中古市場で争奪戦になる人気枠。現行に近い仕様ほど高値。",
+      year:"lv", auth:"リベットの縦長『LOUIS VUITTON』刻印／ロゴのOが真円／made in Franceのa／モノグラムが米粒の集合か。" },
+    { key:"HERMES", re:/hermes|herm[eè]s|エルメス/i, disp:"HERMES / エルメス", val:3,
+      cats:{ "シャケット":[62410,300000],"ワンピース":[52200,101000],"パンツ":[15794,46000],"Tシャツ":[17265,35000] },
+      triv:["洋服はタグの『電話番号 下4桁』でデザイナー＝年代が分かります。5391=マルジェラ期(97-03)/3611=ゴルチェ/3300=ルメール以降。",
+            "バッグの製造年は刻印の英字1文字（ブラインドスタンプ）。型抜きなので中まで綺麗、機械彫りの偽は中が汚い。",
+            "『ケリー』は元サック・ア・クロア。グレース・ケリーが妊娠を隠した写真で有名になり改名されました。"],
+      blurb:"最高級素材×最高の技術。特にマルジェラ期(1997-2003)は投資対象として高騰中。電話番号下4桁でデザイナー期＝年代が読めます。",
+      year:"hermes", auth:"手縫いステッチに一針ごとの個性／金具の角の内側までメッキが完璧／ブラインドスタンプは中まで綺麗。" },
+    { key:"GUCCI", re:/gucci|グッチ/i, disp:"GUCCI / グッチ", val:2,
+      cats:{ "シャケット":[39425,85000],"パーカー":[29375,50000],"Tシャツ":[12167,25000],"ワンピース":[19000,36000],"パンツ":[10563,20000] },
+      triv:["刻印の『GUCCI』はUの右が細く左が太いのが特徴。均一だと要注意です。",
+            "コントロールカードの『1234567890』のどれか1つ以上に必ず切れ目があります（数字自体に意味はなし）。",
+            "現行品で5桁の型番が記載されていたら、継続・人気商品のサインです。"],
+      blurb:"GGキャンバスやシェリーライン（緑赤緑）など象徴的なライン多数。コラボ・ブルゾンは高値、スーツジャケットは控えめ。",
+      year:"none", auth:"『GUCCI』のUが右細左太／コントロールカードの数字に切れ目／革タグの縫製が丁寧か。" },
+    { key:"PRADA", re:/prada|プラダ/i, disp:"PRADA / プラダ", val:2,
+      cats:{ },
+      triv:["三角プレートは『PRADAのRに切れ込み』があるか、2つのA・中の三角が同一サイズかを確認。",
+            "内側の白い数字タグは生産工場番号で、数字自体に意味はありません（偽は刻印が荒い）。",
+            "サフィアーノは牛革の型押しで、傷や汚れに強いのが特徴です。"],
+      blurb:"ポコノ(ナイロン)・サフィアーノ(型押し牛革)が代名詞。三角ロゴプレートのRの切れ込みが真贋の要。",
+      year:"none", auth:"三角プレートのRに切れ込み／2つのAが同サイズ／ファスナーはriri・Lampoが基本。" },
+    { key:"MONCLER", re:/moncler|モンクレール/i, disp:"MONCLER / モンクレール", val:3,
+      cats:{ "ダウン":[73045,175000],"パーカー":[26333,35000] },
+      triv:["年式はタグの英数字、ハイフンの後ろ2桁が製造年（例 xxxxx-18＝2018年）。",
+            "本物のファスナーはコマが左右に『わずかにずれる（オフセット）』のが特徴。左右対称すぎると要注意。",
+            "CHANON・FRAGMENTが高値傾向。偽はダウンがスカスカで薄いことが多いです。"],
+      blurb:"ダウンの王様。定番MAYA等は定価25万超。CHANON/FRAGMENTは特に高値。明るい色・大きいサイズ・新品はプレミア。",
+      year:"moncler", auth:"ファスナーのコマが左右オフセット／ダウンがしっかり詰まっている／タグの色が安っぽくないか。" },
+    { key:"CELINE", re:/celine|c[eé]line|セリーヌ/i, disp:"CELINE / セリーヌ", val:2,
+      cats:{ "コート":[49875,90000],"シャケット":[52364,170000],"パーカー":[55000,77000],"ワンピース":[25333,34000] },
+      triv:["カラフルロゴのパーカーやレザージャケットが高値傾向。","フィービー期のアーカイブは根強い人気があります。"],
+      blurb:"ミニマルで上質。レザージャケットやロゴパーカーが高値。カシミヤ混ノーカラーコートも人気。",
+      year:"none", auth:"刻印の均一さ・素材の上質さ・見えない箇所の処理を確認。" },
+    { key:"DIOR", re:/dior|ディオール/i, disp:"DIOR / ディオール", val:3,
+      cats:{ "コート":[45917,160000],"シャケット":[36093,300000],"Tシャツ":[24807,46000],"ワンピース":[23333,43000] },
+      triv:["メンズは金属タグ側面を折り返すと『UNION』、内側に『CD』の隠し刻印があります。高額品でも偽は再現しないことが多い。",
+            "『J'ADORE DIOR』のタンクトップなど新しいデザインが高値。","エディ・スリマンのDIOR HOMMEのスキニーが一時代を築きました。"],
+      blurb:"年代が新しいデザインほど高値。メンズの隠し刻印UNION/CDが真贋の決め手。",
+      year:"none", auth:"メンズは隠し刻印『UNION』『CD』／新しいデザインか。" },
+    { key:"BALENCIAGA", re:/balenciaga|バレンシアガ/i, disp:"BALENCIAGA / バレンシアガ", val:2,
+      cats:{ "パーカー":[38200,46000],"シャケット":[40400,76000] },
+      triv:["デムナ就任以降は『オーバーサイズ』がトレンド。トレンドに合うシルエットほど高い。","コラボ・新ロゴのパーカーが高値、ロゴなし白は控えめ。"],
+      blurb:"オーバーサイズがトレンドの中心。コラボ・新ロゴデザインがプレミア。",
+      year:"none", auth:"刻印・素材の質、見えない箇所の処理を確認。" },
+    { key:"LOROPIANA", re:/loro\s*piana|ロロピアーナ/i, disp:"Loro Piana / ロロピアーナ", val:3,
+      cats:{ "コート":[78667,260000],"シャケット":[63909,180000] },
+      triv:["カシミヤ・ファー付きコートが最高値帯。素材の良さがそのまま値段になります。","ミンクのブルゾンなど高級素材モデルは特に高い。"],
+      blurb:"素材で魅せる最高峰。カシミヤ・ファー・ミンクなど上質素材ほど高値。",
+      year:"none", auth:"素材表示タグと質感、縫製の丁寧さを確認。" },
+    { key:"MAXMARA", re:/max\s*mara|マックスマーラ/i, disp:"Max Mara / マックスマーラ", val:2,
+      cats:{ "コート":[36833,123000] },
+      triv:["襟元・袖口にファーのあるロングコートが高値、シンプルは控えめ。","EACタグの дата производства（発売日）で年代が分かります。"],
+      blurb:"上質ウールコートの代名詞。ファー付きロングは高値。",
+      year:"none", auth:"素材・仕立て、タグの発売日表記を確認。" },
+    { key:"BURBERRY", re:/burberry|バーバリー/i, disp:"BURBERRY / バーバリー", val:1,
+      cats:{ "コート":[15840,41000],"ダウン":[32000,62000],"Tシャツ":[10750,15000] },
+      triv:["ノバチェックのメンズダッフルコートが高値傾向。","定番のコート型名はケンジントン／サンドリンガム。"],
+      blurb:"英国の定番。ノバチェック・トレンチが象徴。新品未使用の大きいサイズは高値。",
+      year:"none", auth:"チェックの柄合わせ・刻印・ケアタグを確認。" },
+    { key:"FERRAGAMO", re:/ferragamo|フェラガモ/i, disp:"Salvatore Ferragamo / フェラガモ", val:1,
+      cats:{ "コート":[22375,36000] },
+      triv:["ヴァラリボンのパンプスが定番。相場の差が少なめで読みやすい。"],
+      blurb:"ヴァラリボンで有名。相場が安定していて初心者にも読みやすい。",
+      year:"none", auth:"刻印・レザーの質を確認。" },
+    { key:"VALENTINO", re:/valentino|ヴァレンティノ|バレンチノ/i, disp:"VALENTINO / ヴァレンティノ", val:2,
+      cats:{ "パーカー":[19000,20000],"ワンピース":[22438,33000],"Tシャツ":[13750,22000] },
+      triv:["フロントロゴ（花柄デザイン）のTシャツが高値。","セカンドラインのRED VALENTINOは相場が安めです。"],
+      blurb:"華やかなロゴと花柄が魅力。RED VALENTINOはセカンドラインで手頃。",
+      year:"none", auth:"ロゴ刻印・素材、セカンドラインかどうかを確認。" },
+    { key:"MARGIELA", re:/margiela|マルジェラ|マルタン/i, disp:"Maison/Martin Margiela / マルジェラ", val:2,
+      cats:{ "シャケット":[24000,43000],"パンツ":[14500,21000] },
+      triv:["背中の『4本ステッチ（カレンダータグ）』が雑・四角が歪むのは偽のサイン。日本語タグの誤字も多い（例：スタッフインターナスナル）。",
+            "エルメスのマルジェラ期(1997-2003)アーカイブは今、投資対象として高騰しています。"],
+      blurb:"4本ステッチが象徴。前衛的デザインで根強い人気。日本語タグの誤字は偽の目印。",
+      year:"none", auth:"背面4本ステッチの綺麗さ／日本語タグの誤字がないか。" },
+    { key:"TATRAS", re:/tatras|タトラス/i, disp:"TATRAS / タトラス", val:2,
+      cats:{ "ダウン":[30000,35000] },
+      triv:["都会的なダウンで人気。冬物アウターは利益が出やすい枠。"],
+      blurb:"洗練されたダウンで安定人気。冬物アウターは利益が取りやすい。",
+      year:"none", auth:"刻印・ファスナー・ダウンの詰まりを確認。" },
+    { key:"SUPREME", re:/supreme|シュプリーム/i, disp:"SUPREME / シュプリーム", val:2,
+      cats:{ "パーカー":[27500,31900],"ダウン":[65333,150000] },
+      triv:["会社が変わっており、近年になるほど相場が下がる傾向。","バーバリー等とのコラボは高値。歴史（人気→問題→変化）が値幅に効きます。"],
+      blurb:"コラボは高値。ただし近年モデルほど相場は下がる傾向。年代の見極めが重要。",
+      year:"none", auth:"タグ・プリントの質、年代（近年ほど安い）を確認。" },
+    { key:"CANADAGOOSE", re:/canada\s*goose|カナダグース/i, disp:"CANADA GOOSE / カナダグース", val:2,
+      cats:{ "ダウン":[32519,60000] },
+      triv:["2万〜4万台が中心。防寒性の高い良素材は高値。"],
+      blurb:"本格防寒ダウン。良素材モデルは高値、標準は2〜4万台が中心。",
+      year:"none", auth:"ホログラム・刻印・タグを確認。" },
+    { key:"NORTHFACE", re:/north\s*face|ノースフェイス/i, disp:"THE NORTH FACE / ノースフェイス", val:1,
+      cats:{ "ダウン":[13250,24000] },
+      triv:["ダウンベストは控えめ、薄手ダウンジャケットが動きやすい価格帯。"],
+      blurb:"実用アウトドアの定番。回転しやすい価格帯。",
+      year:"none", auth:"ロゴ刺繍・タグ・ジップを確認。" }
+  ];
+  var HIGH_KW = [
+    {re:/ミンク|ファー|フォックス|毛皮|ムートン/,label:"高級ファー/毛皮"},
+    {re:/カシミヤ|カシミア|シルク|絹|レザー|本革|羊革|ラム/,label:"上質素材"},
+    {re:/デニム/,label:"人気のデニム素材"},
+    {re:/コラボ|限定|別注/,label:"コラボ/限定"},
+    {re:/新品|未使用|タグ付/,label:"新品・未使用"},
+    {re:/モノグラム|マトラッセ|ココマーク|デカロゴ|ジャイアント/,label:"人気の定番モチーフ"},
+    {re:/オーバーサイズ|ビッグ/,label:"トレンドのオーバーサイズ"},
+    {re:/ヴィンテージ|アーカイブ/,label:"ヴィンテージ"}
+  ];
+  var CAT_RE = [
+    ["ダウン",/ダウン|down/i],["シャケット",/シャケット|ブルゾン|ジャケット|jacket|blouson/i],
+    ["コート",/コート|coat/i],["パーカー",/パーカー|フーディ|hoodie|parka/i],
+    ["ワンピース",/ワンピース|dress|ワンピ/i],["Tシャツ",/t\s*シャツ|tシャツ|カットソー|tee/i],
+    ["パンツ",/パンツ|ズボン|pants|デニム|スカート/i]
+  ];
+  function norm(s){ return (s||"").toString(); }
+  function detectBrand(text){ text=norm(text); for(var i=0;i<B.length;i++){ if(B[i].re.test(text)) return B[i]; } return null; }
+  function detectCat(text){ text=norm(text); for(var i=0;i<CAT_RE.length;i++){ if(CAT_RE[i][1].test(text)) return CAT_RE[i][0]; } return ""; }
+  function marketFor(brand,cat){ if(!brand||!brand.cats) return null; if(cat&&brand.cats[cat]) return {cat:cat,avg:brand.cats[cat][0],max:brand.cats[cat][1]};
+    // カテゴリ不明ならそのブランドの中央的な相場を返す
+    var ks=Object.keys(brand.cats); if(!ks.length) return null; var k=ks[0]; return {cat:k,avg:brand.cats[k][0],max:brand.cats[k][1]}; }
+  function highValue(brand,text){ var reasons=[]; var lvl=0;
+    if(brand){ lvl+=brand.val; if(brand.val>=3) reasons.push(brand.disp.split(" / ")[0]+"は高値ブランド"); }
+    for(var i=0;i<HIGH_KW.length;i++){ if(HIGH_KW[i].re.test(norm(text))){ reasons.push(HIGH_KW[i].label); lvl+=1; } }
+    return { hot: lvl>=3, level:lvl, reasons:reasons }; }
+  // 年式推定：ブランド別。text からシリアル/型番を拾う。
+  function estYear(brand,text){ text=norm(text); if(!brand) return null;
+    if(brand.year==="chanel"){
+      var mp=text.match(/P\s?([0-9]{2})[0-9]{0,3}/i);
+      if(mp){ var p=parseInt(mp[1],10); if(p>=30&&p<=90){ var y=2009+Math.round((p-36)/2.6667); return "P品番→ "+y+"年頃（P"+p+"）"; } }
+      var mg=text.match(/G\s?([0-9]{2})/i);
+      if(mg){ var g=parseInt(mg[1],10); if(g===2) return "靴G02＝定番モデル（バレリーナ等）"; if(g===31) return "靴G31＝定番スリングバック"; if(g>=30&&g<=45) return "靴G品番→ "+(2024-(45-g))+"年頃の目安（G45=2024）"; }
+      return null;
+    }
+    if(brand.year==="lv"){
+      var m=text.match(/\b([A-Za-z]{2})\s?([0-9]{4})\b/);
+      if(m){ var d=m[2]; var yy=parseInt(d[1]+d[3],10); var wm=parseInt(d[0]+d[2],10);
+        if(wm>=1&&wm<=53){ var yr=(yy<=30?2000:1900)+yy; return "シリアル→ "+yr+"年 第"+wm+"週製造（2007年以降式）"; }
+        if(wm>=1&&wm<=12){ var yr2=(yy<=30?2000:1900)+yy; return "シリアル→ "+((yr2>2006)?(yr2-100):yr2)+"年 "+wm+"月製造（2006年以前式）"; } }
+      if(/rfid|icチップ|チップ/i.test(text)) return "2021年以降＝ICチップ(RFID)管理";
+      return null;
+    }
+    if(brand.year==="hermes"){
+      if(/5391/.test(text)) return "電話番号5391→ マルジェラ期(1997-2003)。投資価値高";
+      if(/3611/.test(text)) return "電話番号3611→ ゴルチェ期";
+      if(/3300/.test(text)) return "電話番号3300→ ルメール期以降";
+      var m7=text.match(/[A-Za-z0-9]{6}([0-9])/); // 参考：7番目
+      return null;
+    }
+    if(brand.year==="moncler"){
+      var mm=text.match(/-\s?([0-9]{2})\b/); if(mm){ var n=parseInt(mm[1],10); if(n>=10&&n<=30) return "タグのハイフン後→ 20"+mm[1]+"年モデル"; }
+      return null;
+    }
+    return null;
+  }
+  // 仕入れ値→利益率30-40%の出品価格（手取り=売価*0.9-送料700-仕入れ）
+  function pricePlan(cost){ cost=parseFloat(cost)||0; if(cost<=0) return null;
+    var sell = function(rate){ return Math.round(((cost+700)/(0.9-rate))/100)*100; };
+    var s30=sell(0.30), s40=sell(0.40);
+    return { cost:cost, sell30:s30, sell40:s40, list30:s30*2, list40:s40*2 }; }
+  // 相場(=仕入れ落札平均)から想定出品レンジ
+  function sellFromMarket(avg){ if(!avg) return null; var pp=pricePlan(avg); return pp? {buy:avg, sell30:pp.sell30, sell40:pp.sell40}:null; }
+  return { detectBrand:detectBrand, detectCat:detectCat, marketFor:marketFor, highValue:highValue,
+           estYear:estYear, pricePlan:pricePlan, sellFromMarket:sellFromMarket, brands:B };
+})();
+
+/* ============ おたすけライト君（ルールベース＋知識エンジン） ============ */
 /* reseller-assistant の runListing / runPrice を参考にしたルールベース生成。
-   入力: {name,cat,cond,brand,opt,cost} → 出力: {title,desc,tags,price,fast,high} */
+   入力: {name,cat,cond,brand,opt,cost,serial} → 出力: {title,desc,tags,price,fast,high, ke...} */
 function isBetter(cond){ return /新品|未使用/.test(cond||""); }
 function buildDraft(inp){
   var name=(inp.name||"").trim();
@@ -1787,8 +1981,27 @@ function buildDraft(inp){
 
   var fast = Math.max(priceFloor(cost), Math.round(base*0.82/100)*100);
   var high = Math.round(base*1.28/100)*100;
+
+  /* ===== 知識エンジン連携（年式・相場・高値・豆知識・説明文リッチ化） ===== */
+  var allText = [name, opt, brand, inp.serial].filter(Boolean).join(" ");
+  var keBrand = MERO_KE.detectBrand(allText);
+  var keCat   = cat || MERO_KE.detectCat(allText);
+  var keYear  = MERO_KE.estYear(keBrand, allText);
+  var keMkt   = MERO_KE.marketFor(keBrand, keCat);
+  var keHV    = MERO_KE.highValue(keBrand, allText);
+  var keTriv  = (keBrand && keBrand.triv && keBrand.triv.length) ? keBrand.triv[ name.length % keBrand.triv.length ] : "";
+
+  // 説明文に必ずブランド知識・年式・真贋を入れる
+  if(keBrand){
+    desc += "\n\n━━━━━━━━\n【このブランドについて】\n"+keBrand.blurb;
+    if(keYear) desc += "\n・年式の目安："+keYear;
+    if(keBrand.auth) desc += "\n【真贋チェック済み】"+keBrand.auth;
+    desc += "\n※気になる箇所は追加写真をお送りします。安心してご検討ください☺";
+  }
+
   return {name:name, cat:cat, cond:cond, brand:brand, opt:opt,
-    title:title, desc:desc, tags:tags, price:base, fast:fast, high:high, cost:cost, belowCost:belowCost};
+    title:title, desc:desc, tags:tags, price:base, fast:fast, high:high, cost:cost, belowCost:belowCost,
+    keBrand:keBrand, keCat:keCat, keYear:keYear, keMkt:keMkt, keHV:keHV, keTriv:keTriv};
 }
 function suggestPrice(cat){
   var map={"バッグ":8000,"レディース靴":4500,"レディース服":3000,"メンズ服":3000,"アクセサリー":3500,"家電":6000,"キッズ":1800};
@@ -1809,26 +2022,70 @@ var lastGen=null;
 function runGen(){
   var name=document.getElementById("gen-name").value.trim();
   if(!name){ toast("商品名を入れてね"); return; }
+  var serEl=document.getElementById("gen-serial");
   var d = buildDraft({
     name:name,
     cat:document.getElementById("gen-cat").value,
     cond:document.getElementById("gen-cond").value,
     brand:document.getElementById("gen-brand").value,
     opt:document.getElementById("gen-opt").value,
-    cost:document.getElementById("gen-cost").value
+    cost:document.getElementById("gen-cost").value,
+    serial: serEl? serEl.value : ""
   });
   lastGen = d;
   var take = estTake(d.price, d.cost);
   var out=document.getElementById("genOut");
   out.style.display="block";
   out.innerHTML =
+    keHotBanner(d) +
+    keMarketBlock(d) +
+    keTriviaBlock(d) +
     '<div class="g-lbl">タイトル（'+d.title.length+'字）</div><div class="g-val">'+esc(d.title)+'</div>'+
-    '<div class="g-lbl">説明文</div><div class="g-val" style="white-space:pre-wrap">'+esc(d.desc)+'</div>'+
+    '<div class="g-lbl">説明文（ブランド知識入り）</div><div class="g-val" style="white-space:pre-wrap">'+esc(d.desc)+'</div>'+
     '<div class="g-lbl">ハッシュタグ</div><div class="g-tags">'+esc(d.tags)+'</div>'+
     '<div class="g-lbl">推奨価格</div><div class="g-val">'+yen(d.price)+' 前後（早め '+yen(d.fast)+'／美品 '+yen(d.high)+'）</div>'+
     '<div class="g-lbl">手取り目安</div><div class="g-val"'+(take<0?' style="color:var(--pinkd)"':'')+'>'+yen(take)+'（手数料10%＋送料700円＋仕入れ値を差引）</div>'+
     (d.belowCost? '<div class="g-val" style="color:var(--pinkd);margin-top:4px">仕入れに対して相場が低めです。値付け注意。手取りが残る最低ラインで表示しています。</div>':"");
   document.getElementById("genToWizardBtn").style.display="block";
+}
+
+/* ===== 知識エンジンの表示ブロック（下書き・ウィザード共通） ===== */
+/* 高く売れそう＝パチンコの確変風にキラキラ「安売り注意」 */
+function keHotBanner(d){
+  if(!d.keHV || !d.keHV.hot) return "";
+  var reasons = (d.keHV.reasons||[]).slice(0,4).join(" / ");
+  return '<div class="ke-hot">'+
+    '<div class="ke-hot-spark">✦ ✧ ✦</div>'+
+    '<div class="ke-hot-ttl">🎉 高く売れそう！ 安売り注意 🎉</div>'+
+    '<div class="ke-hot-sub">'+esc(reasons||"人気ブランド")+'</div>'+
+    '<div class="ke-hot-note">相場を確認して、強気の価格でいきましょう！</div>'+
+    '</div>';
+}
+/* 相場（YBA落札=仕入れ相場）＋ 利益率30-40%の出品価格 */
+function keMarketBlock(d){
+  var html="";
+  var b=d.keBrand;
+  if(b && d.keMkt){
+    var m=d.keMkt;
+    html += '<div class="g-lbl">相場のめやす（'+esc(b.disp.split(" / ")[0])+'・'+esc(m.cat)+'）</div>'+
+      '<div class="ke-mkt"><span>YBA落札(仕入れ)平均 <b>'+yen(m.avg)+'</b></span><span>最高 '+yen(m.max)+'</span></div>';
+    // 相場から想定出品レンジ（この相場で仕入れた場合）
+    var sm=MERO_KE.sellFromMarket(m.avg);
+    if(sm) html += '<div class="ke-mkt-sell">この相場で仕入れたら → メルカリ実売 <b>'+yen(sm.sell30)+'〜'+yen(sm.sell40)+'</b>（利益率30〜40%）</div>';
+  }
+  // 仕入れ値を入れていれば、その値からの出品価格
+  var pp=MERO_KE.pricePlan(d.cost);
+  if(pp){
+    html += '<div class="g-lbl">あなたの仕入れ '+yen(pp.cost)+' からの出品価格</div>'+
+      '<div class="ke-price"><div>実売ねらい <b>'+yen(pp.sell30)+'〜'+yen(pp.sell40)+'</b>（利益率30〜40%）</div>'+
+      '<div class="ke-price-list">掲載価格は <b>'+yen(pp.list30)+'〜'+yen(pp.list40)+'</b> で出して、セール・交渉で実売へ（掲載＝実売×2の運用）</div></div>';
+  }
+  return html;
+}
+/* 豆知識（読み込んだブランド知識を出品時に表示） */
+function keTriviaBlock(d){
+  if(!d.keTriv) return "";
+  return '<div class="ke-triv"><span class="ke-triv-ic">💡</span><div><b>'+esc((d.keBrand?d.keBrand.disp.split(" / ")[0]:"")+' 豆知識')+'</b><br>'+esc(d.keTriv)+'</div></div>';
 }
 function genToWizard(){
   if(!lastGen){ toast("先に下書きを作ってね"); return; }
@@ -1891,18 +2148,22 @@ function wizHandlePhoto(e){
 function wizGenerate(){
   var name=document.getElementById("wz-name").value.trim();
   if(!name){ toast("商品名を入れてね"); return; }
+  var wserEl=document.getElementById("wz-serial");
   var d=buildDraft({
     name:name,
     cat:document.getElementById("wz-cat").value,
     cond:document.getElementById("wz-cond").value,
     brand:document.getElementById("wz-brand").value,
     opt:document.getElementById("wz-opt").value,
-    cost:document.getElementById("wz-cost").value
+    cost:document.getElementById("wz-cost").value,
+    serial: wserEl? wserEl.value : ""
   });
   wizFillGen(d);
 }
 function wizFillGen(d){
   wizDraft=d;
+  var keBox=document.getElementById("wizKeBox");
+  if(keBox) keBox.innerHTML = keHotBanner(d) + keMarketBlock(d) + keTriviaBlock(d);
   document.getElementById("wz-title").value=d.title;
   document.getElementById("wz-desc").value=d.desc;
   document.getElementById("wz-tags").value=d.tags;
