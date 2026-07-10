@@ -688,6 +688,14 @@
   .ke-triv{display:flex;gap:9px;align-items:flex-start;background:#fffdf3;border:1px solid #f0e2c8;border-radius:11px;padding:10px 12px;margin:10px 0;font-size:12px;line-height:1.65;color:var(--ink);}
   .ke-triv-ic{font-size:16px;flex:none;}
   .ke-triv b{color:#b8862d;}
+  .ke-nudge{display:flex;gap:9px;align-items:flex-start;border-radius:11px;padding:10px 12px;margin:0 0 10px;font-size:11.5px;line-height:1.6;}
+  .ke-nudge span{font-size:16px;flex:none;}
+  .ke-nudge b{font-size:12.5px;}
+  .ke-nudge-ser{background:#eef5fb;border:1px solid #cfe2f2;color:var(--navy);}
+  .ke-nudge-ser b{color:var(--blued);}
+  .ke-nudge-tag{background:#f2fbf4;border:1px solid #cdeccf;color:#33604a;}
+  .ke-nudge-tag b{color:#2e7d52;}
+  .ke-nudge-tag u{text-decoration-color:#8cd0a4;}
 </style>
 </head>
 <body>
@@ -893,6 +901,13 @@
       <div class="row2">
         <div class="field"><label>仕入れ値（円・任意）</label><input id="gen-cost" type="number" inputmode="numeric" placeholder="0"></div>
         <div class="field"><label>型番・シリアル（任意）</label><input id="gen-serial" placeholder="P76 / CT3141 / 5391 など"></div>
+      </div>
+      <div class="field"><label>品質表示（洗濯）タグ<small style="color:var(--sub);font-weight:600;font-size:10.5px;margin-left:5px">写真も撮って年代の証拠に</small></label>
+        <select id="gen-caretag">
+          <option value="unknown" selected>不明／未確認</option>
+          <option value="new">絵表示だけ（2016年12月〜・新しめ）</option>
+          <option value="old">日本語入り（〜2016年11月・古め）</option>
+        </select>
       </div>
       <button class="btn blue sm" style="margin-bottom:10px" onclick="runGen()">下書きを作る（年式・相場・豆知識つき）</button>
       <div class="genout" id="genOut" style="display:none"></div>
@@ -1134,6 +1149,7 @@
           <input id="wz-photo" type="file" accept="image/*" onchange="wizHandlePhoto(event)">
           <div id="wzPhotoPrev" style="margin-top:8px"></div>
         </div>
+        <div class="ke-nudge ke-nudge-tag" style="margin-top:12px"><span>📸</span><div><b>品質表示（洗濯）タグの写真も忘れずに！</b><br>絵表示だけ＝2016年12月以降の新しいお品／日本語入り＝それ以前。年代の証拠になって高く売れやすくなります。ブランド刻印・シリアルの写真もあると◎</div></div>
       </div>
       <button class="btn navy" onclick="wizGo(2)">次へ（写真なしでもOK）</button>
       <button class="close" onclick="closeModal('wizModal')">閉じる</button>
@@ -1162,6 +1178,13 @@
         <div class="field" style="margin-bottom:0"><label>仕入れ値（円・任意）</label><input id="wz-cost" type="number" inputmode="numeric" placeholder="0"></div>
       </div>
       <div class="field"><label>型番・シリアル（任意）</label><input id="wz-serial" placeholder="P76 / CT3141 / 5391 / -18 など（年式・相場に反映）"></div>
+      <div class="field"><label>品質表示（洗濯）タグ<small style="color:var(--sub);font-weight:600;font-size:10.5px;margin-left:5px">写真も撮って年代の証拠に</small></label>
+        <select id="wz-caretag">
+          <option value="unknown" selected>不明／未確認</option>
+          <option value="new">絵表示だけ（2016年12月〜・新しめ）</option>
+          <option value="old">日本語入り（〜2016年11月・古め）</option>
+        </select>
+      </div>
       <button class="btn blue" style="margin-bottom:12px" onclick="wizGenerate()">作成する（年式・相場・豆知識つき）</button>
 
       <!-- editable generated result -->
@@ -1998,10 +2021,18 @@ function buildDraft(inp){
     if(keBrand.auth) desc += "\n【真贋チェック済み】"+keBrand.auth;
     desc += "\n※気になる箇所は追加写真をお送りします。安心してご検討ください☺";
   }
+  // 品質表示（洗濯）タグの2016年境界を、邪魔にならないよう末尾1行で付記
+  var ct = inp.caretag||"";
+  if(ct==="new") desc += "\n\n※品質表示は現行の絵表示（2016年12月以降）＝比較的新しいお品です。タグ写真も掲載しています。";
+  else if(ct==="old") desc += "\n\n※品質表示は日本語入りの旧表示（〜2016年11月）です。タグ写真を掲載しています。";
+  else if(ct==="unknown") desc += "\n\n※品質表示タグの写真も掲載しています（年代のご判断にお役立てください）。";
+
+  // 型番が未入力＝入力を促すフラグ（ブランド検出時のみ）
+  var keNeedSerial = !!(keBrand && !((inp.serial||"").toString().trim()));
 
   return {name:name, cat:cat, cond:cond, brand:brand, opt:opt,
     title:title, desc:desc, tags:tags, price:base, fast:fast, high:high, cost:cost, belowCost:belowCost,
-    keBrand:keBrand, keCat:keCat, keYear:keYear, keMkt:keMkt, keHV:keHV, keTriv:keTriv};
+    keBrand:keBrand, keCat:keCat, keYear:keYear, keMkt:keMkt, keHV:keHV, keTriv:keTriv, keNeedSerial:keNeedSerial};
 }
 function suggestPrice(cat){
   var map={"バッグ":8000,"レディース靴":4500,"レディース服":3000,"メンズ服":3000,"アクセサリー":3500,"家電":6000,"キッズ":1800};
@@ -2023,6 +2054,7 @@ function runGen(){
   var name=document.getElementById("gen-name").value.trim();
   if(!name){ toast("商品名を入れてね"); return; }
   var serEl=document.getElementById("gen-serial");
+  var ctEl=document.getElementById("gen-caretag");
   var d = buildDraft({
     name:name,
     cat:document.getElementById("gen-cat").value,
@@ -2030,7 +2062,8 @@ function runGen(){
     brand:document.getElementById("gen-brand").value,
     opt:document.getElementById("gen-opt").value,
     cost:document.getElementById("gen-cost").value,
-    serial: serEl? serEl.value : ""
+    serial: serEl? serEl.value : "",
+    caretag: ctEl? ctEl.value : ""
   });
   lastGen = d;
   var take = estTake(d.price, d.cost);
@@ -2038,6 +2071,7 @@ function runGen(){
   out.style.display="block";
   out.innerHTML =
     keHotBanner(d) +
+    keNudgeBlock(d) +
     keMarketBlock(d) +
     keTriviaBlock(d) +
     '<div class="g-lbl">タイトル（'+d.title.length+'字）</div><div class="g-val">'+esc(d.title)+'</div>'+
@@ -2086,6 +2120,16 @@ function keMarketBlock(d){
 function keTriviaBlock(d){
   if(!d.keTriv) return "";
   return '<div class="ke-triv"><span class="ke-triv-ic">💡</span><div><b>'+esc((d.keBrand?d.keBrand.disp.split(" / ")[0]:"")+' 豆知識')+'</b><br>'+esc(d.keTriv)+'</div></div>';
+}
+/* 型番の入力促し＋品質表示タグの写真リマインド（2016年境界） */
+function keNudgeBlock(d){
+  var html="";
+  if(d.keNeedSerial){
+    html += '<div class="ke-nudge ke-nudge-ser"><span>🔎</span><div><b>型番・シリアルがあれば入れてね</b><br>年式と相場の精度が上がります（例：シャネル洋服=P76／ヴィトン=CT3141）</div></div>';
+  }
+  html += '<div class="ke-nudge ke-nudge-tag"><span>📸</span><div><b>品質表示（洗濯）タグの写真も撮ろう</b><br>'+
+    '<u>2016年12月〜の絵表示だけ＝比較的新しいお品</u>／日本語入りは〜2016年11月の旧表示。年代の証拠になって高く売れやすくなります</div></div>';
+  return html;
 }
 function genToWizard(){
   if(!lastGen){ toast("先に下書きを作ってね"); return; }
@@ -2149,6 +2193,7 @@ function wizGenerate(){
   var name=document.getElementById("wz-name").value.trim();
   if(!name){ toast("商品名を入れてね"); return; }
   var wserEl=document.getElementById("wz-serial");
+  var wctEl=document.getElementById("wz-caretag");
   var d=buildDraft({
     name:name,
     cat:document.getElementById("wz-cat").value,
@@ -2156,14 +2201,15 @@ function wizGenerate(){
     brand:document.getElementById("wz-brand").value,
     opt:document.getElementById("wz-opt").value,
     cost:document.getElementById("wz-cost").value,
-    serial: wserEl? wserEl.value : ""
+    serial: wserEl? wserEl.value : "",
+    caretag: wctEl? wctEl.value : ""
   });
   wizFillGen(d);
 }
 function wizFillGen(d){
   wizDraft=d;
   var keBox=document.getElementById("wizKeBox");
-  if(keBox) keBox.innerHTML = keHotBanner(d) + keMarketBlock(d) + keTriviaBlock(d);
+  if(keBox) keBox.innerHTML = keHotBanner(d) + keNudgeBlock(d) + keMarketBlock(d) + keTriviaBlock(d);
   document.getElementById("wz-title").value=d.title;
   document.getElementById("wz-desc").value=d.desc;
   document.getElementById("wz-tags").value=d.tags;
