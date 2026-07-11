@@ -155,11 +155,10 @@
     padding-bottom:env(safe-area-inset-bottom);}
   .tabbar button{flex:1;border:none;background:none;padding:10px 3px 8px;cursor:pointer;position:relative;
     display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;color:var(--sub);}
-  .tabbar button .ic{width:26px;height:26px;transition:transform .18s ease;}
+  .tabbar button .ic{width:26px;height:26px;object-fit:contain;transition:transform .18s ease,opacity .18s ease;opacity:.72;}
   .tabbar button .tl{font-size:9.5px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;}
   .tabbar button.on{color:var(--pinkd);}
-  .tabbar button.on .ic{transform:translateY(-1px) scale(1.08);}
-  .tabbar button.on .ic svg{filter:drop-shadow(0 2px 5px rgba(189,120,134,.4));}
+  .tabbar button.on .ic{transform:translateY(-1px) scale(1.08);opacity:1;filter:drop-shadow(0 2px 5px rgba(189,120,134,.4));}
   .tabbar button.on::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
     width:24px;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,#F5A6C8,#B98BEA);}
   /* 診断前などアイコンをそっと沈める（未診断のグレーアウトは使わない） */
@@ -1146,19 +1145,19 @@
   <!-- ========== bottom tabs（30日プログラム／出品サポート／記録／マイページ）========== -->
   <nav class="tabbar">
     <button class="on" data-p="home" onclick="go('home')">
-      <svg class="ic" viewBox="0 0 28 28" fill="none"><defs><linearGradient id="tabG1" x1="0" y1="0" x2="28" y2="28"><stop offset="0" stop-color="#F5A6C8"/><stop offset=".5" stop-color="#C99BE8"/><stop offset="1" stop-color="#8FC0EC"/></linearGradient></defs><path d="M14 24c-.4-3.6-2.8-6-6.4-6.6C4.4 16.9 3 14.7 4 12.4c.9-2 3.3-2.6 5.1-1.3C10.4 12 13 13.6 14 17c1-3.4 3.6-5 4.9-5.9 1.8-1.3 4.2-.7 5.1 1.3 1 2.3-.4 4.5-3.6 5-3.6.6-6 3-6.4 6.6z" fill="url(#tabG1)"/><circle cx="14" cy="7.2" r="2.3" fill="url(#tabG1)"/></svg>
+      <img class="ic" src="assets/icons/tab1.png" alt="" width="28" height="28">
       <span class="tl">30日プログラム</span>
     </button>
     <button data-p="box" onclick="go('box')">
-      <svg class="ic" viewBox="0 0 28 28" fill="none"><defs><linearGradient id="tabG2" x1="0" y1="0" x2="28" y2="28"><stop offset="0" stop-color="#F7B7A0"/><stop offset=".55" stop-color="#E79BC0"/><stop offset="1" stop-color="#B98BEA"/></linearGradient></defs><path d="M13.4 3.6 4.2 6.1c-.5.1-.8.5-.8 1l.3 9.3c0 .4.2.7.5 1l8.9 7.2c.5.4 1.2.4 1.7-.1l7.9-8.4c.4-.4.4-1 .1-1.5L17.4 4.1c-.3-.4-.7-.6-1.2-.6l-2.8.1z" fill="url(#tabG2)"/><circle cx="17.4" cy="9.1" r="1.9" fill="#fff"/></svg>
+      <img class="ic" src="assets/icons/tab2.png" alt="" width="28" height="28">
       <span class="tl">出品サポート</span>
     </button>
     <button data-p="mypage" onclick="go('mypage')">
-      <svg class="ic" viewBox="0 0 28 28" fill="none"><defs><linearGradient id="tabG3" x1="0" y1="0" x2="28" y2="28"><stop offset="0" stop-color="#F5A6C8"/><stop offset="1" stop-color="#9FC8EC"/></linearGradient></defs><path d="M6.5 4h11.2c.5 0 1 .2 1.4.6l3 3c.3.4.5.9.5 1.4V23a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 5.5 23V5A1 1 0 0 1 6.5 4z" fill="url(#tabG3)"/><path d="M9 11h10M9 15h10M9 19h6.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <img class="ic" src="assets/icons/tab3.png" alt="" width="28" height="28">
       <span class="tl">記録</span>
     </button>
     <button data-p="set" onclick="go('set')">
-      <svg class="ic" viewBox="0 0 28 28" fill="none"><defs><linearGradient id="tabG4" x1="0" y1="0" x2="28" y2="28"><stop offset="0" stop-color="#EFA8D0"/><stop offset="1" stop-color="#B98BEA"/></linearGradient></defs><circle cx="14" cy="9.4" r="4.4" fill="url(#tabG4)"/><path d="M5.4 23.4c.3-4.6 4-7.4 8.6-7.4s8.3 2.8 8.6 7.4c0 .6-.4 1.1-1 1.1H6.4c-.6 0-1-.5-1-1.1z" fill="url(#tabG4)"/><path d="M14 6.9c.5-.9 2-1 2.5 0 .3.6 0 1.2-1.2 2.1-1.2-.9-1.6-1.5-1.3-2.1z" fill="#fff" opacity=".55"/></svg>
+      <img class="ic" src="assets/icons/tab4.png" alt="" width="28" height="28">
       <span class="tl">マイページ</span>
     </button>
   </nav>
