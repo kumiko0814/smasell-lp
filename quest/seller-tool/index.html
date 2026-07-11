@@ -681,10 +681,45 @@
   .ke-mkt b{color:#f0dcb8;font-size:14px;}
   .ke-mkt-sell{font-size:11.5px;color:var(--navy);font-weight:700;background:#eef5fb;border-radius:8px;padding:6px 10px;margin-top:5px;}
   .ke-mkt-sell b{color:var(--pinkd);}
+  .ke-mkt-note{font-size:11px;color:#8a6d2f;background:#fffdf3;border:1px solid #f0e2c8;border-radius:8px;padding:6px 10px;margin-top:5px;line-height:1.6;}
+  .ke-mkt-note b{color:#b8862d;}
+  /* 成功リセラーベンチマーク */
+  .ke-bench{background:linear-gradient(135deg,#eef7f1,#eaf3fb);border:1.5px solid #bfe0cf;border-radius:12px;padding:10px 13px;margin:10px 0;}
+  .kb-hd{font-size:11.5px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+  .kb-badge{background:linear-gradient(135deg,#5cc08e,#4aa3c7);color:#fff;font-size:10px;font-weight:800;border-radius:20px;padding:2px 9px;letter-spacing:.02em;}
+  .kb-ex{display:flex;gap:9px;align-items:baseline;font-size:12px;color:var(--navy);padding:3px 0;border-bottom:1px dashed #d5e8dd;}
+  .kb-ex:last-of-type{border-bottom:none;}
+  .kb-ex b{color:#2e9e6b;font-weight:800;font-size:13px;flex:none;min-width:58px;}
+  .kb-ex span{color:var(--ink);font-weight:600;font-size:11px;line-height:1.4;}
+  .kb-note{font-size:10.5px;color:var(--sub);line-height:1.6;margin-top:7px;}
+  /* 南雲講師の相場（一般の物差し） */
+  .ke-nagumo{background:linear-gradient(135deg,#fff8ec,#fdf1e2);border:1.5px solid #ecd3a8;border-radius:12px;padding:10px 13px;margin:10px 0;}
+  .kn-hd{font-size:11.5px;font-weight:800;color:#8a6212;display:flex;align-items:center;gap:7px;margin-bottom:5px;flex-wrap:wrap;}
+  .kn-badge{background:linear-gradient(135deg,#e0a63a,#c9862a);color:#fff;font-size:10px;font-weight:800;border-radius:20px;padding:2px 9px;letter-spacing:.02em;}
+  .kn-band{font-size:13px;color:var(--navy);font-weight:700;}
+  .kn-band b{color:#b8862d;}
+  .kn-note{font-size:10.5px;color:var(--sub);line-height:1.6;margin-top:5px;}
   .ke-price{background:#fff0f5;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:12px;color:var(--navy);font-weight:700;}
   .ke-price b{color:var(--pinkd);font-size:14px;}
   .ke-price-list{font-size:11px;color:var(--sub);font-weight:600;margin-top:3px;}
   .ke-price-list b{color:var(--navy);}
+  /* ===== 実データ相場（メルカリ売切） ===== */
+  .ke-real{background:linear-gradient(135deg,#fff5fa,#f3f0ff);border:1.5px solid #f3bcd6;border-radius:13px;padding:12px 14px;margin:10px 0;}
+  .rm-hd{font-size:12px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+  .rm-badge{background:linear-gradient(135deg,#F5A6C8,#B98BEA);color:#fff;font-size:10px;font-weight:800;border-radius:20px;padding:2px 9px;letter-spacing:.03em;}
+  .rm-main{font-size:15px;font-weight:700;color:var(--navy);}
+  .rm-main b{color:var(--pinkd);font-size:22px;font-weight:800;}
+  .rm-band{font-size:12px;color:var(--navy);font-weight:700;margin-top:3px;}
+  .rm-band b{color:var(--pinkd);}
+  .rm-band small{color:var(--sub);font-weight:600;font-size:10.5px;}
+  .rm-note{font-size:11px;color:#8a6d2f;background:#fffdf3;border-radius:8px;padding:6px 9px;margin-top:7px;line-height:1.6;}
+  .rm-warn{font-size:11.5px;color:var(--pinkd);font-weight:700;margin-top:7px;line-height:1.6;}
+  .rm-samp{margin-top:8px;border-top:1px dashed #f0c9dc;padding-top:7px;}
+  .rm-s{display:flex;justify-content:space-between;gap:8px;font-size:10.5px;color:var(--sub);padding:2px 0;}
+  .rm-s b{color:var(--navy);flex:none;}
+  .rm-loading{font-size:11.5px;color:var(--sub);font-weight:600;background:#faf6ff;border:1px dashed #d9c8f0;border-radius:10px;padding:9px 12px;margin:10px 0;display:flex;align-items:center;gap:8px;}
+  .rm-spin{width:13px;height:13px;border:2px solid #e3d4f2;border-top-color:#B98BEA;border-radius:50%;flex:none;animation:rmspin .8s linear infinite;}
+  @keyframes rmspin{to{transform:rotate(360deg)}}
   .ke-triv{display:flex;gap:9px;align-items:flex-start;background:#fffdf3;border:1px solid #f0e2c8;border-radius:11px;padding:10px 12px;margin:10px 0;font-size:12px;line-height:1.65;color:var(--ink);}
   .ke-triv-ic{font-size:16px;flex:none;}
   .ke-triv b{color:#b8862d;}
@@ -892,6 +927,17 @@
       <div class="kpi"><div class="k">販売数</div><div class="v" id="k-soldn"></div></div>
       <div class="kpi"><div class="k">販売率</div><div class="v" id="k-rate"></div></div>
       <div class="kpi"><div class="k">利益単価</div><div class="v" id="k-uprofit"></div></div>
+    </div>
+
+    <div class="card" id="paceCard">
+      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:10px;">出品ペース＆今月の着地予想 <small style="color:var(--sub);font-weight:600">出品するほど精度UP</small></div>
+      <div class="kpigrid">
+        <div class="kpi"><div class="k">あなたの平均販売率</div><div class="v" id="k-rate2"></div><div id="k-rate2-sub" style="font-size:10px;font-weight:700;margin-top:3px;"></div></div>
+        <div class="kpi"><div class="k">1日あたり出品数</div><div class="v" id="k-perday-n"></div></div>
+        <div class="kpi"><div class="k">1日あたり出品額</div><div class="v" id="k-perday-amt"></div></div>
+        <div class="kpi hl"><div class="k">今月の利益予想</div><div class="v" id="k-forecast"></div></div>
+      </div>
+      <div class="note" id="paceNote" style="margin-top:8px"></div>
     </div>
 
     <div class="card">
@@ -1389,6 +1435,11 @@
    ============================================================ */
 var GAS_URL = "";  // ★デプロイ後にここへ .../exec を貼る（全生徒共通）
 
+/* ★メルカリ実売相場プロキシ(Supabase Edge Function)のURL。
+   backend/README.md の手順でデプロイ→出たURLをここに貼る。
+   空のままなら従来のルールベース値付けで動く（後方互換）。 */
+var MERCARI_API = "https://advctswaclrnrxpxiglw.supabase.co/functions/v1/mercari-price";  // メルカリ売切実売プロキシ(Supabase Edge・reche-talkプロジェクト)。空にすればルールベースにフォールバック
+
 /* ============ storage ============ */
 var KEY = "seller_tool_v1";
 function defaultGame(){ return { xp:0, level:1, species:"egg", stage:"egg", streak:0, lastListDate:"", badges:[], todayDone:false, mood:"normal" }; }
@@ -1636,16 +1687,31 @@ function shiftMonth(d){
   if(m<1){m=12;y--;} if(m>12){m=1;y++;}
   curMonth = y+"-"+String(m).padStart(2,"0"); renderDash();
 }
+/* ベンチマーク：生徒の平均販売率35%・利益率42%(美里さん仕入れ実績) */
+var BENCH_RATE = 35, BENCH_PROFITRATE = 42;
 function aggMonth(ym){
-  var listed=0, soldN=0, sales=0, profit=0;
+  var listed=0, soldN=0, sales=0, profit=0, listAmt=0;
   state.items.forEach(function(it){
-    if(ymOf(it.listDate)===ym) listed++;
+    if(ymOf(it.listDate)===ym){ listed++; listAmt+=num(it.price); }
     if(it.sold && ymOf(it.sellDate)===ym){ soldN++; sales+=num(it.sellPrice); profit+=takeHome(it); }
   });
   var rate = listed? soldN/listed*100 : 0;
   var uSales = soldN? sales/soldN : 0;
   var uProfit = soldN? profit/soldN : 0;
-  return {listed:listed, soldN:soldN, sales:sales, profit:profit, rate:rate, uSales:uSales, uProfit:uProfit};
+  return {listed:listed, soldN:soldN, sales:sales, profit:profit, rate:rate, uSales:uSales, uProfit:uProfit, listAmt:listAmt};
+}
+/* 出品ペース＆着地予想を計算（当月は今日まで、過去月は月末までで日割り） */
+function pace(ym, a){
+  var now=new Date();
+  var curYm = now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0");
+  var dim = new Date(+ym.slice(0,4), +ym.slice(5,7), 0).getDate(); // 月の日数
+  var elapsed = (ym===curYm)? Math.max(1, now.getDate()) : dim;
+  var perDayN = a.listed/elapsed;
+  var perDayAmt = a.listAmt/elapsed;
+  var rateUse = a.soldN>0? a.rate : BENCH_RATE;                 // 実績があれば実績、なければ35%
+  var prUse   = a.sales>0? (a.profit/a.sales*100) : BENCH_PROFITRATE; // 利益率(対売価)
+  var forecast = perDayAmt * dim * (rateUse/100) * (prUse/100); // 月間出品額×販売率×利益率
+  return {perDayN:perDayN, perDayAmt:perDayAmt, forecast:forecast, rateUse:rateUse, prUse:prUse, elapsed:elapsed, dim:dim};
 }
 function renderDash(){
   var ym = curMonth;
@@ -1658,6 +1724,20 @@ function renderDash(){
   document.getElementById("k-soldn").innerHTML = a.soldN+"<small>品</small>";
   document.getElementById("k-rate").textContent = pct(a.rate);
   document.getElementById("k-uprofit").innerHTML = "<small>¥</small>"+Math.round(a.uProfit).toLocaleString("ja-JP");
+
+  // 出品ペース＆着地予想
+  var p = pace(ym, a);
+  document.getElementById("k-rate2").textContent = a.listed? pct(a.rate) : "—";
+  var rsub = document.getElementById("k-rate2-sub");
+  if(!a.listed){ rsub.textContent=""; }
+  else if(a.rate>=BENCH_RATE){ rsub.style.color="#2e9e6b"; rsub.textContent="基準"+BENCH_RATE+"%を達成✨"; }
+  else { rsub.style.color="var(--pinkd)"; rsub.textContent="基準"+BENCH_RATE+"%まであと"+pct(BENCH_RATE-a.rate); }
+  document.getElementById("k-perday-n").innerHTML = a.listed? (Math.round(p.perDayN*10)/10)+"<small>品</small>" : "—";
+  document.getElementById("k-perday-amt").innerHTML = a.listed? "<small>¥</small>"+Math.round(p.perDayAmt).toLocaleString("ja-JP") : "—";
+  document.getElementById("k-forecast").innerHTML = a.listAmt? "<small>¥</small>"+Math.round(p.forecast).toLocaleString("ja-JP") : "—";
+  document.getElementById("paceNote").innerHTML = a.listAmt
+    ? "この月に <b>1日 "+(Math.round(p.perDayN*10)/10)+"品・"+yen(Math.round(p.perDayAmt))+"</b> のペースで出品中。このまま続けると月末で <b>利益 "+yen(Math.round(p.forecast))+"</b> の見込み（"+(a.soldN>0?"あなたの実績":"基準")+"販売率"+Math.round(p.rateUse)+"%・利益率"+Math.round(p.prUse)+"%で計算）。<b>単価を上げる×出品数を増やす</b>と予想が伸びます。"
+    : "出品を登録すると、1日あたりの出品ペースと今月の利益予想がここに出ます。";
 
   var g = state.goals[ym]||{};
   bar("bar-profit","利益", a.profit, g.profit, true);
@@ -1710,11 +1790,30 @@ function openGoalModal(){
   goalPreview(); openModal("goalModal");
 }
 function goalPreview(){
-  var sales=num(document.getElementById("g-sales").value), profit=num(document.getElementById("g-profit").value),
-      listed=num(document.getElementById("g-listed").value), soldN=num(document.getElementById("g-soldn").value);
-  var rate = listed? soldN/listed*100:0, uS = soldN? sales/soldN:0, uP = soldN? profit/soldN:0;
-  document.getElementById("goalPrev").innerHTML =
-    "自動計算 → 販売率 <b>"+pct(rate)+"</b>・売上単価 <b>"+yen(uS)+"</b>・利益単価 <b>"+yen(uP)+"</b>";
+  var profit=num(document.getElementById("g-profit").value),
+      listed=num(document.getElementById("g-listed").value);
+  // 実績の販売率・利益率があれば使い、なければ基準(35%/42%)
+  var a = aggMonth(curMonth);
+  var rate = a.soldN>0? a.rate : BENCH_RATE;
+  var pr   = a.sales>0? (a.profit/a.sales*100) : BENCH_PROFITRATE;
+  var html="";
+  if(profit>0){
+    // 目標利益 → 必要な月間出品額(売価) = 利益 ÷ (販売率 × 利益率)
+    var needAmt = profit / ((rate/100)*(pr/100));
+    var perDay  = needAmt/30;
+    html += "目標利益 <b>"+yen(profit)+"</b> を出すには、月に <b>"+yen(Math.round(needAmt))+"</b> 分の出品が必要。<br>"+
+      "→ <b style='color:var(--pinkd);font-size:15px'>1日あたり "+yen(Math.round(perDay))+" 分</b>を出品しましょう";
+    if(listed>0){
+      var perDayN = listed/30;
+      var needUnit = needAmt/listed;
+      html += "<br>→ 目標 "+listed+"品なら <b>1日 "+(Math.round(perDayN*10)/10)+"品</b>／1品の平均単価は <b>"+yen(Math.round(needUnit))+"</b> が目安";
+    }
+    html += "<div style='font-size:10.5px;color:var(--sub);margin-top:6px'>"+
+      (a.soldN>0?"あなたの実績":"基準")+"販売率 "+Math.round(rate)+"%・利益率 "+Math.round(pr)+"% で計算（美里さん実績ベース）</div>";
+  } else {
+    html = "目標利益（＋目標出品数）を入れると、1日あたりの出品目安と必要な平均単価が出ます☺";
+  }
+  document.getElementById("goalPrev").innerHTML = html;
 }
 function saveGoal(){
   state.goals[curMonth] = {
@@ -1966,6 +2065,8 @@ var MERO_KE = (function(){
     {re:/ヴィンテージ|アーカイブ/,label:"ヴィンテージ"}
   ];
   var CAT_RE = [
+    ["財布",/財布|ウォレット|wallet|コインケース|カードケース/i],["バッグ",/バッグ|バック|bag|トート|ショルダー|リュック|ハンドバッグ/i],
+    ["靴",/靴|パンプス|サンダル|スニーカー|ブーツ|ローファー|shoes|ヒール/i],["アクセサリー",/ピアス|イヤリング|ネックレス|ブレスレット|指輪|リング|アクセ/i],
     ["ダウン",/ダウン|down/i],["シャケット",/シャケット|ブルゾン|ジャケット|jacket|blouson/i],
     ["コート",/コート|coat/i],["パーカー",/パーカー|フーディ|hoodie|parka/i],
     ["ワンピース",/ワンピース|dress|ワンピ/i],["Tシャツ",/t\s*シャツ|tシャツ|カットソー|tee/i],
@@ -1983,8 +2084,9 @@ var MERO_KE = (function(){
   function marketFor(brand,cat){ if(!brand||!brand.cats) return null;
     var kind = brand.sell? "sell":"buy";
     var pick=function(k){ return {cat:k, kind:kind, a:brand.cats[k][0], b:brand.cats[k][1]}; };
+    // カテゴリが一致した時だけ返す。該当カテゴリが無い品は"推測しない"（別カテゴリへの誤フォールバック禁止）
     if(cat&&brand.cats[cat]) return pick(cat);
-    var ks=Object.keys(brand.cats); if(!ks.length) return null; return pick(ks[0]); }
+    return null; }
   function highValue(brand,text){ var reasons=[]; var lvl=0;
     if(brand){ lvl+=brand.val; if(brand.val>=3) reasons.push(brand.disp.split(" / ")[0]+"は高値ブランド"); }
     for(var i=0;i<HIGH_KW.length;i++){ if(HIGH_KW[i].re.test(norm(text))){ reasons.push(HIGH_KW[i].label); lvl+=1; } }
@@ -2035,6 +2137,35 @@ var MERO_KE = (function(){
 /* reseller-assistant の runListing / runPrice を参考にしたルールベース生成。
    入力: {name,cat,cond,brand,opt,cost,serial} → 出力: {title,desc,tags,price,fast,high, ke...} */
 function isBetter(cond){ return /新品|未使用/.test(cond||""); }
+/* 売れてる出品者5人の型から抽出：状態バッジ・平置き採寸テンプレ・検索キーワード（2026-07-11） */
+function gradeBadge(cond){
+  cond=cond||"";
+  if(/新品|未使用/.test(cond)) return "新品未使用";
+  if(/傷や汚れあり|状態が悪い/.test(cond)) return "";     // 難あり品はバッジを付けず正直に
+  return "美品✨";
+}
+function sizeTemplate(cat){
+  cat=cat||"";
+  if(/バッグ|トート|ショルダー|リュック|ハンドバッグ/.test(cat)) return "縦　約__cm\n横　約__cm\nマチ　約__cm\n持ち手立ち上がり　約__cm";
+  if(/財布|ウォレット|コインケース|カードケース/.test(cat)) return "縦　約__cm\n横　約__cm\nマチ　約__cm";
+  if(/靴|パンプス|スニーカー|ブーツ|サンダル|ローファー/.test(cat)) return "表記サイズ　__\n実寸(全長)　約__cm\nヒール　約__cm";
+  if(/パンツ|スカート|デニム/.test(cat)) return "ウエスト　約__cm\n総丈　約__cm\n裾幅　約__cm";
+  if(/アクセサリー|ピアス|イヤリング|ネックレス|ブレスレット/.test(cat)) return "全長　約__cm";
+  return "肩幅　約__cm\n身幅　約__cm\n袖丈　約__cm\n着丈　約__cm"; // トップス系デフォルト
+}
+function keywordLine(brandDisp, cat, opt, name){
+  var t=[];
+  if(brandDisp) t.push(brandDisp);
+  if(cat) t.push(cat);
+  if(opt) t.push(opt);
+  var g={"バッグ":"レディース 鞄 カバン 通勤 通学 お出かけ","財布":"レディース メンズ プレゼント ギフト 長財布",
+    "靴":"レディース メンズ","トップス":"メンズ レディース 春 夏 秋 冬 カジュアル","Tシャツ":"メンズ レディース カジュアル 春 夏",
+    "ニット":"レディース メンズ 秋 冬","コート":"レディース メンズ 秋 冬 アウター","ダウン":"メンズ レディース 冬 アウター",
+    "パンツ":"メンズ レディース カジュアル","スカート":"レディース きれいめ","ワンピース":"レディース きれいめ お出かけ",
+    "アクセサリー":"レディース プレゼント ギフト"};
+  Object.keys(g).forEach(function(k){ if((cat||"").indexOf(k)>=0 || (name||"").indexOf(k)>=0) t.push(g[k]); });
+  return t.filter(function(v,i,a){return a.indexOf(v)===i;}).join(" ").replace(/\s+/g," ").trim();
+}
 function buildDraft(inp){
   var name=(inp.name||"").trim();
   var cat=(inp.cat||"").trim();
@@ -2042,86 +2173,132 @@ function buildDraft(inp){
   var opt=(inp.opt||"").trim();
   // ブランド：明示があれば優先、なければ商品名の英字先頭から推定
   var brand=(inp.brand||"").trim() || (name.match(/^[A-Za-zＡ-Ｚａ-ｚ&\.\s]+/)||[""])[0].trim();
-  var grade = isBetter(cond)? "美品":"良品";
+  // ※タイトル・説明文・タグは、ブランド/カテゴリ検出のあと（勝ちパターン適用）で生成する
 
-  // タイトル（40字以内）: runListing の連結型を踏襲
-  var title = [name, opt, grade, "送料無料", "即購入OK"].filter(Boolean).join(" ").replace(/\s+/g," ").trim();
-  if(title.length>40) title=title.slice(0,40);
-
-  // 説明文: runListing の見出しブロック構成を踏襲
-  var desc =
-    "ご覧いただきありがとうございます。\n\n"+
-    "【"+name+"】"+(cat?"（"+cat+"）":"")+(opt?" "+opt:"")+"\n"+
-    "状態は「"+cond+"」です。"+(brand?brand+"の"+ (cat||"アイテム")+"になります。":"")+"\n\n"+
-    "【おすすめポイント】\n"+
-    "・"+grade+"／自宅保管品です\n"+
-    "・大きな傷や汚れはございません\n"+
-    "・気持ちよくお使いいただけるよう丁寧に梱包いたします\n\n"+
-    "【発送・その他】\n"+
-    "・即購入歓迎です。お値下げご希望の方はコメントでご相談ください\n"+
-    "・発送は1〜2日以内を予定しています\n\n"+
-    "気になる点はお気軽にコメントください☺";
-
-  // ハッシュタグ
-  var tags = ["#"+(brand||name).replace(/\s+/g,""), cat?"#"+cat.replace(/\s+/g,""):"",
-    "#"+grade, "#送料無料", "#即購入OK"].filter(Boolean);
-  tags = tags.filter(function(t,i){ return tags.indexOf(t)===i; }).join(" ");
-
-  // 価格: suggestPrice をベースに、状態で3パターン（runPrice の fast/相場/美品を踏襲）
+  /* ===== 価格：相場ベースのみ。仕入れ値は推奨価格に一切影響させない（くみこ指示 2026-07-11） =====
+     理由：オークション仕入れは異常高値で競り落とす失敗もあり得る。仕入れ値に利益率を乗せると
+     推奨価格が危険なほど高くなる。仕入れ値は「手取り計算」と「採算ライン警告」だけに使う。 */
   var cost = num(inp.cost);
+  // フォールバック用の状態ベース（相場データが無い品でのみ最終的に使用）
   var base = suggestPrice(cat);
   if(isBetter(cond)) base = Math.round(base*1.15/100)*100;
   else if(/傷や汚れあり/.test(cond)) base = Math.round(base*0.85/100)*100;
-
-  // 下限：手取り（price*0.9 - 送料700 - 仕入れ）が最低+500円になる価格を計算し、
-  // 相場推奨がそれ未満なら下限価格を採用（推奨が仕入れを割って手取りマイナスになるのを防ぐ）
-  var floor = priceFloor(cost);
-  var belowCost = false;
-  if(cost>0 && base<floor){ base = floor; belowCost = true; }
-
-  var fast = Math.max(priceFloor(cost), Math.round(base*0.82/100)*100);
+  var fast = Math.round(base*0.82/100)*100;
   var high = Math.round(base*1.28/100)*100;
+  var belowCost = false;    // 相場が採算ライン（仕入れ＋経費＋利益）を下回るかの「警告」フラグ。価格は上書きしない
+  var needResearch = false; // 相場データが無く確定価格を出せない＝メルカリでリサーチ必須
 
   /* ===== 知識エンジン連携（年式・相場・高値・豆知識・説明文リッチ化） ===== */
   var allText = [name, opt, brand, inp.serial].filter(Boolean).join(" ");
   var keBrand = MERO_KE.detectBrand(allText);
-  var keCat   = cat || MERO_KE.detectCat(allText);
+  // カテゴリは「検出したアイテム型（財布/ダウン等）」を優先。選択カテゴリ(レディース服等)は相場DBのキーと合わないため後回し
+  var keCat   = MERO_KE.detectCat(allText) || cat;
   var keYear  = MERO_KE.estYear(keBrand, allText);
   var keMkt   = MERO_KE.marketFor(keBrand, keCat);
   var keHV    = MERO_KE.highValue(keBrand, allText);
   var keTriv  = (keBrand && keBrand.triv && keBrand.triv.length) ? keBrand.triv[ name.length % keBrand.triv.length ] : "";
 
-  // 価格は「市場相場」を主役に。原価積み上げの暴走を防ぎ、採算下限だけは割らない。
-  if(keMkt){
-    if(keMkt.kind==="sell"){ base=Math.round(((keMkt.a+keMkt.b)/2)/100)*100; fast=keMkt.a; high=keMkt.b; }
-    else { var _sm=MERO_KE.sellFromMarket(keMkt.a, keCat); if(_sm){ base=_sm.sell30; fast=Math.round(base*0.85/100)*100; high=_sm.sell40; } }
+  // ★ハイブランド判定：ファストファッション(sell:true)には真贋・年式・品質表示の説明を付けない
+  var isHiBrand = !!(keBrand && !keBrand.sell);
+
+  /* ===== タイトル・説明文・タグ：売れてる出品者5人の勝ちパターン適用（2026-07-11） ===== */
+  var badge = gradeBadge(cond);                                  // 状態バッジ（美品✨/新品未使用）
+  var brandDisp = keBrand? keBrand.disp.replace(/\s*\/\s*/," ") : brand; // 和英ブランド名
+  // タイトル：[状態バッジ]+[商品名]+[特徴] を先頭に。検索キーワードを詰める・40字
+  var title = [badge, name, opt].filter(Boolean).join(" ").replace(/\s+/g," ").trim();
+  if(title.length>40) title=title.slice(0,40);
+  // 説明文：■見出し構造（ブランド/アイテム＋検索語/採寸/状態/発送）＋正直な状態＋回遊
+  var kw = keywordLine(brandDisp, keCat, opt, name);
+  var condHonest = /傷や汚れあり|状態が悪い/.test(cond)
+    ? "USED品のため使用感やスレ・小傷がございます。お写真と記載をご確認の上ご検討ください。遠目には目立たず、まだまだお使いいただけます。"
+    : "目立つ大きな傷や汚れはなく、綺麗な状態です。まだまだ気持ちよくお使いいただけます。";
+  var usedNote = /新品|未使用/.test(cond) ? "" : "・自宅保管のUSED品にご理解いただける方のみご購入をお願いいたします\n";
+  var desc =
+    "ご覧いただきありがとうございます☺\n即購入OK・お値下げはコメントでご相談ください。\n\n"+
+    "■ブランド\n"+(brandDisp||"ノーブランド")+"\n\n"+
+    "■アイテム\n"+[name,opt,keCat].filter(Boolean).join(" ")+(kw?("\n"+kw):"")+"\n\n"+
+    "■サイズ（平置き実測・お手数ですが採寸を記入してください）\n"+sizeTemplate(keCat)+"\n\n"+
+    "■状態\n"+cond+"。"+condHonest+"\n\n"+
+    "■発送・その他\n"+
+    "・送料無料／即購入OK\n"+
+    "・ご購入後1〜2日以内に、丁寧に梱包して発送します\n"+
+    usedNote+
+    "\n気になる点はお気軽にコメントください☺";
+  // ハッシュタグ：ブランド・アイテム・状態＋回遊しやすい語
+  var tags = ["#"+(brandDisp||name).replace(/\s+/g,""), keCat?"#"+keCat.replace(/\s+/g,""):"",
+    badge?"#"+badge.replace(/[✨\s]/g,""):"", "#送料無料", "#即購入OK"].filter(Boolean);
+  tags = tags.filter(function(t,i){ return tags.indexOf(t)===i; }).join(" ");
+
+  if(isHiBrand){
+    // ハイブランド：YBAは"仕入れ相場"であって出品相場ではない。状態で価格が激変し目視必須。
+    // 仕入れ値から推奨価格は作らない。メルカリ実データ(あれば applyRealPrice が上書き)を主役にし、
+    // 実データが無ければ確定価格を出さず「要リサーチ」にする（keMktの有無に関係なく必ず）。
+    needResearch = true;
+  } else if(keBrand && keBrand.sell && keMkt){
+    // ファストファッション：メルカリ実売バンドが主役（相場ベース・仕入れ非依存）
+    base=Math.round(((keMkt.a+keMkt.b)/2)/100)*100; fast=keMkt.a; high=keMkt.b;
     var _fl=MERO_KE.pricePlan(cost, keCat);
-    if(_fl && cost>0 && base<_fl.sell30){ base=_fl.sell30; belowCost=true; }
+    if(_fl && cost>0 && base < _fl.sell30) belowCost = true; // 警告のみ
   }
 
-  // 説明文に必ずブランド知識・年式・真贋を入れる
-  if(keBrand){
+  /* ===== 成功リセラーの「モデルケース」例示＋南雲講師の一般相場 =====
+     同じジャンルの売れた例を数点見せるだけ。推奨価格は動かさない（この商品の実売価格ではないため）。
+     南雲講師(一般)の相場は"物差し"としてどの商品にも常時添える（くみこ指示・Cパターン）。 */
+  var bench = benchFor(isHiBrand, allText);
+  var benchGen = null;
+  var _bc = benchCatOf(allText);
+  if(_bc && BENCH_EX.general[_bc]) benchGen = { cat:_bc, ex:BENCH_EX.general[_bc].ex, n:BENCH_EX.general[_bc].n };
+
+  // 説明文にブランド知識・年式・真贋を入れる（ハイブランドのみ）
+  if(isHiBrand){
     desc += "\n\n━━━━━━━━\n【このブランドについて】\n"+keBrand.blurb;
     if(keYear) desc += "\n・年式の目安："+keYear;
     if(keBrand.auth) desc += "\n【真贋チェック済み】"+keBrand.auth;
     desc += "\n※気になる箇所は追加写真をお送りします。安心してご検討ください☺";
   }
-  // 品質表示（洗濯）タグの2016年境界を、邪魔にならないよう末尾1行で付記
+  // 品質表示（洗濯）タグの2016年境界を、邪魔にならないよう末尾1行で付記（ハイブランドのみ）
   var ct = inp.caretag||"";
-  if(ct==="new") desc += "\n\n※品質表示は現行の絵表示（2016年12月以降）＝比較的新しいお品です。タグ写真も掲載しています。";
-  else if(ct==="old") desc += "\n\n※品質表示は日本語入りの旧表示（〜2016年11月）です。タグ写真を掲載しています。";
-  else if(ct==="unknown") desc += "\n\n※品質表示タグの写真も掲載しています（年代のご判断にお役立てください）。";
+  if(isHiBrand){
+    if(ct==="new") desc += "\n\n※品質表示は現行の絵表示（2016年12月以降）＝比較的新しいお品です。タグ写真も掲載しています。";
+    else if(ct==="old") desc += "\n\n※品質表示は日本語入りの旧表示（〜2016年11月）です。タグ写真を掲載しています。";
+    else if(ct==="unknown") desc += "\n\n※品質表示タグの写真も掲載しています（年代のご判断にお役立てください）。";
+  }
 
-  // 型番が未入力＝入力を促すフラグ（ブランド検出時のみ）
-  var keNeedSerial = !!(keBrand && !((inp.serial||"").toString().trim()));
+  // 型番が未入力＝入力を促すフラグ（ハイブランド検出時のみ）
+  var keNeedSerial = !!(isHiBrand && !((inp.serial||"").toString().trim()));
 
   return {name:name, cat:cat, cond:cond, brand:brand, opt:opt,
-    title:title, desc:desc, tags:tags, price:base, fast:fast, high:high, cost:cost, belowCost:belowCost,
-    keBrand:keBrand, keCat:keCat, keYear:keYear, keMkt:keMkt, keHV:keHV, keTriv:keTriv, keNeedSerial:keNeedSerial};
+    title:title, desc:desc, tags:tags, price:base, fast:fast, high:high, cost:cost, belowCost:belowCost, needResearch:needResearch,
+    keBrand:keBrand, keCat:keCat, keYear:keYear, keMkt:keMkt, keHV:keHV, keTriv:keTriv, keNeedSerial:keNeedSerial, bench:bench, benchGen:benchGen};
 }
 function suggestPrice(cat){
   var map={"バッグ":8000,"レディース靴":4500,"レディース服":3000,"メンズ服":3000,"アクセサリー":3500,"家電":6000,"キッズ":1800};
   return map[cat]||2500;
+}
+/* ===== 成功リセラーの「モデルケース」例示（一般/ブランド品=みーROOM+acomam/非ブランド=kei）
+   カテゴリ→{n:件数, ex:[[価格,商品名],...]}（低/中/高の3例）。売切実売の実データ（2026-07-11）。
+   ※アカウント名は出さない。※これは"同じジャンルの参考例"で、その商品自体の実売価格ではない。 */
+var BENCH_EX = {"general":{"シャツ":{"n":61,"ex":[[1200,"美品オンシェリー Tシャツ 半袖カットソー 刺繍 袖"],[2700,"ロビンソンズ 半袖チェックシャツ コラトロン 米国製"],[6120,"美品パタゴニア フランネルワークシャツ オーガニック"]]},"バッグ":{"n":32,"ex":[[1600,"美品ステファン ショルダーバッグ レザー シボ ダー"],[5199,"イアパピヨネ レザーショルダーバッグ リュック 2w"],[12500,"美品フジタカ トートバッグ レザー シボ 濃紺 日本"]]},"スーツ":{"n":11,"ex":[[1499,"美品BG コムサ系列 スーツ セットアップ ウール "],[5504,"美品クリスチャンオラーニ スーツ セットアップ グレ"],[9999,"B&T CLUB メンズスーツ セットアップ 2XL"]]},"財布":{"n":7,"ex":[[2500,"美品コーチ 三つ折り財布 ウォレット レザー PVC"],[4200,"ダコタ アプローズ がま口二つ折り財布 本革 シボ "],[11970,"グッチ 長財布 レザー シボ シェリーライン バンブ"]]},"ダウン":{"n":3,"ex":[[2150,"美品バーンズアウトフィッターズ オックスフォードボタ"],[6000,"希少美品レフラー 中綿ダウンジャケット 迷彩 L 刺"],[9399,"美品ベルスタッフ ブラックレーベル ダウンジャケット"]]},"ジャケット":{"n":48,"ex":[[1530,"ユナイテッドアローズ ノーカラージャケット 刺繍 グ"],[3699,"23SSジャーナルスタンダード コットンポリエステル"],[8550,"美品ガルフィー デニムジャケット 刺繍 バイカラー "]]},"パンツ":{"n":20,"ex":[[900,"無印良品 ワイドデニム ジャパンファブリック オーガ"],[3600,"極美品リーバイス 510 スキニーデニム W32 L"],[7500,"エンズアンドミーンズ ショートパンツ M メッシュ "]]},"スカート":{"n":6,"ex":[[1399,"新品タグ付リリアンカラット デニムロングフレアスカー"],[2700,"マックスマーラ ロングタイトスカート ウール ベージ"],[49999,"アライア スカートセットアップスーツ ダブル 濃紺 "]]},"コート":{"n":11,"ex":[[1440,"美品グラム ピーコート ウール 濃紺 2 キルティン"],[4000,"マックレガー ダッフルコート ヴィンテージ ウール "],[6879,"美品マテリア 3wayロングファーコート アンゴラ "]]},"ニット":{"n":4,"ex":[[499,"美品イング 半袖ニット 黒 M モックネック レディ"],[2699,"美品シビラ カラーミックスローゲージプルオーバー ニ"],[9399,"美品カナタ カウチンニット ローゲージ カナダ製 9"]]},"ワンピース":{"n":3,"ex":[[1999,"ミラオーウェン ボートネックサテンナローロングワンピ"],[3600,"サルヴァトーレフェラガモ 膝丈ワンピース コットンリ"],[5310,"ボールジィ トゥモローランド マキシ丈ワンピース A"]]},"ネクタイ":{"n":4,"ex":[[1199,"美品モダリトルノ ネクタイ シルバー シルク イタリ"],[1799,"極美品ネイビー&グリーン ネクタイ シルク ソリッド"],[2290,"極美品ネイビー&グリーン ネクタイ シルク ソリッド"]]}},"brand":{"靴":{"n":27,"ex":[[8500,"トリーバーチ バレエシューズ ライラドライバー レザ"],[16800,"サルヴァトーレフェラガモ バミューダ ラバーシューズ"],[35000,"希少PRADA プラダ ソックスブーツ サイズ39 "]]},"財布":{"n":44,"ex":[[3700,"COACH ソーホー レザー 長財布 ブラック 人気"],[7000,"ケイトスペード コインケース ドット スモールジップ"],[15200,"GUCCI 長財布 シマレザー ラウンドファスナー "]]},"バッグ":{"n":67,"ex":[[4940,"MARC JACOBS チェーンストラップ バッグ用"],[7480,"コーチ ショルダーバッグ オプアート がま口 キスロ"],[12800,"美品希少PRIMACLASSE プリマクラッセ ボス"]]},"スカート":{"n":5,"ex":[[5500,"マッキントッシュ グレンチェック ミドル丈 ラップス"],[7000,"近年モデルFOXEY フォクシー デニムフリンジ膝丈"],[30000,"CHANEL デニムラップスカート ロング ココマー"]]},"ストール":{"n":19,"ex":[[5800,"FENDI スカーフ ズッカ柄 星座 ベージュ ブラ"],[10500,"ETRO シルクストール 花柄 ペイズリー シフォン"],[28000,"CHANEL スカーフ グリポア カメリア パール "]]},"アクセサリー":{"n":63,"ex":[[3500,"COACH フープピアス ラインストーン シルバー"],[6500,"希少極美品SWAROVSKI スワロフスキー ネック"],[10700,"MIKIMOTO パールイヤリング ハート アコヤ真"]]},"ネクタイ":{"n":32,"ex":[[2000,"Paul Stuart ネクタイ ブラック イタリア"],[4700,"HERMES ネクタイ ベルト柄 総柄 ネイビー フ"],[10000,"ルイヴィトン ネクタイ コンステレーションデニム モ"]]},"ジャケット":{"n":3,"ex":[[12000,"バーバリー ジャケット 大きいサイズ シルク ウール"],[18900,"Patagonia パタゴニア カルサイト ゴアテッ"],[21000,"極美品サルヴァトーレフェラガモ ガンチーニベルトニッ"]]},"シャツ":{"n":5,"ex":[[1200,"nano universe フレンチリネン 長袖シャ"],[1950,"大きいサイズ ストライプ スキッパー Aライン シャ"],[5900,"新品タグ付大きいサイズ 4L leswel フーデッ"]]},"ニット":{"n":7,"ex":[[5600,"D&G ドルチェアンドガッバーナ ノースリーブ フリ"],[9300,"ADORE アドーア ケーブル編み フリル ニット "],[23900,"ADEAM アディアム ニット×プリーツ ドッキング"]]},"コート":{"n":3,"ex":[[22000,"DOLCE&GABBANA ドルチェ&ガッバーナ ト"],[24800,"Aquascutum アクアスキュータム ラグランス"],[72500,"極美品HERNO ヘルノ ライナー付 フーディパイピ"]]}},"nonbrand":{"ジャケット":{"n":23,"ex":[[3200,"未使用 UNIQLOユニクロ 感動ジャケットジャケッ"],[7690,"美品 ソウルベリー 店長がつくったMIXナッツなカー"],[13000,"メゾンスペシャル ビッグファスナーポケットMA-1 "]]},"パンツ":{"n":17,"ex":[[1899,"新品未使用 ユニクロ ストレッチイージーアンクルパン"],[3199,"美品 familiar ファミリア ベビーオーバーオ"],[5000,"美品 ブラックバイマウジー カウヴィンテージデニム "]]},"スカート":{"n":9,"ex":[[1510,"RALPH LAUREN ラルフローレン フレアスカ"],[3990,"美品 アディダスオリジナルス サテンロングスカート "],[4490,"新品 アンタイトル スカート スーツ ビジネス リク"]]},"バッグ":{"n":41,"ex":[[4199,"美品 mont-bell ポケッタブル ライトバナナ"],[8000,"J*読様 美品 フェイラー ユニ トートバッグ ハン"],[18000,"美品 アニエスベー マリオン サークルバッグ レザー"]]},"靴":{"n":24,"ex":[[3390,"美品アディダス ランニングシューズ スニーカー ファ"],[8790,"美品 ドクターマーチン 1461 3ホール シューズ"],[14000,"超美品 ハンター リファインドエクスプローラー フラ"]]},"アクセサリー":{"n":11,"ex":[[400,"森*ん様 極美品 ハート型ブローチ パール クリスタ"],[6590,"新品 ジバンシー ネックレス ロゴ ストーン チェー"],[10290,"エムズグレイシー パーカー フリル ハート リボンブ"]]},"財布":{"n":5,"ex":[[3990,"美品 ユナイテッドアローズ ショルダーバッグ レザー"],[8699,"美品 アニエスベー カードケース 名刺入れ ロゴ レ"],[10000,"イルビゾンテ 二つ折り財布 ウォレット ブラック レ"]]},"スーツ":{"n":3,"ex":[[5000,"NIKE キッズセットアップ YTH NSW QZ "],[10290,"新品未使用 フリークスストア サウザンドマイル セッ"],[13000,"美品 モンベル ゴアテックス セットアップ レインウ"]]},"シャツ":{"n":24,"ex":[[2290,"新品 モンベル 半袖Ｔシャツ コーラルピンク M W"],[4400,"美品 セントジェームス エルボーパッチ付きウェッソン"],[7390,"新品未使用 ポロスポーツラルフローレン ポロシャツ "]]},"コート":{"n":4,"ex":[[3000,"専用、美品 ORIHICA RHYME トレンチコー"],[23990,"美品 サンヨーコート アンブレラコート ササールトレ"],[39225,"美品 ebure エブール ロンハーマン メルトンピ"]]},"ワンピース":{"n":4,"ex":[[490,"mirche ミルシェ ノースリーブ裾レースワンピー"],[7990,"新品未使用 アンフィーロ ランタンスリーブワンピース"],[12990,"Y's ワイズ ノースリーブワンピース ロング 総柄"]]},"ダウン":{"n":17,"ex":[[3000,"美品 UNIQLO ユニクロ ウルトラライトダウンジ"],[4400,"美品 ユニクロ ウルトラライトダウンリラックスジャケ"],[12000,"美品 トミーヒルフィガー ダウンジャケット ロング丈"]]},"ニット":{"n":5,"ex":[[3199,"UNIQLO ユニクロ タートルネックニット カシミ"],[7190,"美品 ラコステ アルパカブレンドタートルネックケーブ"],[11390,"美品 フレッドペリー ポロニット ハーフジップ ロゴ"]]},"ストール":{"n":4,"ex":[[5900,"美品 COACH コーチ シルク スカーフ シグネチ"],[8900,"未使用級 エトロ 大判ストール ウールシルク ペイズ"],[11000,"美品 LOEWE ロエベ フルーツ柄 スカーフ シル"]]}}};
+/* ベンチマーク用のカテゴリ判定（商品名から。BENCH_EXのキーに合わせる） */
+function benchCatOf(text){
+  text=(text||"");
+  var R=[["財布",/財布|ウォレット|コインケース|カードケース/],["バッグ",/バッグ|バック|トート|ショルダー|リュック|ハンドバッグ|ポーチ|クラッチ/],
+    ["靴",/靴|パンプス|スニーカー|ブーツ|サンダル|ローファー|シューズ|バレエ|ヒール|スリッポン/],["ネクタイ",/ネクタイ/],
+    ["ストール",/ストール|マフラー|ショール|スカーフ/],["アクセサリー",/ピアス|イヤリング|ネックレス|ブレスレット|指輪|リング|バングル|ブローチ|キーリング/],
+    ["ダウン",/ダウン/],["コート",/コート/],["ジャケット",/ジャケット|ブルゾン|スタジャン|アウター|パーカー|カーディガン/],
+    ["ニット",/ニット|セーター/],["シャツ",/シャツ|ブラウス/],["スカート",/スカート/],["パンツ",/パンツ|デニム|スラックス|ズボン/],
+    ["ワンピース",/ワンピース|ワンピ/],["スーツ",/スーツ|セットアップ/]];
+  for(var i=0;i<R.length;i++){ if(R[i][1].test(text)) return R[i][0]; }
+  return "";
+}
+/* ブランド品→brand(みーROOM+acomam)、非ブランド→nonbrand(kei)。無ければ一般にフォールバック。
+   返すのは"同じジャンルの売れた例"（低/中/高の3例）。この商品自体の実売価格ではない。 */
+function benchFor(isHi, text){
+  var cat=benchCatOf(text); if(!cat) return null;
+  var prof = isHi? "brand" : "nonbrand";
+  var d = (BENCH_EX[prof] && BENCH_EX[prof][cat]) || BENCH_EX.general[cat];
+  if(!d) return null;
+  return { cat:cat, n:d.n, ex:d.ex };
 }
 /* 手取りが最低 MIN_TAKE 円以上になる出品価格の下限（100円単位で切上げ） */
 var MIN_TAKE = 500;
@@ -2132,6 +2309,61 @@ function priceFloor(cost){
 }
 /* 手取り目安: 売値 - 手数料10% - 送料700 - 仕入れ値（runPrice の profit() を踏襲） */
 function estTake(price, cost, cat){ var ship=(typeof MERO_KE!=="undefined" && MERO_KE.shipFor)? MERO_KE.shipFor(cat) : 700; return Math.round(num(price)*0.9 - ship - num(cost)); }
+
+/* ============================================================
+   実データ連携：メルカリ売切実売相場（Supabase Edge Function経由）
+   MERCARI_API が設定されていれば、ルールベース表示のあとに本物の相場で上書きする。
+   空なら何もしない（後方互換）。
+   ============================================================ */
+function mercariQuery(d){
+  var parts=[];
+  var nm=(d.name||"").trim();
+  var br=(d.brand||"").trim();
+  if(br && nm.toLowerCase().indexOf(br.toLowerCase())<0) parts.push(br);
+  parts.push(nm);
+  var c=(d.keCat||"").trim(); // 検出したアイテム種別(財布/ダウン等)は精度UP。selectのカテゴリ(レディース服等)は使わない
+  if(c && nm.indexOf(c)<0) parts.push(c);
+  return parts.join(" ").replace(/\s+/g," ").trim();
+}
+function fetchMercariPrice(q){
+  if(!MERCARI_API || !q) return Promise.resolve(null);
+  var url=MERCARI_API+(MERCARI_API.indexOf("?")<0?"?":"&")+"q="+encodeURIComponent(q);
+  return fetch(url).then(function(r){ return r.ok? r.json():null; }).catch(function(){ return null; });
+}
+var RM_LOADING='<div class="rm-loading"><span class="rm-spin"></span>メルカリの売切実売を照会中…</div>';
+/* 実売相場ブロック（実データ）。採算ラインと突き合わせて警告も出す */
+function keRealMarketBlock(m, d){
+  if(!m || !m.ok || !m.count){
+    return '<div class="ke-research" style="border-color:#f0c9dc"><b>📊 実データ照会：該当なし</b><br>この商品名ではメルカリ売切データが取れませんでした。キーワードを短く・一般的にして再検索するか、手動でリサーチしてね。</div>';
+  }
+  var cat=d?(d.keCat||d.cat||""):"";
+  var pp=(typeof MERO_KE!=="undefined")? MERO_KE.pricePlan(d?d.cost:0, cat):null;
+  var warn = pp && d && num(d.cost)>0 && m.suggest < pp.sell30;
+  var wide = (m.bandHigh>0 && m.bandLow>0 && m.bandHigh/Math.max(1,m.bandLow) >= 4);
+  var samp = (m.samples||[]).slice(0,4).map(function(s){
+    return '<div class="rm-s"><span>'+esc((s.name||"").slice(0,22))+'</span><b>'+yen(s.price)+'</b></div>'; }).join("");
+  return '<div class="ke-real">'+
+    '<div class="rm-hd"><span class="rm-badge">実データ</span>メルカリ売切相場</div>'+
+    '<div class="rm-main">中央値 <b>'+yen(m.median)+'</b></div>'+
+    '<div class="rm-band">売れ筋の帯 <b>'+yen(m.bandLow)+'〜'+yen(m.bandHigh)+'</b>　<small>該当'+(m.numFound||m.count).toLocaleString("ja-JP")+'件・直近売切'+m.count+'件</small></div>'+
+    (wide? '<div class="rm-note">状態・型番で価格差が大きい品です。型番/シリアルを入れて絞ると精度が上がります。</div>':"")+
+    (warn? '<div class="rm-warn">⚠ 相場が採算ライン（'+yen(pp.sell30)+'）を下回ります。薄利／まとめ売り／損切りの判断を。</div>':"")+
+    (samp? '<div class="rm-samp">'+samp+'</div>':"")+
+    '</div>';
+}
+/* 実データで推奨価格を上書き（中央値=相場, 帯low=早め, 帯high=強気）。相場ベースなので仕入れ非依存 */
+function applyRealPrice(d, m){
+  if(!m || !m.ok || !m.count) return d;
+  d.price = m.suggest;
+  d.fast  = m.bandLow;
+  d.high  = m.bandHigh;
+  d.real  = m;
+  d.needResearch = false; // 実データが取れたのでリサーチ不要
+  // 採算ライン警告（価格は動かさず、相場が仕入れ＋経費を割るときだけ注意喚起）
+  var pp = (typeof MERO_KE!=="undefined")? MERO_KE.pricePlan(d.cost, d.keCat||d.cat) : null;
+  d.belowCost = !!(pp && num(d.cost)>0 && m.suggest < pp.sell30);
+  return d;
+}
 
 /* --- 下書きタブ（おたすけ君と同ロジック） --- */
 var lastGen=null;
@@ -2151,21 +2383,45 @@ function runGen(){
     caretag: ctEl? ctEl.value : ""
   });
   lastGen = d;
+  renderGenOut(d, MERCARI_API? RM_LOADING : "");
+  document.getElementById("genToWizardBtn").style.display="block";
+  // 実データ連携：本物の相場が取れたら推奨価格ごと上書き
+  if(MERCARI_API){
+    fetchMercariPrice(mercariQuery(d)).then(function(m){
+      if(lastGen!==d) return; // 生成中に別入力があれば破棄
+      applyRealPrice(d, m);
+      renderGenOut(d, keRealMarketBlock(m, d));
+    });
+  }
+}
+/* genOut 描画（realHtml＝実データ相場ブロック or ローダー or 空文字） */
+function renderGenOut(d, realHtml){
   var take = estTake(d.price, d.cost, d.keCat||d.cat);
   var out=document.getElementById("genOut");
   out.style.display="block";
+  // 相場データが無いハイブランドは確定価格を出さず「要リサーチ」表示（仕入れ値からは出さない）
+  var research = d.needResearch && !d.real;
+  var priceLbl = d.real? '推奨価格（メルカリ実売より）' : (research? '推奨価格' : '推奨価格');
+  var priceHint = research
+    ? '<span style="color:var(--pinkd)">メルカリの売り切れ相場でリサーチして決めてね</span>（上のリサーチ手順を参照）'
+    : d.real? '相場 '+yen(d.price)+'（早め '+yen(d.fast)+'／強気 '+yen(d.high)+'）'
+            : yen(d.price)+' 前後（早め '+yen(d.fast)+'／美品 '+yen(d.high)+'）';
+  var takeLine = research ? ''
+    : '<div class="g-lbl">手取り目安</div><div class="g-val"'+(take<0?' style="color:var(--pinkd)"':'')+'>'+yen(take)+'（手数料10%＋送料'+(typeof MERO_KE!=="undefined"?yen(MERO_KE.shipFor(d.keCat||d.cat)):"700")+'＋仕入れ値を差引）</div>'+
+      (d.belowCost&&!d.real? '<div class="g-val" style="color:var(--pinkd);margin-top:4px">仕入れに対してメルカリ相場が低めです。このまま出すと薄利／赤字の可能性。まとめ売り・損切りも検討を。</div>':"");
   out.innerHTML =
     keHotBanner(d) +
     keNudgeBlock(d) +
+    (realHtml||"") +
     keMarketBlock(d) +
+    keNagumoBlock(d) +
+    keBenchBlock(d) +
     keTriviaBlock(d) +
     '<div class="g-lbl">タイトル（'+d.title.length+'字）</div><div class="g-val">'+esc(d.title)+'</div>'+
     '<div class="g-lbl">説明文（ブランド知識入り）</div><div class="g-val" style="white-space:pre-wrap">'+esc(d.desc)+'</div>'+
     '<div class="g-lbl">ハッシュタグ</div><div class="g-tags">'+esc(d.tags)+'</div>'+
-    '<div class="g-lbl">推奨価格</div><div class="g-val">'+yen(d.price)+' 前後（早め '+yen(d.fast)+'／美品 '+yen(d.high)+'）</div>'+
-    '<div class="g-lbl">手取り目安</div><div class="g-val"'+(take<0?' style="color:var(--pinkd)"':'')+'>'+yen(take)+'（手数料10%＋送料700円＋仕入れ値を差引）</div>'+
-    (d.belowCost? '<div class="g-val" style="color:var(--pinkd);margin-top:4px">仕入れに対して相場が低めです。値付け注意。手取りが残る最低ラインで表示しています。</div>':"");
-  document.getElementById("genToWizardBtn").style.display="block";
+    '<div class="g-lbl">'+priceLbl+'</div><div class="g-val">'+priceHint+'</div>'+
+    takeLine;
 }
 
 /* ===== 知識エンジンの表示ブロック（下書き・ウィザード共通） ===== */
@@ -2186,18 +2442,27 @@ function keMarketBlock(d){
   var b=d.keBrand, m=d.keMkt;
   var cat=d.keCat||d.cat||"";
   var pp=MERO_KE.pricePlan(d.cost, cat);
-  if(b && m){
-    if(m.kind==="sell"){
-      // ファストファッション等：メルカリ実売相場が主役
-      html += '<div class="g-lbl">メルカリ中古相場（'+esc(b.disp.split(" / ")[0])+'・'+esc(m.cat)+'）</div>'+
-        '<div class="ke-mkt ke-mkt-ff"><span>実売のめやす</span><span><b>'+yen(m.a)+'〜'+yen(m.b)+'</b></span></div>'+
-        '<div class="ke-mkt-sell">まず高め <b>'+yen(m.b)+'</b> で出して、セール・100円値下げで <b>'+yen(m.a)+'</b> まで。低単価は回転重視で。</div>';
-    } else {
-      // ハイブランド：落札(仕入れ)相場→想定実売
-      html += '<div class="g-lbl">相場のめやす（'+esc(b.disp.split(" / ")[0])+'・'+esc(m.cat)+'）</div>'+
-        '<div class="ke-mkt"><span>YBA落札(仕入れ)平均 <b>'+yen(m.a)+'</b></span><span>最高 '+yen(m.b)+'</span></div>';
-      var sm=MERO_KE.sellFromMarket(m.a, cat);
-      if(sm) html += '<div class="ke-mkt-sell">この相場で仕入れたら → メルカリ実売 <b>'+yen(sm.sell30)+'〜'+yen(sm.sell40)+'</b>（利益率30〜40%）</div>';
+  var isHi = b && !b.sell;
+  if(b && b.sell && m){
+    // ファストファッション等：メルカリ実売相場が主役
+    html += '<div class="g-lbl">メルカリ中古相場（'+esc(b.disp.split(" / ")[0])+'・'+esc(m.cat)+'）</div>'+
+      '<div class="ke-mkt ke-mkt-ff"><span>実売のめやす</span><span><b>'+yen(m.a)+'〜'+yen(m.b)+'</b></span></div>'+
+      '<div class="ke-mkt-sell">まず高め <b>'+yen(m.b)+'</b> で出して、セール・100円値下げで <b>'+yen(m.a)+'</b> まで。低単価は回転重視で。</div>';
+  } else if(isHi){
+    // ハイブランド：YBAは"仕入れ相場"であって出品相場ではない。状態・ダメージで激変し目視必須。
+    // 出品価格を投影しない（仕入れ値からの上乗せは危険）。参考の仕入れ目安は該当カテゴリのデータがある時のみ。
+    if(m){
+      html += '<div class="g-lbl">YBA落札実績（参考・仕入れの目安・'+esc(m.cat)+'）</div>'+
+        '<div class="ke-mkt"><span>平均 <b>'+yen(m.a)+'</b></span><span>最高 '+yen(m.b)+'</span></div>'+
+        '<div class="ke-mkt-note">これは<b>仕入れ相場</b>で、出品価格ではありません。状態・ダメージで価格が大きく変わるため、'+
+        (d.real? '出品価格は上の<b>メルカリ実売</b>を基準にしてください。'
+               : '出品価格は必ず<b>メルカリの売り切れ相場</b>でリサーチしてください。')+'</div>';
+    }
+    if(!d.real){
+      var hkw=(d.brand||d.name||"").toString().split(/\s+/).slice(0,3).join(" ");
+      html += '<div class="ke-research"><b>📊 出品価格はメルカリ実売でリサーチ</b><br>'+
+        'メルカリで <b>「'+esc(hkw||"ブランド 商品名")+'」＋売り切れ＋新しい順</b> を2ページ確認し、'+
+        '<u>同じ状態</u>の上限・下限を掴んでから値付けを。仕入れ値には引きずられないで。</div>';
     }
   } else if(!b){
     // 相場データなし：適当な数字を出さず、リサーチ手順を案内
@@ -2206,13 +2471,14 @@ function keMarketBlock(d){
       'メルカリで <b>「'+esc(kw||"ブランド 商品名")+'」＋売り切れ＋新しい順</b> で検索し、同じ状態の<u>上限・下限</u>を確認。'+
       'ノーブランド／ファストファッション等は、自動見積りより実データが正確です。</div>';
   }
-  // 採算ライン（下限）：赤字回避のための最低売価。目標ではなく"これ以上で"。
-  if(pp){
-    var warn = (b && m && m.kind==="sell" && m.a < pp.sell30);
+  // 採算ライン：これを割ると赤字。あくまで「下限の目安」であって推奨価格ではない。
+  if(pp && num(d.cost)>0){
+    var refPrice = d.real? d.real.suggest : (b && m && m.kind==="sell"? m.a : 0);
+    var warn = (refPrice>0 && refPrice < pp.sell30);
     html += '<div class="g-lbl">採算ライン（仕入れ '+yen(pp.cost)+'・送料めやす'+yen(pp.ship)+'）</div>'+
-      '<div class="ke-price"><div>これ<b>以上</b>で売れば利益率30〜40% → <b>'+yen(pp.sell30)+'〜'+yen(pp.sell40)+'</b></div>'+
-      (warn? '<div class="ke-price-list" style="color:var(--pinkd);font-weight:700">⚠ 相場の安値側が採算ラインを下回ります。'+yen(pp.sell30)+'以上を狙うか、まとめ売り／損切りの判断を。</div>'
-           : '<div class="ke-price-list">相場がこれより高ければ、その差が上乗せ利益。掲載は高めスタート→セールで着地。</div>')+
+      '<div class="ke-price"><div>この値段を<b>割ると赤字</b>。利益率30〜40%の下限 → <b>'+yen(pp.sell30)+'〜'+yen(pp.sell40)+'</b><br><small>※これは仕入れから計算した「下限の目安」です。推奨価格は相場で決めてね。</small></div>'+
+      (warn? '<div class="ke-price-list" style="color:var(--pinkd);font-weight:700">⚠ 相場が採算ラインを下回ります。高く仕入れすぎた可能性。まとめ売り／損切りの判断を。</div>'
+           : '')+
       '</div>';
   }
   return html;
@@ -2221,6 +2487,28 @@ function keMarketBlock(d){
 function keTriviaBlock(d){
   if(!d.keTriv) return "";
   return '<div class="ke-triv"><span class="ke-triv-ic">💡</span><div><b>'+esc((d.keBrand?d.keBrand.disp.split(" / ")[0]:"")+' 豆知識')+'</b><br>'+esc(d.keTriv)+'</div></div>';
+}
+/* 成功リセラーの「同じジャンルのモデルケース」例示（アカウント名は出さない・この商品の実売価格とは言わない） */
+function keBenchBlock(d){
+  var b=d.bench; if(!b || !b.ex || !b.ex.length) return "";
+  var who = d.keBrand&&!d.keBrand.sell? "ブランド品" : "非ブランド品";
+  var rows = b.ex.map(function(e){
+    return '<div class="kb-ex"><b>'+yen(e[0])+'</b><span>'+esc(e[1])+'…</span></div>'; }).join("");
+  return '<div class="ke-bench">'+
+    '<div class="kb-hd"><span class="kb-badge">モデルケース</span>同じジャンル（'+esc(b.cat)+'・'+who+'）の売れた例</div>'+
+    rows+
+    '<div class="kb-note">結果を出しているリセラーが、<b>似たジャンル</b>の商品を実際に売った例です。<b>この商品自体の実売価格ではありません</b>。値付けは上のメルカリ実データ／ご自身のリサーチを基準にしてね。</div>'+
+    '</div>';
+}
+/* 南雲講師の一般相場（物差し・どの商品にも常時表示） */
+function keNagumoBlock(d){
+  var g=d.benchGen; if(!g || !g.ex || g.ex.length<3) return "";
+  var lo=g.ex[0][0], mid=g.ex[1][0], hi=g.ex[2][0];
+  return '<div class="ke-nagumo">'+
+    '<div class="kn-hd"><span class="kn-badge">南雲講師の相場</span>一般の売れ筋（'+esc(g.cat)+'）</div>'+
+    '<div class="kn-band">価格帯 <b>'+yen(lo)+'〜'+yen(hi)+'</b>　中央 <b>'+yen(mid)+'</b></div>'+
+    '<div class="kn-note">南雲講師が扱う一般アイテムの、このジャンルの売れ筋価格帯です（値付けの物差しに）。</div>'+
+    '</div>';
 }
 /* 型番の入力促し＋品質表示タグの写真リマインド（2016年境界） */
 function keNudgeBlock(d){
@@ -2309,19 +2597,35 @@ function wizGenerate(){
 }
 function wizFillGen(d){
   wizDraft=d;
+  renderWizGen(d, MERCARI_API? RM_LOADING : "");
+  document.getElementById("wizGenBox").style.display="block";
+  if(MERCARI_API){
+    fetchMercariPrice(mercariQuery(d)).then(function(m){
+      if(wizDraft!==d) return;
+      applyRealPrice(d, m);
+      renderWizGen(d, keRealMarketBlock(m, d), true);
+    });
+  }
+}
+/* ウィザード生成欄の描画。realHtml＝実データ相場ブロック/ローダー、setPrice=価格入力も上書きするか */
+function renderWizGen(d, realHtml, setPrice){
   var keBox=document.getElementById("wizKeBox");
-  if(keBox) keBox.innerHTML = keHotBanner(d) + keNudgeBlock(d) + keMarketBlock(d) + keTriviaBlock(d);
+  if(keBox) keBox.innerHTML = keHotBanner(d) + keNudgeBlock(d) + (realHtml||"") + keMarketBlock(d) + keNagumoBlock(d) + keBenchBlock(d) + keTriviaBlock(d);
   document.getElementById("wz-title").value=d.title;
   document.getElementById("wz-desc").value=d.desc;
   document.getElementById("wz-tags").value=d.tags;
-  document.getElementById("wz-price").value=d.price;
-  document.getElementById("wzPriceNote").innerHTML=
-    "<b>参考</b>：早め "+yen(d.fast)+" ／ 相場 "+yen(d.price)+" ／ 美品 "+yen(d.high)+"。写真AIが本実装では相場から自動算出します。"+
-    (d.belowCost? '<div style="color:var(--pinkd);margin-top:6px">仕入れに対して相場が低めです。値付け注意。手取りが残るよう最低ラインで表示しています。</div>':"");
+  // 相場データが無いハイブランドは、仕入れ値からの推測を入れず空欄＋リサーチ促し
+  var research = d.needResearch && !d.real;
+  document.getElementById("wz-price").value = research? "" : d.price;
+  document.getElementById("wzPriceNote").innerHTML= research
+    ? "<b style='color:var(--pinkd)'>メルカリの売り切れ相場でリサーチして入力してね。</b><br>ハイブランドは状態・ダメージで価格が大きく変わるので、仕入れ値からの自動見積りは出しません（上のリサーチ手順を参照）。"
+    : d.real
+    ? "<b>メルカリ実売より</b>：早め "+yen(d.fast)+" ／ 相場 "+yen(d.price)+" ／ 強気 "+yen(d.high)+"。売切"+d.real.count+"件の実データです。"
+    : "<b>参考</b>：早め "+yen(d.fast)+" ／ 相場 "+yen(d.price)+" ／ 美品 "+yen(d.high)+"。"+(MERCARI_API?"メルカリ実売を照会中…":"")+
+      (d.belowCost? '<div style="color:var(--pinkd);margin-top:6px">仕入れに対してメルカリ相場が低めです。このまま出すと薄利／赤字の可能性。まとめ売り・損切りも検討を。</div>':"");
   wizTitleLen();
   wizTake();
   document.getElementById("wz-price").oninput=wizTake;
-  document.getElementById("wizGenBox").style.display="block";
 }
 function wizTitleLen(){
   var v=document.getElementById("wz-title").value;
