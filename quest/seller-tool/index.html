@@ -874,7 +874,7 @@
 <body>
 
 <!-- ========== 体験ツールお知らせ帯（サイト最上部・常時表示） ========== -->
-<div class="trial-bar"><span class="tb-pill">体験ツール</span>正式なツールはご縁があった際にご提供いたします！</div>
+<div class="trial-bar"><span class="tb-pill">体験ツール</span><span id="trialCountdown">テスト期間中です</span></div>
 
 <!-- ========== はじめての説明書（オンボーディング・初回のみ） ========== -->
 <div class="intro-ov" id="introScreen">
@@ -933,8 +933,8 @@
     <div class="logo">30日集中フォローアッププログラム<small>Re:seller アシスタント</small></div>
     <div class="tools">
       <button class="iconbtn howto-btn" onclick="openHowto()">使い方</button>
-      <button class="iconbtn" onclick="exportJSON()">書出</button>
-      <button class="iconbtn" onclick="document.getElementById('importFile').click()">読込</button>
+      <button class="iconbtn" onclick="exportJSON()" style="display:none">書出</button>
+      <button class="iconbtn" onclick="document.getElementById('importFile').click()" style="display:none">読込</button>
     </div>
     <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importJSON(event)">
   </div>
@@ -1151,7 +1151,7 @@
       <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">白抜き＆左上の文字入れはこちらから。別タブで開きます。</div>
       <button class="btn blue sm" onclick="openPhotoTool()">写真加工ツールを開く</button>
     </div>
-    <div class="card">
+    <div class="card" style="display:none">
       <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px;">自動保存の設定<span style="color:var(--sub);font-weight:600;font-size:11px;margin-left:6px">（運営設定）</span></div>
       <div style="font-size:11.5px;color:var(--sub);line-height:1.7;margin-bottom:12px;">
         <b style="color:var(--pinkd)">専用リンクから開いた方は、この欄を開く必要はありません。</b>自動で保存されるように設定済みです。<br>
@@ -3120,20 +3120,18 @@ function buddyPixels(stage, species, mood){
   }
 
   if(stage==="hatch"){
-    // 孵化（16x16）：割れた殻の中から顔。ちいさなツノ2本。
-    // 殻（下半分・ギザギザ）
-    s += px(3,12,10,1,L)+px(2,13,12,1,B)+px(2,14,12,1,B);
-    s += px(3,12,1,1,D)+px(6,12,1,1,D)+px(9,12,1,1,D)+px(12,12,1,1,D);
-    // 頭
-    s += px(5,2,1,1,D)+px(10,2,1,1,D); // ツノ
-    s += px(5,3,6,1,B)+px(4,4,8,1,B)+
-         px(3,5,10,3,B)+px(3,8,10,2,B)+px(4,10,8,1,B)+px(5,11,6,1,B);
-    s += px(3,5,1,4,D)+px(12,5,1,4,D)+px(4,4,1,1,D)+px(11,4,1,1,D);
-    s += px(4,4,3,1,L); // ひかり
-    s += px(4,6,2,1,C)+px(10,6,2,1,C); // ほっぺ
-    s += buddyEyes(mood,5,9,6,pal);
-    s += buddyMouth(mood,7,9,pal);
-    s += zzz;
+    // ★モニター用：孵化段階を「ビール🍺」に（16x16のジョッキ）
+    var BEER="#F6B31E", BEERD="#D98E12", FOAM="#FFFFFF", OL="#8A5A12", SH="#FFE39A";
+    // 泡（上のもこもこ）
+    s += px(5,1,2,1,FOAM)+px(9,1,2,1,FOAM)+px(4,2,8,1,FOAM)+px(3,3,10,1,FOAM);
+    // ジョッキ外枠
+    s += px(3,4,9,1,OL)+px(3,13,9,1,OL)+px(3,4,1,10,OL)+px(11,4,1,10,OL);
+    // ビール本体（上明→下濃）
+    s += px(4,4,7,4,BEER)+px(4,8,7,5,BEERD);
+    // ハイライト＆泡ぶくぶく
+    s += px(5,5,1,3,SH)+px(7,9,1,1,FOAM)+px(9,7,1,1,FOAM)+px(6,11,1,1,FOAM);
+    // 取っ手（右）
+    s += px(12,6,2,1,OL)+px(14,6,1,4,OL)+px(12,9,2,1,OL);
     return s;
   }
 
@@ -5239,11 +5237,25 @@ function nowDateStr(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getM
 var IS_REAL_PROD = (typeof IS_PROD!=="undefined" && IS_PROD) && !(typeof CH_ON!=="undefined" && CH_ON);
 function isLinkExpired(){ return !IS_REAL_PROD && (nowDateStr() > LINK_EXPIRY); }
 
+/* モニター体験のカウントダウン：LINK_EXPIRY(=8/1)まで「あと○日おためしできます！」 */
+function setTrialCountdown(){
+  try{
+    var el=document.getElementById("trialCountdown"); if(!el) return;
+    if(IS_REAL_PROD){ el.textContent=""; return; }
+    var end=new Date(LINK_EXPIRY+"T23:59:59+09:00").getTime();
+    var days=Math.ceil((end - Date.now())/86400000);
+    if(days>1)      el.textContent="あと"+days+"日 テストでおためしできます！";
+    else if(days===1) el.textContent="おためしは明日まで！（あと1日）";
+    else if(days===0) el.textContent="本日でおためし終了です";
+    else el.textContent="おためし期間は終了しました";
+  }catch(e){}
+}
+
 if(isLinkExpired()){
   // 期限切れ：アプリは起動せず、終了画面だけ表示
   document.getElementById("expiredScreen").classList.add("show");
 } else {
-  load(); applyLinkParams(); ensureProgramStart(); gameDailyCheck(); loadProfile(); loadSheetSettings(); renderHome(); renderItems(); renderDash(); renderGame(); renderDiag();
+  load(); applyLinkParams(); ensureProgramStart(); gameDailyCheck(); loadProfile(); loadSheetSettings(); renderHome(); renderItems(); renderDash(); renderGame(); renderDiag(); setTrialCountdown();
   /* 初回（診断まだ＆説明書を見ていない）だけ、説明書を主役表示 */
   if(!state.diagnosis && !state.introSeen && !(typeof CH_ON!=="undefined" && CH_ON)){ showIntro(); }
 }
