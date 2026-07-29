@@ -5231,8 +5231,8 @@ function openIntroAgain(){ showIntro(); }
 /* ===== 体験リンクの有効期限 =====
    ・本番ツール（/reseller/ の通常表示）は期限で止めない＝常に表示
    ・体験／モニター配布リンクだけ期限を見る
-   ・2026-08-01 まで使える（プロモ用モニター期間）→ 8/2以降は終了画面 */
-var LINK_EXPIRY="2026-08-01";
+   ・2026-08-07 まで使える（プロモ用モニター期間）→ 8/8以降は終了画面 */
+var LINK_EXPIRY="2026-08-07";
 function nowDateStr(){ var d=new Date(); return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
 var IS_REAL_PROD = (typeof IS_PROD!=="undefined" && IS_PROD) && !(typeof CH_ON!=="undefined" && CH_ON);
 function isLinkExpired(){ return !IS_REAL_PROD && (nowDateStr() > LINK_EXPIRY); }
