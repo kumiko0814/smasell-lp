@@ -6,10 +6,15 @@
 <title>30日集中フォローアッププログラム｜まいにち1つずつ</title>
 <style>
   :root{
-    /* ピンク主役パレット：背景=薄ピンクの暖色寄りグラデ、面=白、CTA/進捗/見出しアクセント=スモーキーピンク、ブルーは補助 */
-    --bg:#fdf1f4; --bg2:#faf0f2; --pinkbg:#fbe7ec; --paper:#ffffff;
-    --navy:#26405f; --navy2:#1d3149; --pink:#cf8f9c; --pinkd:#bd7886;
-    --blue:#7fb0d2; --blued:#5f97be; --ink:#4a4446; --sub:#8a7f84; --line:#f0dde3;
+    /* ソフトなピンク×ラベンダー主役パレット（モック準拠）：背景=薄ピンク→ラベンダーのグラデ、面=白、
+       見出しはネイビーではなくやわらかいプラムグレー、CTA/アクセントはピンク→パープルのグラデ */
+    --bg:#fdeef3; --bg2:#faf1f6; --pinkbg:#fbe7ef; --paper:#ffffff;
+    --navy:#574a58; --navy2:#463a48; --pink:#f0a2c5; --pinkd:#c66f96;
+    --blue:#8fbfe6; --blued:#5f97be; --ink:#4f454e; --sub:#9a8993; --line:#f3e3ec;
+    /* シグネチャーグラデ（ピンク→パープル） */
+    --grad:linear-gradient(135deg,#F5A6C8,#B98BEA);
+    --grad-r:linear-gradient(135deg,#F5A6C8,#C99BE8);
+    --grad-lav:linear-gradient(150deg,#C99BE8,#9E77D6);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{margin:0;padding:0;}
@@ -24,8 +29,9 @@
   /* header */
   .hud{display:flex;align-items:center;gap:8px;padding:14px 18px;background:var(--paper);
     border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;}
-  .hud .logo{font-size:15px;font-weight:800;color:var(--pinkd);letter-spacing:.03em;}
-  .hud .logo small{color:var(--sub);font-weight:500;font-size:10px;margin-left:6px;letter-spacing:.05em;}
+  .hud .logo{font-size:15.5px;font-weight:800;color:var(--navy);letter-spacing:.02em;line-height:1.3;}
+  .hud .logo small{display:block;color:var(--navy);font-weight:700;font-size:11px;margin:2px 0 0;letter-spacing:.04em;opacity:.82;}
+  .hud .logo small.l3{color:var(--sub);font-weight:600;opacity:1;margin-top:0;}
   .hud .tools{margin-left:auto;display:flex;gap:6px;}
   .iconbtn{border:1px solid var(--line);background:var(--bg2);color:var(--navy);border-radius:10px;
     font-size:11px;font-weight:700;padding:7px 9px;cursor:pointer;line-height:1;}
@@ -41,14 +47,14 @@
   /* buttons */
   .btn{display:block;width:100%;border:none;cursor:pointer;padding:14px;border-radius:14px;
     font-size:15px;font-weight:800;font-family:inherit;transition:transform .05s;}
-  .btn.pink{background:linear-gradient(135deg,var(--pink),var(--pinkd));color:#fff;box-shadow:0 3px 0 #a76673;}
-  .btn.pink:active{transform:translateY(3px);box-shadow:0 0 0 #a76673;}
-  .btn.navy{background:var(--navy);color:#fff;box-shadow:0 3px 0 var(--navy2);}
-  .btn.navy:active{transform:translateY(3px);box-shadow:0 0 0 var(--navy2);}
-  .btn.blue{background:linear-gradient(135deg,var(--blue),var(--blued));color:#fff;box-shadow:0 3px 0 #4a80a5;}
-  .btn.blue:active{transform:translateY(3px);box-shadow:0 0 0 #4a80a5;}
-  .btn.ghost{background:transparent;color:var(--sub);box-shadow:none;font-size:13px;padding:11px;
-    border:1px solid var(--line);}
+  .btn.pink{background:linear-gradient(135deg,#F5A6C8,#B98BEA);color:#fff;box-shadow:0 8px 20px rgba(185,139,234,.30);}
+  .btn.pink:active{transform:translateY(1px);box-shadow:0 4px 12px rgba(185,139,234,.26);}
+  .btn.navy{background:linear-gradient(135deg,#C99BE8,#9E77D6);color:#fff;box-shadow:0 8px 20px rgba(158,119,214,.28);}
+  .btn.navy:active{transform:translateY(1px);box-shadow:0 4px 12px rgba(158,119,214,.24);}
+  .btn.blue{background:linear-gradient(135deg,#8FC0EC,#7FA9DE);color:#fff;box-shadow:0 8px 20px rgba(127,169,222,.28);}
+  .btn.blue:active{transform:translateY(1px);box-shadow:0 4px 12px rgba(127,169,222,.24);}
+  .btn.ghost{background:var(--paper);color:var(--sub);box-shadow:none;font-size:13px;padding:11px;
+    border:1.5px solid var(--line);}
   .btn.sm{padding:10px;font-size:13px;border-radius:11px;}
 
   /* fields */
@@ -64,14 +70,14 @@
   .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 
   /* card */
-  .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;}
+  .card{background:var(--paper);border:1px solid #f5e7ef;border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 6px 20px rgba(197,140,170,.10);}
   .card.pad0{padding:0;overflow:hidden;}
 
   /* toggle filter */
   .filterbar{display:flex;gap:8px;margin-bottom:12px;}
   .filterbar button{flex:1;border:1px solid var(--line);background:var(--paper);color:var(--sub);
     font-weight:700;font-size:12.5px;padding:9px;border-radius:11px;cursor:pointer;font-family:inherit;}
-  .filterbar button.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .filterbar button.on{background:linear-gradient(135deg,#F5A6C8,#C99BE8);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(201,155,232,.28);}
 
   /* item list */
   .item{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px;
@@ -113,8 +119,8 @@
   .kpi .k{font-size:10.5px;color:var(--sub);font-weight:700;letter-spacing:.03em;}
   .kpi .v{font-size:23px;font-weight:800;color:var(--navy);margin-top:3px;line-height:1.1;}
   .kpi .v small{font-size:12px;color:var(--sub);font-weight:600;margin-left:1px;}
-  .kpi.hl{background:var(--navy);border-color:var(--navy);}
-  .kpi.hl .k{color:#b9cbe0;}
+  .kpi.hl{background:linear-gradient(150deg,#F5A6C8,#B98BEA);border-color:transparent;box-shadow:0 6px 16px rgba(185,139,234,.24);}
+  .kpi.hl .k{color:#fdeaf3;}
   .kpi.hl .v{color:#fff;}
 
   .barwrap{margin-bottom:11px;}
@@ -175,7 +181,7 @@
   .sheet .close{background:none;border:none;color:var(--sub);font-size:13px;cursor:pointer;font-family:inherit;
     display:block;margin:6px auto 0;padding:6px;}
   .sold-block{background:var(--pinkbg);border-radius:12px;padding:12px;margin-bottom:12px;}
-  .takehome{background:var(--navy);color:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px;
+  .takehome{background:linear-gradient(135deg,#C99BE8,#9E77D6);color:#fff;border-radius:14px;padding:12px 14px;margin-bottom:12px;
     display:flex;justify-content:space-between;align-items:center;}
   .takehome .k{font-size:11px;color:#b9cbe0;font-weight:700;}
   .takehome .v{font-size:20px;font-weight:800;}
@@ -317,8 +323,8 @@
     font-weight:700;line-height:1.5;}
   .diag-strengths li .st-no{flex:0 0 22px;height:22px;border-radius:50%;background:var(--pinkd);color:#fff;
     display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
-  .diag-why{background:var(--navy);color:#fff;border-radius:16px;padding:15px 16px;margin-bottom:14px;}
-  .diag-why .dw-ttl{font-size:12px;font-weight:800;color:#b9cbe0;margin-bottom:7px;letter-spacing:.03em;}
+  .diag-why{background:linear-gradient(150deg,#C99BE8,#9E77D6);color:#fff;border-radius:18px;padding:15px 16px;margin-bottom:14px;box-shadow:0 6px 16px rgba(158,119,214,.22);}
+  .diag-why .dw-ttl{font-size:12px;font-weight:800;color:#efe4fb;margin-bottom:7px;letter-spacing:.03em;}
   .diag-why .dw-txt{font-size:13px;line-height:1.85;color:#fff;}
   /* 診断で生まれた卵の案内 */
   .diag-egg-born{display:flex;align-items:center;gap:12px;background:var(--pinkbg);border:1px solid var(--pink);
@@ -420,14 +426,14 @@
   .wsum .k{font-size:10px;color:var(--sub);font-weight:700;}
   .wsum .v{font-size:19px;font-weight:800;color:var(--navy);margin-top:2px;line-height:1.1;}
   .wsum .v small{font-size:11px;color:var(--sub);font-weight:600;margin-left:1px;}
-  .wfb{background:var(--navy);color:#fff;border-radius:14px;padding:14px 15px;line-height:1.75;font-size:13px;font-weight:700;}
-  .wfb .wfb-ttl{font-size:11px;font-weight:800;color:#b9cbe0;margin-bottom:6px;letter-spacing:.03em;}
+  .wfb{background:linear-gradient(150deg,#C99BE8,#9E77D6);color:#fff;border-radius:16px;padding:14px 15px;line-height:1.75;font-size:13px;font-weight:700;box-shadow:0 6px 16px rgba(158,119,214,.22);}
+  .wfb .wfb-ttl{font-size:11px;font-weight:800;color:#efe4fb;margin-bottom:6px;letter-spacing:.03em;}
 
   /* 週報・月報 生成 */
   .rep-tabs{display:flex;gap:8px;margin-bottom:12px;}
   .rep-tabs button{flex:1;border:1px solid var(--line);background:var(--paper);color:var(--sub);
     font-weight:700;font-size:12.5px;padding:9px;border-radius:11px;cursor:pointer;font-family:inherit;}
-  .rep-tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .rep-tabs button.on{background:linear-gradient(135deg,#F5A6C8,#C99BE8);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(201,155,232,.28);}
   .rep-preview{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px;
     font-size:12.5px;line-height:1.75;color:var(--ink);white-space:pre-wrap;word-break:break-word;
     max-height:260px;overflow:auto;margin-bottom:12px;}
@@ -437,8 +443,8 @@
      ★ 今日（ホーム）＝主役：今日のミッション1枚 ★
      ============================================================ */
   /* ごあいさつ */
-  .home-hi{font-size:13px;font-weight:800;color:var(--pinkd);margin:2px 2px 12px;letter-spacing:.02em;}
-  .home-hi small{display:block;color:var(--sub);font-weight:600;font-size:11px;margin-top:3px;letter-spacing:0;}
+  .home-hi{font-size:17px;font-weight:800;color:var(--navy);margin:4px 2px 12px;letter-spacing:.01em;line-height:1.4;}
+  .home-hi small{display:block;color:var(--sub);font-weight:600;font-size:11.5px;margin-top:4px;letter-spacing:0;line-height:1.5;}
 
   /* 進捗バー（◯/30） */
   .prog-wrap{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:13px 15px;margin-bottom:14px;}
@@ -446,8 +452,8 @@
   .prog-top .pt-l{font-size:12px;font-weight:800;color:var(--navy);}
   .prog-top .pt-r{font-size:11px;color:var(--sub);font-weight:700;}
   .prog-top .pt-r b{color:var(--pinkd);font-size:15px;}
-  .prog-track{height:12px;background:#f5e3e8;border-radius:20px;overflow:hidden;border:1px solid var(--line);}
-  .prog-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--pinkd));border-radius:20px;transition:width .5s;min-width:3px;}
+  .prog-track{height:12px;background:#f6e6ee;border-radius:20px;overflow:hidden;border:1px solid var(--line);}
+  .prog-fill{height:100%;background:linear-gradient(90deg,#F5A6C8,#C99BE8,#B98BEA);border-radius:20px;transition:width .5s;min-width:3px;}
 
   /* 今日のミッションカード（大きく・主役） */
   .mission{background:linear-gradient(160deg,#ffffff 0%,#fff5f8 100%);border:2px solid var(--pink);
@@ -459,12 +465,12 @@
   .mission .m-voice{font-size:11.5px;color:var(--sub);font-weight:700;margin-bottom:6px;}
   .mission .m-title{font-size:20px;font-weight:800;color:var(--navy);line-height:1.45;margin-bottom:10px;}
   .mission .m-detail{font-size:13.5px;color:var(--ink);line-height:1.9;margin-bottom:16px;}
-  .mission .m-cta{display:block;width:100%;border:none;cursor:pointer;padding:17px;border-radius:16px;
-    font-size:17px;font-weight:800;font-family:inherit;background:linear-gradient(135deg,var(--pink),var(--pinkd));
-    color:#fff;box-shadow:0 4px 0 #a76673;transition:transform .05s;letter-spacing:.03em;}
-  .mission .m-cta:active{transform:translateY(4px);box-shadow:0 0 0 #a76673;}
-  .mission .m-cta.sub{background:var(--paper);color:var(--pinkd);border:2px solid var(--pink);box-shadow:0 3px 0 #e7c4cd;font-size:14px;padding:13px;margin-top:10px;}
-  .mission .m-cta.sub:active{transform:translateY(3px);box-shadow:0 0 0 #e7c4cd;}
+  .mission .m-cta{display:block;width:100%;border:none;cursor:pointer;padding:17px;border-radius:18px;
+    font-size:17px;font-weight:800;font-family:inherit;background:linear-gradient(135deg,#F5A6C8,#B98BEA);
+    color:#fff;box-shadow:0 10px 24px rgba(185,139,234,.32);transition:transform .05s,box-shadow .15s;letter-spacing:.03em;}
+  .mission .m-cta:active{transform:translateY(1px);box-shadow:0 5px 14px rgba(185,139,234,.28);}
+  .mission .m-cta.sub{background:var(--paper);color:var(--pinkd);border:1.5px solid var(--pink);box-shadow:0 4px 12px rgba(197,140,170,.14);font-size:14px;padding:13px;margin-top:10px;}
+  .mission .m-cta.sub:active{transform:translateY(1px);box-shadow:0 2px 8px rgba(197,140,170,.12);}
   .mission .m-clear{display:flex;align-items:center;gap:10px;background:var(--pinkbg);border-radius:14px;
     padding:13px 15px;margin-bottom:14px;}
   .mission .m-clear .mc-check{flex:0 0 34px;height:34px;border-radius:50%;background:var(--pinkd);color:#fff;
@@ -481,9 +487,9 @@
   .diagfirst .df-min{display:inline-block;background:var(--pinkd);color:#fff;font-size:11px;font-weight:800;
     border-radius:12px;padding:3px 12px;margin-bottom:12px;letter-spacing:.02em;}
   .diagfirst .df-txt{font-size:13.5px;color:var(--ink);line-height:1.9;margin:0 4px 18px;}
-  .diagfirst .df-cta{display:block;width:100%;border:none;cursor:pointer;padding:18px;border-radius:16px;
-    background:var(--pinkd);color:#fff;font-size:16px;font-weight:800;box-shadow:0 5px 0 #a76673;letter-spacing:.02em;}
-  .diagfirst .df-cta:active{transform:translateY(5px);box-shadow:0 0 0 #a76673;}
+  .diagfirst .df-cta{display:block;width:100%;border:none;cursor:pointer;padding:18px;border-radius:18px;
+    background:linear-gradient(135deg,#F5A6C8,#B98BEA);color:#fff;font-size:16px;font-weight:800;box-shadow:0 10px 24px rgba(185,139,234,.32);letter-spacing:.02em;transition:transform .05s,box-shadow .15s;}
+  .diagfirst .df-cta:active{transform:translateY(1px);box-shadow:0 5px 14px rgba(185,139,234,.28);}
 
   /* 診断→卵誕生→30日スタートの開始演出（初回のみ・ホーム上部） */
   .home-welcome{display:flex;gap:12px;align-items:center;background:var(--pinkbg);border:1px solid var(--pink);
@@ -533,7 +539,7 @@
   .mm-qwrap{border-bottom:1px dashed var(--line);padding-bottom:14px;margin-bottom:14px;}
   .mm-qwrap:last-of-type{border-bottom:none;}
   /* calc / report */
-  .mm-calc-out{background:var(--navy);color:#fff;border-radius:14px;padding:14px 16px;margin:6px 0 14px;}
+  .mm-calc-out{background:linear-gradient(150deg,#C99BE8,#9E77D6);color:#fff;border-radius:16px;padding:14px 16px;margin:6px 0 14px;box-shadow:0 6px 16px rgba(158,119,214,.22);}
   .mm-calc-out .co-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;}
   .mm-calc-out .co-row .co-k{font-size:12px;color:#b9cbe0;font-weight:700;}
   .mm-calc-out .co-row .co-v{font-size:19px;font-weight:800;color:#fff;}
@@ -552,12 +558,13 @@
 
   /* 道具箱：ランチャー */
   .box-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px;}
-  .box-tile{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 14px;cursor:pointer;
-    display:flex;flex-direction:column;gap:8px;font-family:inherit;text-align:left;transition:transform .05s,border-color .15s;}
+  .box-tile{background:var(--paper);border:1px solid #f5e7ef;border-radius:20px;padding:16px 14px;cursor:pointer;
+    display:flex;flex-direction:column;gap:9px;font-family:inherit;text-align:left;transition:transform .05s,box-shadow .15s;box-shadow:0 6px 18px rgba(197,140,170,.10);}
   .box-tile:active{transform:scale(.98);}
-  .box-tile .bt-ic{width:40px;height:40px;border-radius:12px;background:var(--pinkbg);display:flex;align-items:center;justify-content:center;}
+  .box-tile .bt-ic{width:44px;height:44px;border-radius:14px;background:#fbe7ef;display:flex;align-items:center;justify-content:center;}
   .box-tile .bt-ic svg{width:22px;height:22px;}
-  .box-tile.blue .bt-ic{background:#e8f1f8;}
+  .box-tile.blue .bt-ic{background:#e9f2fb;}
+  .box-tile.lav .bt-ic{background:#f1eafc;}
   .box-tile .bt-nm{font-size:14px;font-weight:800;color:var(--navy);line-height:1.3;}
   .box-tile .bt-sub{font-size:10.5px;color:var(--sub);line-height:1.5;}
   .box-tile.wide{grid-column:1 / -1;flex-direction:row;align-items:center;}
@@ -746,14 +753,14 @@
   .expired-card .ex-note{font-size:11.5px;color:var(--sub);margin-top:18px;line-height:1.7;}
 
   /* ===== 体験ツールお知らせ帯（サイト最上部・常時固定） ===== */
-  .trial-bar{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;z-index:62;
-    background:linear-gradient(135deg,#F5A6C8,#B98BEA);color:#fff;text-align:center;
-    font-size:11.5px;font-weight:800;line-height:1.5;padding:7px 12px;letter-spacing:.02em;
-    box-shadow:0 2px 8px rgba(155,93,229,.25);}
-  .trial-bar .tb-pill{background:rgba(255,255,255,.24);border-radius:20px;padding:1px 9px;margin-right:7px;font-size:10.5px;}
-  body{padding-top:33px;}
-  .hud{top:33px !important;}
-  .intro-ov{padding-top:33px;}
+  .trial-bar{position:fixed;top:8px;left:50%;transform:translateX(-50%);width:calc(100% - 22px);max-width:458px;z-index:62;
+    background:linear-gradient(135deg,#F5A6C8,#C99BE8 55%,#B98BEA);color:#fff;text-align:center;border-radius:18px;
+    font-size:11.5px;font-weight:800;line-height:1.5;padding:8px 14px;letter-spacing:.02em;
+    box-shadow:0 8px 22px rgba(185,139,234,.32);}
+  .trial-bar .tb-pill{background:rgba(255,255,255,.26);border-radius:20px;padding:2px 10px;margin-right:8px;font-size:10.5px;}
+  body{padding-top:48px;}
+  .hud{top:48px !important;}
+  .intro-ov{padding-top:48px;}
   /* 本番/モニター(?ch=1なし)は体験ツール帯を消す。スマセル(?ch=1)だけ帯あり */
   body.no-trialbar{padding-top:0;}
   body.no-trialbar .trial-bar{display:none;}
@@ -930,7 +937,7 @@
   <!-- サボり暗転：画面ぜんぶを覆うネイビー薄幕（30日プログラムをサボった時だけ） -->
   <div class="home-dim-veil" id="homeDimVeil"></div>
   <div class="hud">
-    <div class="logo">30日集中フォローアッププログラム<small>Re:seller アシスタント</small></div>
+    <div class="logo">30日集中フォローアッププログラム<small>Re:seller</small><small class="l3">アシスタント</small></div>
     <div class="tools">
       <button class="iconbtn howto-btn" onclick="openHowto()">使い方</button>
       <button class="iconbtn" onclick="exportJSON()" style="display:none">書出</button>
@@ -998,8 +1005,8 @@
         <div class="bt-nm">在庫を見る</div>
         <div class="bt-sub">出品中・売れた商品</div>
       </button>
-      <button type="button" class="box-tile blue" onclick="go('dash')">
-        <div class="bt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#5f97be" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+      <button type="button" class="box-tile lav" onclick="go('dash')">
+        <div class="bt-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#9E77D6" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
         <div class="bt-nm">売上を見る</div>
         <div class="bt-sub">目標と実績のグラフ</div>
       </button>
